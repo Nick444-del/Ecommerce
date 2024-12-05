@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import userRouter from './routers/users.router'
 import productRouter from './routers/products.router'
 import addressRouter from './routers/address.router'
+import categoryRouter from './routers/category.router'
 
 dotenv.config()
 
@@ -34,3 +35,4 @@ app.listen(port, () => {
 app.use(userRouter);
 app.use(productRouter);
 app.use(addressRouter);
+app.use(categoryRouter);

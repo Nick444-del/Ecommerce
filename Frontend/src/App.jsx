@@ -11,8 +11,8 @@ import Login from './Pages/Login';
 import Cart from './Pages/Cart';
 import Signup from './Pages/Signup';
 import ProfileDetails from './Pages/ProfileDetails';
-import './App.css';
 import axiosInstance from './Components/utils/axiosInstance';
+import './App.css';
 
 function App() {
   const location = useLocation();

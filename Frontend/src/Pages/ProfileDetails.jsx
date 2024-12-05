@@ -1,31 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import axiosInstance from '../Components/utils/axiosInstance'; // Use your Axios instance
+import axiosInstance from '../Components/utils/axiosInstance'
 
 const ProfileDetails = ({ userInfo }) => {
     const [addresses, setAddresses] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [address, setAddress] = useState([]);
 
     useEffect(() => {
         if (userInfo && userInfo.address && userInfo.address.length > 0) {
-            const fetchAddresses = async () => {
-                try {
-                    const addressPromises = userInfo.address.map(id =>
-                        axiosInstance.get(`/addresses/${id}`)
-                    );
-                    const addressResponses = await Promise.all(addressPromises);
-                    const addressData = addressResponses.map(response => response.data);
-                    setAddresses(addressData);
-                } catch (error) {
-                    console.error("Failed to fetch addresses", error);
-                } finally {
-                    setLoading(false);
+            setAddresses(userInfo.address);
+            for(let i = 0; i < addresses.length; i++){
+                console.log(addresses[i])
+                const response = axiosInstance.get(`/addresses/${addresses[i]}`);
+                console.log(response)
+                if (response.data && response.data.data) {
+                    setAddress(response.data.data);
                 }
-            };
-
-            fetchAddresses();
-        } else {
-            setLoading(false);
+                console.log(address)
+            }
         }
+        setLoading(false);
     }, [userInfo]);
 
     if (!userInfo) {
@@ -53,10 +47,11 @@ const ProfileDetails = ({ userInfo }) => {
                 ) : addresses.length > 0 ? (
                     <ul className="mt-3 space-y-3">
                         {addresses.map((address, index) => (
-                            <li key={index} className="p-3 bg-gray-100 rounded">
+                            <li key={address._id} className="p-3 bg-gray-100 rounded">
                                 <p><strong>Address {index + 1}:</strong></p>
-                                <p>{address.street}, {address.city}</p>
+                                <p>{address.address}, {address.city}</p>
                                 <p>{address.state}, {address.pincode}</p>
+                                <p><strong>Mobile:</strong> {address.mobile}</p>
                             </li>
                         ))}
                     </ul>
