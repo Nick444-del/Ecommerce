@@ -50,7 +50,7 @@ const Home = () => {
                             categoryData.map((index) => {
                                 return (
                                     <div className='hover:cursor-pointer' key={index.id}>
-                                        <img src={index.image} alt={index.title} className='w-[177px] h-[177px] hover:scale-100' />
+                                        <img src={index.image} alt={index.title} className='w-[297px] h-[374px] hover:scale-100' />
                                         <div className='p-[10px]'>
                                             <div className='px-[10px] py-[17px] flex flex-row items-center justify-start'>
                                                 <h3 className='text-[#000000] text-[20px] uppercase font-bold'>{index.title}</h3>

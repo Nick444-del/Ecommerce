@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import axiosInstance from '../Components/utils/axiosInstance'
 import {BASE_URL} from '../Components/utils/constant'
+import { NavLink } from 'react-router-dom'
 
 const Collection = () => {
     const [categories, setCategories] = useState([])

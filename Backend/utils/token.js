@@ -1,5 +1,4 @@
-import jwt, { decode } from 'jsonwebtoken';
-import usersModel from '../models/users.model';
+import jwt from 'jsonwebtoken';
 
 export const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];

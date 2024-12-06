@@ -29,7 +29,7 @@ const navigation = [
     {
         icon: <InfoIcon className='text-black'/>,
         url: '/about',
-        title: 'About',
+        title: 'About us',
         text: 'text-[30px]',
     },
     {
