@@ -11,6 +11,7 @@ import Login from './Pages/Login';
 import Cart from './Pages/Cart';
 import Signup from './Pages/Signup';
 import ProfileDetails from './Pages/ProfileDetails';
+import Admin from './Pages/admin/Admin';
 import axiosInstance from './Components/utils/axiosInstance';
 import './App.css';
 
@@ -32,7 +33,7 @@ function App() {
     }
   }
 
-  const hideAppbarFooter = location.pathname === '/login' || location.pathname === '/signup';
+  const hideAppbarFooter = location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/admin';
 
   useEffect(() => {
     getUserInfo();
@@ -51,6 +52,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/profiledetails" element={<ProfileDetails userInfo={userInfo} />} />
       </Routes>
 

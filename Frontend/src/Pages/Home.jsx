@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import hero1 from '../assets/images/hero1.jpg'
 import categoryData from '../Components/category'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { NavLink } from 'react-router-dom';
 
 const Home = () => {
+
     return (
         <div>
             <section>

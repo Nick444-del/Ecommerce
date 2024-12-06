@@ -1,32 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import axiosInstance from '../Components/utils/axiosInstance'
+import axiosInstance from '../Components/utils/axiosInstance';
 
 const ProfileDetails = ({ userInfo }) => {
     const [addresses, setAddresses] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [address, setAddress] = useState([]);
 
     useEffect(() => {
-        if (userInfo && userInfo.address && userInfo.address.length > 0) {
-            setAddresses(userInfo.address);
-            for(let i = 0; i < addresses.length; i++){
-                console.log(addresses[i])
-                const response = axiosInstance.get(`/addresses/${addresses[i]}`);
-                console.log(response)
-                if (response.data && response.data.data) {
-                    setAddress(response.data.data);
+        const fetchAddresses = async () => {
+            if (userInfo && userInfo.address && userInfo.address.length > 0) {
+                try {
+                    // Fetch all addresses simultaneously using Promise.all
+                    const responses = await Promise.all(
+                        userInfo.address.map(id => axiosInstance.get(`/addresses/${id}`))
+                    );
+
+                    // Extract and set all fetched addresses
+                    const fetchedAddresses = responses.map(response => response.data);
+                    // console.log('Fetched Addresses:', fetchedAddresses);
+                    setAddresses(fetchedAddresses);
+                } catch (error) {
+                    console.error("Failed to fetch addresses:", error);
                 }
-                console.log(address)
             }
-        }
-        setLoading(false);
+            setLoading(false);
+        };
+
+        fetchAddresses();
     }, [userInfo]);
+
+    // Log addresses after they are set
+    useEffect(() => {
+        // console.log('Updated Addresses:', addresses);
+    }, [addresses]);
 
     if (!userInfo) {
         return <p>Loading user information...</p>;
     }
 
     const { fullname, email } = userInfo;
+
+    console.log(addresses);
 
     return (
         <div className="max-w-3xl mx-auto my-10 p-6 bg-white shadow-lg rounded-lg">
@@ -46,12 +59,14 @@ const ProfileDetails = ({ userInfo }) => {
                     <p>Loading addresses...</p>
                 ) : addresses.length > 0 ? (
                     <ul className="mt-3 space-y-3">
-                        {addresses.map((address, index) => (
-                            <li key={address._id} className="p-3 bg-gray-100 rounded">
+                        {addresses.map(({ _id, address, city, state, pincode, mobile }, index) => (
+                            <li key={_id} className="p-3 bg-gray-100 rounded">
                                 <p><strong>Address {index + 1}:</strong></p>
-                                <p>{address.address}, {address.city}</p>
-                                <p>{address.state}, {address.pincode}</p>
-                                <p><strong>Mobile:</strong> {address.mobile}</p>
+                                <p><strong>Street:</strong> {address}</p>
+                                <p><strong>City:</strong> {city}</p>
+                                <p><strong>State:</strong> {state}</p>
+                                <p><strong>Pincode:</strong> {pincode}</p>
+                                <p><strong>Mobile:</strong> {mobile}</p>
                             </li>
                         ))}
                     </ul>
