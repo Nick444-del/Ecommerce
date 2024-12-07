@@ -4,7 +4,7 @@ import axiosInstance from '../Components/utils/axiosInstance';
 import ProductCard from '../Components/ProductCard/ProductCard';
 
 const CollectionProduct = () => {
-    const { categoryId } = useParams(); // Extract categoryId from the URL
+    const { categoryId } = useParams();
     const [products, setProducts] = useState([]);
 
     const getProductbyCategory = async () => {
@@ -25,9 +25,9 @@ const CollectionProduct = () => {
 
     return (
         <>
-            <div className='mx-[260px] px-[50px]'>
+            <div className='lg:mx-[260px] lg:px-[50px] sm:mx-auto sm:px-auto'>
                 <h1 className='my-[25px] text-[40px] font-medium'>Product</h1>
-                <div className='flex justify-between'>
+                <div className='flex justify-between sm:flex-col'>
                     <div className='flex gap-3'>
                         <span>Filter</span>
                         <span>Availability</span>
@@ -39,9 +39,9 @@ const CollectionProduct = () => {
                         <span>{products.length} products</span>
                     </div>
                 </div>
-                <div className='px-[50px] grid grid-cols-4 gap-4 my-[40px]'>
+                <div className='px-[50px] grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 my-[40px]'>
                     {products.map((product) => (
-                        <ProductCard key={product._id} productImage={product.thumbnail} productTitle={product.title} price={product.price} />
+                        <ProductCard key={product._id} className="w-auto" productImage={product.thumbnail} productTitle={product.title} price={product.price} />
                     ))}
                 </div>
             </div>
