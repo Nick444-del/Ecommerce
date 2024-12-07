@@ -59,3 +59,21 @@ export const createCategory = async (req, res) => {
         }
     });
 };
+
+export const getCategoryId = async (req, res) => {
+    try {
+        const categoryId = req.params.categoryId;
+        const response = await categoryModel.find({ _id: categoryId });
+        return res.status(200).json({
+            error: false,
+            success: true,
+            data: response
+        })
+    } catch (error) {
+        return res.status(500).json({
+            error: true,
+            success: false,
+            message: error.message
+        })
+    }
+}

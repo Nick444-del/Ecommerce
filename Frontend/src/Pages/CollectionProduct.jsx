@@ -6,6 +6,7 @@ import ProductCard from '../Components/ProductCard/ProductCard';
 const CollectionProduct = () => {
     const { categoryId } = useParams();
     const [products, setProducts] = useState([]);
+    const [category, setCategory] = useState([]);
 
     const getProductbyCategory = async () => {
         try {
@@ -13,9 +14,8 @@ const CollectionProduct = () => {
             setProducts(response.data.data);
         } catch (error) {
             console.error('Error fetching products:', error);
-            console.log()
         }
-    };
+    }
 
     useEffect(() => {
         if (categoryId) {
