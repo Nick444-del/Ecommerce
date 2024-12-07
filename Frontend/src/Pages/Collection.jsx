@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import axiosInstance from '../Components/utils/axiosInstance'
-import {BASE_URL} from '../Components/utils/constant'
+import { BASE_URL } from '../Components/utils/constant'
 import { NavLink } from 'react-router-dom'
 
 const Collection = () => {
     const [categories, setCategories] = useState([])
-    const [ loading, setLoading ] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const getCategories = async () => {
         try {
@@ -16,7 +16,7 @@ const Collection = () => {
             }
         } catch (error) {
             console.error("Error fetching categories:", error);
-        } finally{
+        } finally {
             setLoading(false)
         }
     };
@@ -35,13 +35,15 @@ const Collection = () => {
                         categories && categories.map((index) => {
                             return (
                                 <div className='hover:cursor-pointer hover:' key={index._id}>
-                                    <img src={BASE_URL + index.categoryImage} alt={index.categoryName} className='w-[297px] h-[374px] hover:scale-100' />
-                                    <div className='p-[10px]'>
-                                        <div className='px-[10px] py-[17px] flex flex-row items-center justify-start'>
-                                            <h3 className='text-[#000000] text-[20px] uppercase font-bold'>{index.categoryName}</h3>
-                                            <ArrowRightAltIcon />
+                                    <NavLink to={`/category/${index._id}`}>
+                                        <img src={BASE_URL + index.categoryImage} alt={index.categoryName} className='w-[297px] h-[374px] hover:scale-100' />
+                                        <div className='p-[10px]'>
+                                            <div className='px-[10px] py-[17px] flex flex-row items-center justify-start'>
+                                                <h3 className='text-[#000000] text-[20px] uppercase font-bold'>{index.categoryName}</h3>
+                                                <ArrowRightAltIcon />
+                                            </div>
                                         </div>
-                                    </div>
+                                    </NavLink>
                                 </div>
                             )
                         })

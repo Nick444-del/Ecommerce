@@ -72,7 +72,7 @@ const Login = () => {
                         <button type='submit' className=' btn-primary'>
                             Login
                         </button>
-
+                        <NavLink to="/forgotpassword"><p className='text-sm text-center mt-4'>Forgot Password?{" "}</p></NavLink>
                         <p className='text-sm text-center mt-4'>Not registered yet?{" "}
                             <Link to='/signup' className="font-medium text-leather underline">
                                 Create an Account

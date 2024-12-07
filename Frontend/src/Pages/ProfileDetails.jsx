@@ -15,7 +15,7 @@ const ProfileDetails = ({ userInfo }) => {
                     );
 
                     // Extract and set all fetched addresses
-                    const fetchedAddresses = responses.map(response => response.data);
+                    const fetchedAddresses = responses.map(response => response.data.data);
                     // console.log('Fetched Addresses:', fetchedAddresses);
                     setAddresses(fetchedAddresses);
                 } catch (error) {

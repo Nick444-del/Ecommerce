@@ -12,6 +12,7 @@ import Cart from './Pages/Cart';
 import Signup from './Pages/Signup';
 import ProfileDetails from './Pages/ProfileDetails';
 import Admin from './Pages/admin/Admin';
+import CollectionProduct from './Pages/CollectionProduct';
 import axiosInstance from './Components/utils/axiosInstance';
 import './App.css';
 
@@ -52,6 +53,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path='/category/:categoryId' element={<CollectionProduct />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/profiledetails" element={<ProfileDetails userInfo={userInfo} />} />
       </Routes>
