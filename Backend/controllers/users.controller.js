@@ -34,9 +34,6 @@ export const register = async (req, res) => {
             fullname: fullname,
             email: email,
             mobile: mobile,
-            address: address,
-            state: state,
-            pincode: pincode,
             password: password
         })
         const token = jwt.sign({
@@ -152,7 +149,7 @@ export const singleUser = async (req, res) => {
         console.log("User from token: ", user);
 
         const isUser = await usersModel.findOne({ email: user.email })
-        if(!isUser){
+        if (!isUser) {
             return res.status(404).json({ message: "User not found", success: false });
         }
 
@@ -173,9 +170,9 @@ export const singleUser = async (req, res) => {
 export const addAddress = async (req, res) => {
     try {
         const userId = req.params.userId;
-        const {address} = req.body;
+        const { address } = req.body;
         const user = await usersModel.findById(userId);
-        if(!user){
+        if (!user) {
             return res.status(404).json({
                 success: false,
                 data: null,
@@ -197,3 +194,163 @@ export const addAddress = async (req, res) => {
         })
     }
 }
+
+export const addAddressByReq = async (req, res) => {
+    const { addressId } = req.body;
+
+    // Validate the addressId is provided and valid
+    if (!addressId) {
+        return res.status(400).json({
+            success: false,
+            message: "Address ID is required"
+        });
+    }
+
+    console.log("Address ID:", addressId);
+    console.log("User infromation ==> " + req.user.user._id)
+    try {
+        const userId = req.user.user._id;
+
+        // Find the user by ID
+        const user = await usersModel.findById(userId);
+        console.log("User:", user);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        // Initialize the address array if it doesn't exist
+        if (!user.address) {
+            user.address = [];
+        }
+
+        // Check if the address already exists in the user's address list
+        if (user.address.includes(addressId)) {
+            return res.status(400).json({
+                success: false,
+                message: "Address already exists"
+            });
+        }
+
+        // Add the addressId to the user's address array
+        user.address.push(addressId);
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Address added successfully",
+            data: user
+        });
+    } catch (err) {
+        // Log the error for debugging
+        console.error("Error adding address:", err);
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            error: err.message
+        });
+    }
+};
+
+
+export const deleteAddress = async (req, res) => {
+    try {
+        const addressId = req.params.addressId;  // The address ID to delete
+        // Find the user who has this address ID in their address array
+        const user = await usersModel.findOne({ 'address': addressId });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                data: null,
+                error: "User not found with the provided address ID."
+            });
+        }
+
+        // Remove the address ID from the user's address array
+        user.address = user.address.filter(addressIdInUser => addressIdInUser.toString() !== addressId);
+
+        // Save the updated user document
+        const updatedUser = await usersModel.updateMany(
+            { 'address': addressId },
+            { $pull: { address: addressId } }
+        );
+
+        return res.status(200).json({
+            success: true,
+            data: updatedUser,
+            error: false
+        });
+    } catch (error) {
+        console.error("Error deleting address:", error);
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error.message
+        });
+    }
+}
+
+export const adminlogin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        console.log("Admin login", email, password);
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: "Email is required"
+            });
+        }
+        if (!password) {
+            return res.status(400).json({
+                success: false,
+                message: "Password is required"
+            });
+        }
+
+        // Check if the user exists by email
+        const user = await usersModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        // Compare passwords directly (without bcrypt)
+        if (user.password !== password) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid password"
+            });
+        }
+
+        // Check if the user is an admin
+        if (user.isAdmin) {
+            const token = jwt.sign({ user: user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "36000m" });
+            return res.status(200).json({
+                success: true,
+                message: "User logged in successfully",
+                data: user.email, // You can return more user data if needed
+                token
+            });
+        } else {
+            return res.status(401).json({
+                success: false,
+                message: "You are not an admin"
+            });
+        }
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            error: error.message
+        });
+    }
+};

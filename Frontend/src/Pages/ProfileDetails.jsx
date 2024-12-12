@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import Modal from 'react-modal';
+import NewAddress from '../Components/Modal/NewAddress';
 import axiosInstance from '../Components/utils/axiosInstance';
 
 const ProfileDetails = ({ userInfo }) => {
+    const [openAddModal, setOpenAddModal] = useState({
+        isOpen: false,
+        type: 'open',
+        data: null
+    });
     const [addresses, setAddresses] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -16,7 +23,6 @@ const ProfileDetails = ({ userInfo }) => {
 
                     // Extract and set all fetched addresses
                     const fetchedAddresses = responses.map(response => response.data.data);
-                    // console.log('Fetched Addresses:', fetchedAddresses);
                     setAddresses(fetchedAddresses);
                 } catch (error) {
                     console.error("Failed to fetch addresses:", error);
@@ -27,10 +33,38 @@ const ProfileDetails = ({ userInfo }) => {
 
         fetchAddresses();
     }, [userInfo]);
+    
+    const updateUserAddressArray = async (addressId) => {
+        try {
+            const response = await axiosInstance.delete(`/deleteaddress/${addressId}`)
+            if (response.data && response.data.data) {
+                console.log("Address deleted: ", response.data);
+                setAddresses(prevAddresses => prevAddresses.filter(address => address._id !== addressId));
+            }
+        } catch (error) {
+            console.log("Error updateing user address array: " + error.message);
+        }
+    }
 
-    // Log addresses after they are set
+    const deleteUserAddress = async (addressId) => {
+        try {
+            const response = await axiosInstance.delete(`/deleteaddress/${addressId}`);
+            if(response.data && response.data.data) {
+                console.log("Address deleted: ", response.data);
+            }
+        } catch (error) {
+            console.log("Error deleting address from address collection: " + error.message);
+        }
+    }
+
+    const handleDeleteAddress = async (addressId) => {
+        console.log("Delete Address from Address id: " + addressId)
+        updateUserAddressArray(addressId)
+        deleteUserAddress(addressId)
+    };
+
     useEffect(() => {
-        // console.log('Updated Addresses:', addresses);
+        // You can use this useEffect for any additional side effects when addresses are updated
     }, [addresses]);
 
     if (!userInfo) {
@@ -38,8 +72,6 @@ const ProfileDetails = ({ userInfo }) => {
     }
 
     const { fullname, email } = userInfo;
-
-    console.log(addresses);
 
     return (
         <div className="max-w-3xl mx-auto my-10 p-6 bg-white shadow-lg rounded-lg">
@@ -51,6 +83,18 @@ const ProfileDetails = ({ userInfo }) => {
                     <p><strong>Name:</strong> {fullname || 'N/A'}</p>
                     <p><strong>Email:</strong> {email || 'N/A'}</p>
                 </div>
+                <button
+                    className='my-3 w-[120px] h-[45px] bg-black text-white hover:text-black hover:bg-white transition-colors rounded-md'
+                    onClick={() => {
+                        setOpenAddModal({
+                            isShown: true,
+                            type: 'add',
+                            data: null
+                        });
+                    }}
+                >
+                    New Address
+                </button>
             </div>
 
             <div>
@@ -59,21 +103,59 @@ const ProfileDetails = ({ userInfo }) => {
                     <p>Loading addresses...</p>
                 ) : addresses.length > 0 ? (
                     <ul className="mt-3 space-y-3">
-                        {addresses.map(({ _id, address, city, state, pincode, mobile }, index) => (
-                            <li key={_id} className="p-3 bg-gray-100 rounded">
-                                <p><strong>Address {index + 1}:</strong></p>
-                                <p><strong>Street:</strong> {address}</p>
-                                <p><strong>City:</strong> {city}</p>
-                                <p><strong>State:</strong> {state}</p>
-                                <p><strong>Pincode:</strong> {pincode}</p>
-                                <p><strong>Mobile:</strong> {mobile}</p>
-                            </li>
-                        ))}
+                        {addresses
+                            .filter(address => address !== null)  // Filter out null or undefined addresses
+                            .map(({ _id, address, city, state, pincode, mobile }, index) => (
+                                <li key={_id} className="p-3 bg-gray-100 rounded">
+                                    <p><strong>Address {index + 1}:</strong></p>
+                                    <p><strong>Address:</strong> {address}</p>
+                                    <p><strong>City:</strong> {city}</p>
+                                    <p><strong>State:</strong> {state}</p>
+                                    <p><strong>Pincode:</strong> {pincode}</p>
+                                    <p><strong>Mobile:</strong> {mobile}</p>
+                                    <div className="mt-2 flex justify-end gap-4">
+                                        <button className='my-3 w-[80px] h-[45px] bg-black text-white hover:text-black hover:bg-white transition-colors rounded-md'>
+                                            Edit
+                                        </button>
+                                        <button
+                                            className='my-3 w-[80px] h-[45px] bg-red-600 text-white hover:text-red-600 hover:bg-white transition-colors rounded-md'
+                                            onClick={() => handleDeleteAddress(_id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </li>
+                            ))}
                     </ul>
                 ) : (
                     <p className="mt-3 text-gray-600">No addresses available.</p>
                 )}
             </div>
+
+            <Modal
+                isOpen={openAddModal.isShown}
+                onRequestClose={() => {}}
+                style={{
+                    overlay: {
+                        zIndex: 1000,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    }
+                }}
+                contentLabel=''
+                className="w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-auto"
+            >
+                <NewAddress
+                    type={openAddModal.type}
+                    data={openAddModal.data}
+                    onClose={() => {
+                        setOpenAddModal({
+                            isShown: false,
+                            type: 'open',
+                            data: null
+                        });
+                    }}
+                />
+            </Modal>
         </div>
     );
 };

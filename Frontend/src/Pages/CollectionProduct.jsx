@@ -12,6 +12,12 @@ const CollectionProduct = () => {
         try {
             const response = await axiosInstance.get(`/getproductbycategory/${categoryId}`);
             setProducts(response.data.data);
+            console.log(response.data.data);
+            console.log(products)
+            const categoryResponse = await axiosInstance.get(`/getcategorybyid/${categoryId}`);
+            setCategory(categoryResponse.data.data);
+            console.log(categoryResponse.data.data);
+            console.log(category)
         } catch (error) {
             console.error('Error fetching products:', error);
         }
@@ -26,8 +32,14 @@ const CollectionProduct = () => {
     return (
         <>
             <div className='lg:mx-[260px] lg:px-[50px] sm:mx-auto sm:px-auto'>
-                <h1 className='my-[25px] text-[40px] font-medium'>Product</h1>
-                <div className='flex justify-between sm:flex-col'>
+                <h1 className='my-[25px] text-[40px] capitalize font-bold'>{
+                    category && category.map((index) => {
+                        return (
+                            index.categoryName
+                        )
+                    })
+                }</h1>
+                <div className='flex justify-between sm:flex-col lg:flex-row'>
                     <div className='flex gap-3'>
                         <span>Filter</span>
                         <span>Availability</span>
@@ -39,10 +51,22 @@ const CollectionProduct = () => {
                         <span>{products.length} products</span>
                     </div>
                 </div>
-                <div className='px-[50px] grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 my-[40px]'>
-                    {products.map((product) => (
-                        <ProductCard key={product._id} className="w-auto" productImage={product.thumbnail} productTitle={product.title} price={product.price} />
-                    ))}
+                <div className="px-4 sm:px-6 lg:px-10 xl:px-14 my-12">
+                    <div className='grid lg:grid-cols-4 gap-4 items-center justify-center md:grid-cols-3 sm:grid-cols-2 my-[50px]'>
+                        {
+                            products.map((product) => {
+                                return (
+                                    <ProductCard 
+                                    product={product} 
+                                    key={product._id} 
+                                    productId={product._id} 
+                                    productImage={product.thumbnail} 
+                                    productTitle={product.title} 
+                                    price={product.price} />
+                                )
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         </>

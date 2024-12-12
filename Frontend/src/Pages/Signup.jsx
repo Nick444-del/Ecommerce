@@ -9,30 +9,22 @@ const Signup = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState(null)
-
     const navigate = useNavigate()
-
     const handleSignUp = async (e) => {
         e.preventDefault();
-
         if (!fullname) {
             setError("Please enter your name");
             return;
         }
-
         if (!validateEmail(email)) {
             setError("Please enter a valid email address");
             return;
         }
-
         if (!password) {
             setError("Please enter your password");
             return;
         }
-
         setError("")
-
-        // Sign Up API Call
         try {
             console.log(fullname)
             const response = await axiosInstance.post("/register", {
@@ -40,15 +32,15 @@ const Signup = () => {
                 email: email,
                 password: password
             })
-
+            console.log("Sign-up response: "+ response)
+            localStorage.setItem("register", JSON.stringify(response.data))
             if (response.data && response.data.error) {
                 setError(response.data.message)
                 return
             }
-
             if (response.data && response.data.token) {
                 localStorage.setItem("token", response.data.token)
-                navigate('/')
+                navigate('/login')
             }
         } catch (error) {
             if (error.response.status && error.response.data && error.response.data.message) {

@@ -9,11 +9,6 @@ const Admin = () => {
     return (
         <>
             <Dashboard />
-            <Routes>
-                <Route to={"/userslist"} element={<Userlist />} />
-                <Route to={"/categorieslist"} element={<Categorieslist />} />
-                <Route to={"/productlist"} element={<Productlist />} />
-            </Routes>
         </>
     )
 }

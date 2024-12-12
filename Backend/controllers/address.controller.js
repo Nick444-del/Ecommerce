@@ -1,4 +1,5 @@
 import addressModel from "../models/address.model";
+import usersModel from "../models/users.model";
 
 export const getAllAddress = async (req, res) => {
     try {
@@ -58,4 +59,38 @@ export const addresses = async (req, res) => {
             error: error
         })
     }
+}
+
+export const deleteAddress = async (req, res) => {
+    try {
+        const addressId = req.params.addressId;
+        if (!mongoose.Types.ObjectId.isValid(addressId)) {
+            return res.status(400).json({
+                success: false,
+                data: null,
+                error: "Invalid address ID."
+            });
+        }
+        const find = await addressModel.findById(addressId);
+        if (!find) {
+            return res.status(404).json({
+                success: false,
+                data: null,
+                error: "Address not found"
+            })
+        }
+        const data = await addressModel.deleteOne({ _id: addressId })
+        return res.status(200).json({
+            success: true,
+            data: data,
+            error: false
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error.message
+        })
+    }
+    next();
 }

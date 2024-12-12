@@ -15,19 +15,19 @@ import { NavLink } from 'react-router-dom';
 const navigation = [
     {
         icon: <UserIcon />,
-        url: '/admin/userslist',
+        url: '/admin/dashboard/userslist',
         title: 'Users List',
         iconcolor: 'text-blue'
     },
     {
         icon: <CategoryIcon />,
-        url: '/admin/categorieslist',
+        url: '/admin/dashboard/categorieslist',
         title: 'Categories List',
         iconcolor: 'text-red'
     },
     {
         icon: <InventoryIcon />,
-        url: '/admin/productslist',
+        url: '/admin/dashboard/productslist',
         title: 'Products List',
         iconcolor: 'text-brown'
     }

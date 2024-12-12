@@ -1,8 +1,11 @@
 import React from 'react'
+import Dashboard from '../Components/Dashboard'
 
 const Productlist = () => {
     return (
-        <div>Productlist</div>
+        <>
+            <Dashboard />
+        </>
     )
 }
 

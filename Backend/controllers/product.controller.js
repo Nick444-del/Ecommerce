@@ -8,9 +8,13 @@ const upload = multer({ storage: storage })
 export const getAllProduct = async (req, res) => {
     try {
         const products = await productModel.find();
+        const updateProduct = products.map((product) => ({
+            ...product._doc,
+            thumbnail: product.thumbnail ? `/uploads/${product.thumbnail}` : null
+        }))
         return res.status(200).json({
             success: true,
-            data: products,
+            data: updateProduct,
             error: false
         })
     } catch (error) {
@@ -83,3 +87,76 @@ export const getProductByCategory = async (req, res) => {
         })
     }
 }
+
+export const getSelfHelp = async (req, res) => {
+    try {
+        const selfhelpId = "67529942e18ae30d846524e2"
+        const response = await productModel.find({ category: selfhelpId })
+        const updateProduct = response.map((product) => ({
+            ...product._doc,
+            thumbnail: product.thumbnail ? `/uploads/${product.thumbnail}` : null
+        }))
+        return res.status(200).json({
+            success: true,
+            data: updateProduct,
+            error: false
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error
+        })
+    }
+}
+
+export const getBusinessStartup = async (req, res) => {
+    try {
+        const businessId = "6756ab8b03a4aa3e285933c6"
+        const response = await productModel.find({ category: businessId })
+        const updateProduct = response.map((product) => ({
+            ...product._doc,
+            thumbnail: product.thumbnail ? `/uploads/${product.thumbnail}` : null
+        }))
+        return res.status(200).json({
+            success: true,
+            data: updateProduct,
+            error: false
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error
+        })
+    }
+}
+
+export const getProductById = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+        const product = await productModel.findById(productId);
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                data: null,
+                error: 'Product not found'
+            });
+        }
+        const updatedProduct = {
+            ...product._doc,
+            thumbnail: product.thumbnail ? `/uploads/${product.thumbnail}` : null
+        }
+        return res.status(200).json({
+            success: true,
+            data: updatedProduct,
+            error: false
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error.message
+        });
+    }
+};
