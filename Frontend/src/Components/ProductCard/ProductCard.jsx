@@ -1,13 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { BASE_URL } from '../utils/constant';
 
-const ProductCard = ({ productId, productImage, productTitle, price }) => {
+const ProductCard = ({ productId, productImage, productTitle, price, filepath }) => {
     return (
         <div className="w-[210px] h-[445px] max-w-sm bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
             <NavLink to={`/productdetails/${productId}`}>
                 <img
-                    src={BASE_URL + productImage}
+                    src={filepath + productImage}
                     alt={productTitle}
                     className="w-full h-64 object-cover transition-transform duration-300 transform hover:scale-105"
                 />

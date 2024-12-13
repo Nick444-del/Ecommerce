@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 import Dashboard from '../Components/Dashboard'
 import axiosInstance from '../../../Components/utils/axiosInstance'
-import { BASE_URL } from '../../../Components/utils/constant'
 import CategoryModal from '../Components/CategoryModal'
 
 const Categorieslist = () => {
@@ -12,11 +11,14 @@ const Categorieslist = () => {
         data: null
     })
     const [category, setCategory] = useState([])
+    const [filepath, setFilepath] = useState("");
 
     const getAllCategories = async () => {
         const response = await axiosInstance.get('/getallcategory');
         console.log(response.data.data)
         setCategory(response.data.data)
+        console.log(response.data.filepath)
+        setFilepath(response.data.filepath)
     }
 
     const handleAddCategory = () => {
@@ -85,7 +87,7 @@ const Categorieslist = () => {
                                 <td className="py-4 px-6 text-center text-gray-700">{index._id}</td>
                                 <td className="py-4 px-6 text-center capitalize text-gray-700">{index.categoryName}</td>
                                 <td className="py-4 px-6 flex items-center justify-center">
-                                    <img src={BASE_URL + index.categoryImage} alt={index.categoryName} className="w-16 h-16 object-cover rounded-lg mx-auto" />
+                                    <img src={filepath + index.categoryImage} alt={index.categoryName} className="w-16 h-16 object-cover rounded-lg mx-auto" />
                                 </td>
                                 <td className="py-4 px-6 text-center space-x-4">
                                     <button className="text-blue-600 hover:text-blue-800 font-semibold transition duration-300" onClick={() => handleEdit(index._id)}>

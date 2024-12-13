@@ -8,14 +8,11 @@ const upload = multer({ storage: storage })
 export const getAllProduct = async (req, res) => {
     try {
         const products = await productModel.find();
-        const updateProduct = products.map((product) => ({
-            ...product._doc,
-            thumbnail: product.thumbnail ? `/uploads/${product.thumbnail}` : null
-        }))
         return res.status(200).json({
             success: true,
-            data: updateProduct,
-            error: false
+            data: products,
+            error: false,
+            filepath: "http://localhost:5000/uploads/"
         })
     } catch (error) {
         return res.status(500).json({
@@ -70,14 +67,11 @@ export const getProductByCategory = async (req, res) => {
     try {
         const categoryId = req.params.categoryId;
         const products = await productModel.find({ category: categoryId });
-        const updateProduct = products.map((product) => ({
-            ...product._doc,
-            thumbnail: product.thumbnail ? `/uploads/${product.thumbnail}` : null
-        }))
         return res.status(200).json({
             success: true,
-            data: updateProduct,
-            error: false
+            data: products,
+            error: false,
+            filepath: "http://localhost:5000/uploads/"
         })
     } catch (error) {
         return res.status(500).json({
@@ -92,14 +86,11 @@ export const getSelfHelp = async (req, res) => {
     try {
         const selfhelpId = "67529942e18ae30d846524e2"
         const response = await productModel.find({ category: selfhelpId })
-        const updateProduct = response.map((product) => ({
-            ...product._doc,
-            thumbnail: product.thumbnail ? `/uploads/${product.thumbnail}` : null
-        }))
         return res.status(200).json({
             success: true,
-            data: updateProduct,
-            error: false
+            data: response,
+            error: false,
+            filepath: "http://localhost:5000/uploads/"
         })
     } catch (error) {
         return res.status(500).json({
@@ -114,14 +105,11 @@ export const getBusinessStartup = async (req, res) => {
     try {
         const businessId = "6756ab8b03a4aa3e285933c6"
         const response = await productModel.find({ category: businessId })
-        const updateProduct = response.map((product) => ({
-            ...product._doc,
-            thumbnail: product.thumbnail ? `/uploads/${product.thumbnail}` : null
-        }))
         return res.status(200).json({
             success: true,
-            data: updateProduct,
-            error: false
+            data: response,
+            error: false,
+            filepath: "http://localhost:5000/uploads"
         })
     } catch (error) {
         return res.status(500).json({
@@ -143,14 +131,11 @@ export const getProductById = async (req, res) => {
                 error: 'Product not found'
             });
         }
-        const updatedProduct = {
-            ...product._doc,
-            thumbnail: product.thumbnail ? `/uploads/${product.thumbnail}` : null
-        }
         return res.status(200).json({
             success: true,
-            data: updatedProduct,
-            error: false
+            data: product,
+            error: false,
+            filepath: "http://localhost:5000/uploads/"
         });
     } catch (error) {
         return res.status(500).json({
@@ -160,3 +145,22 @@ export const getProductById = async (req, res) => {
         });
     }
 };
+
+export const getMangaById = async (req, res) => {
+    try {
+        const mangaId = "6752998c124c64b4d3548219";
+        const response = await productModel.find({ category: mangaId });
+        return res.status(200).json({
+            success: true,
+            data: response,
+            error: false,
+            filepath: "http://localhost:5000/uploads"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error
+        })
+    }
+}

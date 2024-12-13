@@ -8,14 +8,11 @@ const upload = multer({ storage: storage });
 export const getAllCategory = async (req, res) => {
     try {
         const response = await categoryModel.find();
-        const updatedCategories = response.map((category) => ({
-            ...category._doc, // Spread the original document properties
-            categoryImage: category.categoryImage ? `/uploads/${category.categoryImage}` : null,
-        }));
         return res.status(200).json({
             error: false,
             success: true,
-            data: updatedCategories
+            data: response,
+            filepath: 'http://localhost:5000/uploads/'
         })
     } catch (error) {
         return res.status(500).json({
@@ -68,7 +65,8 @@ export const getCategoryId = async (req, res) => {
         return res.status(200).json({
             error: false,
             success: true,
-            data: response
+            data: response,
+            filepath: "http://localhost:5000/uploads/"
         })
     } catch (error) {
         return res.status(500).json({
@@ -98,6 +96,50 @@ export const deleteCategory = async (req, res) => {
             }
         } catch (error) {
             return res.status(500).json({ error: true, success: false, message: error.message })
+        }
+    })
+}
+
+export const updateCategory = async (req, res) => {
+    const categoryId = req.params.categoryId;
+    const updateDateWithImage = upload.fields([{ name: 'categoryImage', maxCount: 1 }])
+    updateDateWithImage(req, res, async (err) => {
+        if (err) {
+            return res.status(500).json({
+                error: true,
+                success: false,
+                message: `File upload error: ${err.message}`
+            })
+        }
+        const find = await categoryModel.findById(categoryId);
+        if(!find){
+            return res.status(404).json({
+                error: true,
+                success: false,
+                message: "Category not found"
+            })
+        }
+        try {
+            let img = find.categoryImage;
+            if (req.files["categoryImage"]) {
+                img = req.files["categoryImage"][0].filename;
+            }
+            const { categoryName } = req.body;
+            await categoryModel.updateOne({ _id: categoryId }, {
+                categoryName: categoryName,
+                categoryImage: img
+            })
+            return res.status(200).json({
+                error: false,
+                success: true,
+                message: "Category updated successfully"
+            })
+        } catch (error) {
+            return res.status(500).json({
+                error: true,
+                success: false,
+                message: error.message
+            })
         }
     })
 }

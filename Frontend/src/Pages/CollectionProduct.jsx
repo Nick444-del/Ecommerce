@@ -6,14 +6,15 @@ import ProductCard from '../Components/ProductCard/ProductCard';
 const CollectionProduct = () => {
     const { categoryId } = useParams();
     const [products, setProducts] = useState([]);
+    const [filepath, setFilepath] = useState([]);
     const [category, setCategory] = useState([]);
 
     const getProductbyCategory = async () => {
         try {
             const response = await axiosInstance.get(`/getproductbycategory/${categoryId}`);
             setProducts(response.data.data);
-            console.log(response.data.data);
-            console.log(products)
+            console.log(response.data.filepath);
+            setFilepath(response.data.filepath);
             const categoryResponse = await axiosInstance.get(`/getcategorybyid/${categoryId}`);
             setCategory(categoryResponse.data.data);
             console.log(categoryResponse.data.data);
@@ -52,11 +53,12 @@ const CollectionProduct = () => {
                     </div>
                 </div>
                 <div className="px-4 sm:px-6 lg:px-10 xl:px-14 my-12">
-                    <div className='grid lg:grid-cols-4 gap-4 items-center justify-center md:grid-cols-3 sm:grid-cols-2 my-[50px]'>
+                    <div className='grid lg:grid-cols-4 lg:gap-[140px] md:gap-[100px] sm:gap-[50px] items-center justify-center md:grid-cols-3 sm:grid-cols-2 my-[50px]'>
                         {
                             products.map((product) => {
                                 return (
-                                    <ProductCard 
+                                    <ProductCard
+                                    filepath={filepath}
                                     product={product} 
                                     key={product._id} 
                                     productId={product._id} 

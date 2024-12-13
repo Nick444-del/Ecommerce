@@ -8,6 +8,9 @@ import IconButton from '@mui/material/IconButton';
 import LeftDrawer from './LeftDrawer';
 
 export default function AdminNavbar() {
+    const onLogout = () => {
+        alert('logging out');
+    }
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -24,7 +27,7 @@ export default function AdminNavbar() {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         ADMIN DASHBOARD
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Button color="inherit" onClick={onLogout}>Login</Button>
                 </Toolbar>
             </AppBar>
         </Box>

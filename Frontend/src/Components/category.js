@@ -35,7 +35,8 @@ const categoryData = [
     {
         id: 6,
         image: homesection36,
-        title: "manga's"
+        title: "manga's",
+        id: "6752998c124c64b4d3548219"
     },
     {
         id: 7,

@@ -4,10 +4,12 @@ import ProductCard from '../Components/ProductCard/ProductCard'
 
 const Product = () => {
     const [products, setProducts] = useState([])
+    const [filepath, setFilepath] = useState("")
 
     const getAllProducts = async () => {
         try {
             const response = await axiosInstance('/getallproduct')
+            setFilepath(response.data.filepath)
             setProducts(response.data.data)
             console.log(products)
         } catch (error) {
@@ -40,7 +42,7 @@ const Product = () => {
                     {
                         products.map((product) => {
                             return (
-                                <ProductCard product={product} key={product._id} productId={product._id} productImage={product.thumbnail} productTitle={product.title} price={product.price} />
+                                <ProductCard filepath={filepath} product={product} key={product._id} productId={product._id} productImage={product.thumbnail} productTitle={product.title} price={product.price} />
                             )
                         })
                     }

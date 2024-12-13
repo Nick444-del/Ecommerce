@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../Components/utils/axiosInstance';
 import { useParams } from 'react-router-dom';
-import { BASE_URL } from '../Components/utils/constant';
 
 const ProductDetails = () => {
     const [productData, setProductData] = useState({});
+    const [filepath, setFilepath] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { productId } = useParams();
@@ -13,6 +13,7 @@ const ProductDetails = () => {
         try {
             const response = await axiosInstance.get(`/getproductbyid/${productId}`);
             setProductData(response.data.data);
+            setFilepath(response.data.filepath);
         } catch (error) {
             setError(error.message || 'Something went wrong!');
             console.error(error);
@@ -41,7 +42,7 @@ const ProductDetails = () => {
                     <div className="w-full md:w-[45%] bg-white p-5 rounded-lg shadow-lg">
                         <img
                             className="w-full h-auto object-cover rounded-md"
-                            src={BASE_URL + productData.thumbnail}
+                            src={filepath + productData.thumbnail}
                             alt={productData.title}
                         />
                     </div>

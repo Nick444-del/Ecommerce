@@ -9,13 +9,18 @@ import axiosInstance from '../Components/utils/axiosInstance';
 const Home = () => {
     const [selfhelp, setSelfhelp] = useState([])
     const [business, setBusiness] = useState([])
+    const [manga, setManga] = useState([])
+    const [filepath, setFilepath] = useState("")
 
     const getData = async () => {
         try {
             const selfhelpResponse = await axiosInstance.get('/getallselfhelp')
             const businessResponse = await axiosInstance.get('/getbusiness')
+            const mangaResponse = await axiosInstance.get('/getmanga')
+            setManga(mangaResponse.data.data)
             setSelfhelp(selfhelpResponse.data.data)
             setBusiness(businessResponse.data.data)
+            setFilepath(selfhelpResponse.data.filepath)
         } catch (error) {
             console.error(error)
         }
@@ -101,7 +106,7 @@ const Home = () => {
                             {
                                 selfhelp.map((index) => {
                                     return(
-                                        <ProductCard key={index._id} productId={index._id} productImage={index.thumbnail} productTitle={index.title} price={index.price} />
+                                        <ProductCard key={index._id} filepath={filepath} productId={index._id} productImage={index.thumbnail} productTitle={index.title} price={index.price} />
                                     )
                                 })
                             }
@@ -117,7 +122,7 @@ const Home = () => {
                             {
                                 business.map((index) => {
                                     return(
-                                        <ProductCard key={index._id} productId={index._id} productImage={index.thumbnail} productTitle={index.title} price={index.price} />
+                                        <ProductCard key={index._id} filepath={filepath} productId={index._id} productImage={index.thumbnail} productTitle={index.title} price={index.price} />
                                     )
                                 })
                             }

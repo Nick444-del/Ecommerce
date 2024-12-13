@@ -299,7 +299,6 @@ export const adminlogin = async (req, res) => {
     try {
         const { email, password } = req.body;
         console.log("Admin login", email, password);
-
         if (!email) {
             return res.status(400).json({
                 success: false,
@@ -312,8 +311,6 @@ export const adminlogin = async (req, res) => {
                 message: "Password is required"
             });
         }
-
-        // Check if the user exists by email
         const user = await usersModel.findOne({ email });
         if (!user) {
             return res.status(404).json({
@@ -321,22 +318,18 @@ export const adminlogin = async (req, res) => {
                 message: "User not found"
             });
         }
-
-        // Compare passwords directly (without bcrypt)
         if (user.password !== password) {
             return res.status(401).json({
                 success: false,
                 message: "Invalid password"
             });
         }
-
-        // Check if the user is an admin
         if (user.isAdmin) {
             const token = jwt.sign({ user: user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "36000m" });
             return res.status(200).json({
                 success: true,
                 message: "User logged in successfully",
-                data: user.email, // You can return more user data if needed
+                data: user.email,
                 token
             });
         } else {
@@ -345,7 +338,6 @@ export const adminlogin = async (req, res) => {
                 message: "You are not an admin"
             });
         }
-
     } catch (error) {
         return res.status(500).json({
             success: false,
