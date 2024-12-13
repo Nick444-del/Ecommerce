@@ -354,3 +354,21 @@ export const adminlogin = async (req, res) => {
         });
     }
 };
+
+export const deleteUser = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const response = await usersModel.deleteOne({ _id: userId })
+        return res.status(200).json({
+            success: true,
+            data: response,
+            error: false
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error
+        })
+    }
+}
