@@ -7,12 +7,12 @@ const upload = multer({ storage: storage })
 
 export const getAllProduct = async (req, res) => {
     try {
-        const products = await productModel.find();
+        const products = await productModel.find().populate('category');
         return res.status(200).json({
             success: true,
             data: products,
             error: false,
-            filepath: "http://localhost:5000/uploads/"
+            filePath: "http://localhost:5000/uploads/"
         })
     } catch (error) {
         return res.status(500).json({

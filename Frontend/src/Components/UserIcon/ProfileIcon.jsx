@@ -6,7 +6,7 @@ const ProfileIcon = ({ userInfo, onLogout }) => {
     return (
         <>
             <div className='flex items-center gap-3'>
-                <NavLink to='/profiledetails'>
+                <NavLink to='/bookwormdenn/profiledetails'>
                     <div className='w-12 h-12 flex items-center justify-center rounded-full bg-gray-400 text-slate-950 font-medium bg-vista_blue'>{getInitials(userInfo?.fullname)}</div>
                 </NavLink>
                 <div>

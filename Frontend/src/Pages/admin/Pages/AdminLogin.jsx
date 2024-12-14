@@ -32,7 +32,7 @@ const AdminLogin = () => {
             if (response.data && response.data.token) {
                 localStorage.setItem("User", JSON.stringify(response.data.user));
                 localStorage.setItem("token", response.data.token);
-                navigate("/admin/dashboard");
+                navigate("/bookwormdenn/admin/dashboard");
             } else {
                 setError("Access token missing in response data");
             }

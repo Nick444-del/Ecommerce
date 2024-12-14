@@ -15,19 +15,19 @@ import { NavLink } from 'react-router-dom';
 const navigation = [
     {
         icon: <UserIcon />,
-        url: '/admin/dashboard/userslist',
+        url: '/bookwormdenn/admin/dashboard/userslist',
         title: 'Users List',
         iconcolor: 'text-blue'
     },
     {
         icon: <CategoryIcon />,
-        url: '/admin/dashboard/categorieslist',
+        url: '/bookwormdenn/admin/dashboard/categorieslist',
         title: 'Categories List',
         iconcolor: 'text-red'
     },
     {
         icon: <InventoryIcon />,
-        url: '/admin/dashboard/productslist',
+        url: '/bookwormdenn/admin/dashboard/productslist',
         title: 'Products List',
         iconcolor: 'text-brown'
     }

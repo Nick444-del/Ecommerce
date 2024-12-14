@@ -16,25 +16,25 @@ import ContactsIcon from '@mui/icons-material/Contacts';
 const navigation = [
     {
         icon: <HomeIcon className='text-black'/>,
-        url: '/',
+        url: '/bookwormdenn',
         title: 'Home',
         text: 'text-[30px]',
     },
     {
         icon: <ProductionQuantityLimitsIcon className='text-black'/>,
-        url: '/product',
+        url: '/bookwormdenn/product',
         title: 'Product',
         text: 'text-[30px]',
     },
     {
         icon: <InfoIcon className='text-black'/>,
-        url: '/about',
+        url: '/bookwormdenn/about',
         title: 'About us',
         text: 'text-[30px]',
     },
     {
         icon: <ContactsIcon className='text-black'/>,
-        url: '/contact',
+        url: '/bookwormdenn/contact',
         title: 'Contact',
         text: 'text-[30px]',
     }

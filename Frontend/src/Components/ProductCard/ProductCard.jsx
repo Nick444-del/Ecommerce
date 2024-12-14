@@ -2,9 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const ProductCard = ({ productId, productImage, productTitle, price, filepath }) => {
+    console.log(filepath);
     return (
         <div className="w-[210px] h-[445px] max-w-sm bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
-            <NavLink to={`/productdetails/${productId}`}>
+            <NavLink to={`/bookwormdenn/productdetails/${productId}`}>
                 <img
                     src={filepath + productImage}
                     alt={productTitle}
@@ -12,7 +13,7 @@ const ProductCard = ({ productId, productImage, productTitle, price, filepath })
                 />
             </NavLink>
             <div className="p-4">
-                <NavLink to={`/productdetails/${productId}`}>
+                <NavLink to={`/bookwormdenn/productdetails/${productId}`}>
                     <h3 className="text-lg font-semibold mb-2">{productTitle}</h3>
                 </NavLink>
                 <p className="text-lg text-gray-600 mt-2">Rs. {price}</p>

@@ -91,7 +91,7 @@ const Home = () => {
                     </div>
                     <div className='flex items-center justify-center my-[15px]'>
                         <button className='w-[120px] transition-all duration-500 h-[45px] bg-black text-white hover:text-black hover:bg-white'>
-                            <NavLink to="/collection" className='nav-link capitalize'>
+                            <NavLink to="/bookwormdenn/collection" className='nav-link capitalize'>
                                 view all
                             </NavLink>
                         </button>

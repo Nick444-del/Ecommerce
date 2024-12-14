@@ -14,7 +14,7 @@ const Appbar = ({ userInfo }) => {
     const onLogout = () => {
         localStorage.clear()
         localStorage.removeItem("token")
-        navigate('/login')
+        navigate('/bookwormdenn/login')
     }
     const handleSearch = () => {
         if (searchQuery) {
@@ -32,7 +32,7 @@ const Appbar = ({ userInfo }) => {
         <>
             <nav className='bg-white py-4 text-black font-bold flex flex-row justify-around items-center'>
                 <div className="logo">
-                    <NavLink to="/">
+                    <NavLink to="/bookwormdenn">
                         <img src={logo1} alt="logo" className='w-[70px] h-[70px]' />
                     </NavLink>
                 </div>
@@ -45,7 +45,7 @@ const Appbar = ({ userInfo }) => {
                     />
                 </div>
                 <div className='flex flex-row items-center justify-center gap-2'>
-                    <NavLink to="/cart"><ShoppingCartIcon className='mx-[10px] text-yellow-600' /></NavLink>
+                    <NavLink to="/bookwormdenn/cart"><ShoppingCartIcon className='mx-[10px] text-yellow-600' /></NavLink>
                     <ProfileIcon className='mx-[10px]' userInfo={userInfo} onLogout={onLogout} />
                     <div className="nav">
                         <RightDrawer />

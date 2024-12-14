@@ -143,3 +143,30 @@ export const updateCategory = async (req, res) => {
         }
     })
 }
+
+export const getCategoriesByIds = async (req, res) => {
+    try {
+        const { ids } = req.body; // Expecting an array of category IDs in the request body
+
+        if (!Array.isArray(ids)) {
+            return res.status(400).json({
+                success: false,
+                error: true,
+                message: "Invalid data format. 'ids' should be an array.",
+            });
+        }
+
+        const categories = await Category.find({ _id: { $in: ids } });
+
+        return res.status(200).json({
+            success: true,
+            data: categories,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: true,
+            message: error.message,
+        });
+    }
+};

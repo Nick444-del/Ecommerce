@@ -36,7 +36,7 @@ const Collection = () => {
                         categories && categories.map((index) => {
                             return (
                                 <div className='hover:cursor-pointer hover:' key={index._id}>
-                                    <NavLink to={`/category/${index._id}`}>
+                                    <NavLink to={`/bookwormdenn/category/${index._id}`}>
                                         <img src={filepath + index.categoryImage} alt={index.categoryName} className='w-[297px] h-[374px] hover:scale-100' />
                                         <div className='p-[10px]'>
                                             <div className='px-[10px] py-[17px] flex flex-row items-center justify-start'>

@@ -39,7 +39,7 @@ function App() {
     }
   }
 
-  const hideAppbarFooter = location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/admin' || location.pathname === '/admin/dashboard/userslist' || location.pathname === '/admin/dashboard/categorieslist' || location.pathname === '/admin/dashboard/productslist' || location.pathname === '/admin/dashboard';
+  const hideAppbarFooter = location.pathname === '/bookwormdenn/login' || location.pathname === '/bookwormdenn/signup' || location.pathname === '/bookwormdenn/admin' || location.pathname === '/bookwormdenn/admin/dashboard/userslist' || location.pathname === '/bookwormdenn/admin/dashboard/categorieslist' || location.pathname === '/bookwormdenn/admin/dashboard/productslist' || location.pathname === '/bookwormdenn/admin/dashboard';
 
   useEffect(() => {
     getUserInfo();
@@ -51,23 +51,23 @@ function App() {
 
       <Routes>
         {/* User routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/product" element={<Product />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/collection" element={<Collection />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path='/category/:categoryId' element={<CollectionProduct />} />
-        <Route path='/productdetails/:productId' element={<ProductDetails />} />
-        <Route path="/profiledetails" element={<ProfileDetails userInfo={userInfo} />} />
+        <Route path="/bookwormdenn" element={<Home />} />
+        <Route path="/bookwormdenn/about" element={<About />} />
+        <Route path="/bookwormdenn/product" element={<Product />} />
+        <Route path="/bookwormdenn/contact" element={<Contact />} />
+        <Route path="/bookwormdenn/collection" element={<Collection />} />
+        <Route path="/bookwormdenn/login" element={<Login />} />
+        <Route path="/bookwormdenn/cart" element={<Cart />} />
+        <Route path="/bookwormdenn/signup" element={<Signup />} />
+        <Route path='/bookwormdenn/category/:categoryId' element={<CollectionProduct />} />
+        <Route path='/bookwormdenn/productdetails/:productId' element={<ProductDetails />} />
+        <Route path="/bookwormdenn/profiledetails" element={<ProfileDetails userInfo={userInfo} />} />
         {/* Admin routes */}
-        <Route path="/admin/dashboard" element={<Admin />} />
-        <Route path='/admin' element={<AdminLogin />}/>
-        <Route path="/admin/dashboard/userslist" element={<Userlist />} />
-        <Route  path="/admin/dashboard/categorieslist" element={<Categorieslist />} />
-        <Route  path="/admin/dashboard/productslist" element={<Productlist />} />
+        <Route path="/bookwormdenn/admin/dashboard" element={<Admin />} />
+        <Route path='/bookwormdenn/admin' element={<AdminLogin />}/>
+        <Route path="/bookwormdenn/admin/dashboard/userslist" element={<Userlist />} />
+        <Route  path="/bookwormdenn/admin/dashboard/categorieslist" element={<Categorieslist />} />
+        <Route  path="/bookwormdenn/admin/dashboard/productslist" element={<Productlist />} />
       </Routes>
 
       {!hideAppbarFooter && <Footer />} {/* Show Footer if not on Login or Signup page */}

@@ -38,7 +38,7 @@ const Login = () => {
                 console.log("Access token received:", response.data.token);
                 localStorage.setItem("token", response.data.token);
                 console.log("Token saved in localStorage");
-                navigate("/");
+                navigate("/bookwormdenn");
                 console.log("Navigating to dashboard");
             }else{
                 console.log("Access token missing in response data");

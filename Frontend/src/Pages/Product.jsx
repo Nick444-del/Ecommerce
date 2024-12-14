@@ -9,9 +9,9 @@ const Product = () => {
     const getAllProducts = async () => {
         try {
             const response = await axiosInstance('/getallproduct')
-            setFilepath(response.data.filepath)
+            setFilepath(response.data.filePath)
+            console.log(response.data)
             setProducts(response.data.data)
-            console.log(products)
         } catch (error) {
             console.error('Error fetching products:', error)
         }
