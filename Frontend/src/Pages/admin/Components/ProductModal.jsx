@@ -108,7 +108,7 @@ const ProductModal = ({ onClose, getAllProducts, type, productData }) => {
             <div className='flex flex-col gap-4'>
                 <div className='flex flex-col gap-2'>
                     <label className='text-sm font-medium'>Title</label>
-                    <input className='input-box' type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <input className='text-2xl text-leather outline-none rounded' placeholder='Title' type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
                 </div>
                 <div className='flex flex-col gap-2'>
                     <label className='text-sm font-medium'>Category</label>
@@ -128,15 +128,15 @@ const ProductModal = ({ onClose, getAllProducts, type, productData }) => {
                 </div>
                 <div className='flex flex-col gap-2'>
                     <label className='text-sm font-medium'>Price</label>
-                    <input className='input-box' type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+                    <input className='text-2xl text-leather outline-none rounded' placeholder='Price' type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
                 </div>
                 <div className='flex flex-col gap-2'>
                     <label className='text-sm font-medium'>Quantity</label>
-                    <input className='input-box' type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+                    <input className='text-2xl text-leather outline-none rounded' type="number" value={quantity} placeholder='Quantity' onChange={(e) => setQuantity(e.target.value)} />
                 </div>
                 <div className='flex flex-col gap-2'>
                     <label className='text-sm font-medium'>Description</label>
-                    <input className='input-box' type="text" value={descriptions} onChange={(e) => setDescriptions(e.target.value)} />
+                    <input className='text-2xl text-leather outline-none rounded' type="text" placeholder='Description' value={descriptions} onChange={(e) => setDescriptions(e.target.value)} />
                 </div>
                 <div className='flex flex-col gap-2'>
                     <label className='text-sm font-medium'>Thumbnail</label>
@@ -144,7 +144,7 @@ const ProductModal = ({ onClose, getAllProducts, type, productData }) => {
                 </div>
                 <div className='flex flex-col gap-2'>
                     <label className='text-sm font-medium'>Author</label>
-                    <input className='input-box' type="text" value={author} onChange={(e) => setAuthor(e.target.value)} />
+                    <input className='text-2xl text-leather outline-none rounded' placeholder='Author' type="text" value={author} onChange={(e) => setAuthor(e.target.value)} />
                 </div>
                 <div className='flex flex-col gap-2'>
                     {error && <p className='text-sm text-red-500'>{error}</p>}

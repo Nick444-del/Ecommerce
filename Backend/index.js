@@ -8,6 +8,7 @@ import userRouter from './routers/users.router'
 import productRouter from './routers/products.router'
 import addressRouter from './routers/address.router'
 import categoryRouter from './routers/category.router'
+import cartRouter from './routers/cart.router'
 
 dotenv.config()
 
@@ -38,3 +39,4 @@ app.use(userRouter);
 app.use(productRouter);
 app.use(addressRouter);
 app.use(categoryRouter);
+app.use(cartRouter);

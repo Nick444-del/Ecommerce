@@ -1,7 +1,7 @@
 import multer from "multer";
 import storage from "../utils/image";
 import productModel from "../models/product.model";
-import { response } from "express";
+import fs from "fs"
 
 const upload = multer({ storage: storage })
 
@@ -161,6 +161,55 @@ export const getMangaById = async (req, res) => {
             success: false,
             data: null,
             error: error
+        })
+    }
+}
+
+export const getMythologyById = async (req, res) => {
+    try {
+        const mythologyId = "675bf65f4838681b49322b82";
+        const response = await productModel.find({ category: mythologyId })
+        return res.status(200).json({
+            success: true,
+            data: response,
+            error: false,
+            filepath: "http://localhost:5000/uploads"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error
+        })
+    }
+}
+
+export const deleteProductById = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+        const deletedProduct = await productModel.findByIdAndDelete(productId);
+        if (!deletedProduct) {
+            return res.status(404).json({
+                success: false,
+                data: null,
+                error: 'Product not found'
+            });
+        }
+        if(deletedProduct.thumbnail) {
+            console.log(`./uploads/${deletedProduct.thumbnail}`)
+            console.log('Deleting product with thumbnail:' + deletedProduct.thumbnail)
+            fs.unlinkSync(`./uploads/${deletedProduct.thumbnail}`);
+        }
+        return res.status(200).json({
+            success: true,
+            data: deletedProduct,
+            error: false
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error.message
         })
     }
 }

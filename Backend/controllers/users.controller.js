@@ -364,3 +364,47 @@ export const deleteUser = async (req, res) => {
         })
     }
 }
+
+export const changePassword = async (req, res) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+        const userId = req.user.user._id;
+
+        // Find the user by ID
+        const user = await usersModel.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                data: null,
+                error: "User not found"
+            })
+        }
+
+        // Check if the old password is correct
+        if (user.password !== oldPassword) {
+            return res.status(400).json({
+                success: false,
+                data: null,
+                error: "Old password is incorrect"
+            })
+        }
+
+        user.password = newPassword
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            data: user,
+            error: false,
+            message: "Password changed successfully"
+        })
+    } catch (error) {
+        console.error('Error changing password:', error.message);  // Log the error
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error.message
+        });
+    }
+}

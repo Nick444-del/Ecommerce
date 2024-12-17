@@ -10,6 +10,7 @@ import ProductDetails from './Pages/ProductDetails';
 import Footer from './Components/Footer/Footer';
 import Login from './Pages/Login';
 import Cart from './Pages/Cart';
+import ChangePassword from './Pages/ChangePassword';
 import Signup from './Pages/Signup';
 import ProfileDetails from './Pages/ProfileDetails';
 import Admin from './Pages/admin/Admin';
@@ -62,6 +63,7 @@ function App() {
         <Route path='/bookwormdenn/category/:categoryId' element={<CollectionProduct />} />
         <Route path='/bookwormdenn/productdetails/:productId' element={<ProductDetails />} />
         <Route path="/bookwormdenn/profiledetails" element={<ProfileDetails userInfo={userInfo} />} />
+        <Route path='/bookwormdenn/profiledetails/changepassword' element={<ChangePassword />} />
         {/* Admin routes */}
         <Route path="/bookwormdenn/admin/dashboard" element={<Admin />} />
         <Route path='/bookwormdenn/admin' element={<AdminLogin />}/>

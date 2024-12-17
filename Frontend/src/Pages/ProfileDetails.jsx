@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import { NavLink } from 'react-router-dom';
 import NewAddress from '../Components/Modal/NewAddress';
 import axiosInstance from '../Components/utils/axiosInstance';
 
@@ -12,28 +13,28 @@ const ProfileDetails = ({ userInfo }) => {
     const [addresses, setAddresses] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchAddresses = async () => {
-            if (userInfo && userInfo.address && userInfo.address.length > 0) {
-                try {
-                    // Fetch all addresses simultaneously using Promise.all
-                    const responses = await Promise.all(
-                        userInfo.address.map(id => axiosInstance.get(`/addresses/${id}`))
-                    );
+    const fetchAddresses = async () => {
+        if (userInfo && userInfo.address && userInfo.address.length > 0) {
+            try {
+                // Fetch all addresses simultaneously using Promise.all
+                const responses = await Promise.all(
+                    userInfo.address.map(id => axiosInstance.get(`/addresses/${id}`))
+                );
 
-                    // Extract and set all fetched addresses
-                    const fetchedAddresses = responses.map(response => response.data.data);
-                    setAddresses(fetchedAddresses);
-                } catch (error) {
-                    console.error("Failed to fetch addresses:", error);
-                }
+                // Extract and set all fetched addresses
+                const fetchedAddresses = responses.map(response => response.data.data);
+                setAddresses(fetchedAddresses);
+            } catch (error) {
+                console.error("Failed to fetch addresses:", error);
             }
-            setLoading(false);
-        };
+        }
+        setLoading(false);
+    };
 
+    useEffect(() => {
         fetchAddresses();
     }, [userInfo]);
-    
+
     const updateUserAddressArray = async (addressId) => {
         try {
             const response = await axiosInstance.delete(`/deleteaddress/${addressId}`)
@@ -49,7 +50,7 @@ const ProfileDetails = ({ userInfo }) => {
     const deleteUserAddress = async (addressId) => {
         try {
             const response = await axiosInstance.delete(`/deleteaddress/${addressId}`);
-            if(response.data && response.data.data) {
+            if (response.data && response.data.data) {
                 console.log("Address deleted: ", response.data);
             }
         } catch (error) {
@@ -65,7 +66,8 @@ const ProfileDetails = ({ userInfo }) => {
 
     useEffect(() => {
         // You can use this useEffect for any additional side effects when addresses are updated
-    }, [addresses]);
+        fetchAddresses();
+    }, []);
 
     if (!userInfo) {
         return <p>Loading user information...</p>;
@@ -83,18 +85,25 @@ const ProfileDetails = ({ userInfo }) => {
                     <p><strong>Name:</strong> {fullname || 'N/A'}</p>
                     <p><strong>Email:</strong> {email || 'N/A'}</p>
                 </div>
-                <button
-                    className='my-3 w-[120px] h-[45px] bg-black text-white hover:text-black hover:bg-white transition-colors rounded-md'
-                    onClick={() => {
-                        setOpenAddModal({
-                            isShown: true,
-                            type: 'add',
-                            data: null
-                        });
-                    }}
-                >
-                    New Address
-                </button>
+                <div className='flex justify-start gap-2'>
+                    <button
+                        className='my-3 w-[120px] h-[45px] bg-black text-white hover:text-black hover:bg-white transition-colors rounded-md'
+                        onClick={() => {
+                            setOpenAddModal({
+                                isShown: true,
+                                type: 'add',
+                                data: null
+                            });
+                        }}
+                    >
+                        New Address
+                    </button>
+                    <NavLink to="/bookwormdenn/profiledetails/changepassword">
+                        <button className='my-3 w-[150px] h-[45px] bg-black text-white hover:text-black hover:bg-white transition-colors rounded-md'>
+                            Change Password
+                        </button>
+                    </NavLink>
+                </div>
             </div>
 
             <div>
@@ -134,7 +143,7 @@ const ProfileDetails = ({ userInfo }) => {
 
             <Modal
                 isOpen={openAddModal.isShown}
-                onRequestClose={() => {}}
+                onRequestClose={() => { }}
                 style={{
                     overlay: {
                         zIndex: 1000,
@@ -147,6 +156,7 @@ const ProfileDetails = ({ userInfo }) => {
                 <NewAddress
                     type={openAddModal.type}
                     data={openAddModal.data}
+                    fetchAddresses={fetchAddresses}
                     onClose={() => {
                         setOpenAddModal({
                             isShown: false,

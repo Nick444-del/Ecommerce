@@ -60,7 +60,7 @@ const Login = () => {
                     <form onSubmit={handleLogin}>
                         <div className='flex flex-row items-center justify-between'>
                             <h4 className='text-2xl mb-7'>Login</h4>
-                            <NavLink to="/"><img src={logi1} className='w-12 h-12 m-5' alt="" /></NavLink>
+                            <NavLink to="/bookwormdenn"><img src={logi1} className='w-12 h-12 m-5' alt="" /></NavLink>
                         </div>
 
                         <input type="text" name="email" id="email" placeholder='Email' className='input-box' value={email} onChange={(e) => setEmail(e.target.value)} />

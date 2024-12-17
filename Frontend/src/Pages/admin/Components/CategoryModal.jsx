@@ -110,8 +110,8 @@ const CategoryModal = ({ onClose, getAllCategories, type, categoryData }) => {
                     <label className="input-label my-3">Category Name</label>
                     <input
                         type="text"
-                        className="text-2xl text-leather outline-none rounded bg-apricot"
-                        placeholder="Enter Title"
+                        className="text-2xl text-leather outline-none rounded"
+                        placeholder="Category Name"
                         value={categoryName}
                         onChange={(e) => setCategoryName(e.target.value)}
                     />
@@ -120,7 +120,7 @@ const CategoryModal = ({ onClose, getAllCategories, type, categoryData }) => {
                     <label className="input-label">Category Image</label>
                     <input
                         type="file"
-                        className="text-2xl text-leather outline-none rounded bg-apricot"
+                        className="input-box"
                         onChange={handleFileChange}
                     />
                 </div>

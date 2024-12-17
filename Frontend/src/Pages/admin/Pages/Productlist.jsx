@@ -25,6 +25,18 @@ const Productlist = () => {
         }
     }
 
+    const handleDeleteProduct = async (productId) => {
+        try {
+            const response = await axiosInstance.delete(`/deleteproductbyid/${productId}`)
+            if (response.status === 200) {
+                console.log(response.data.data)
+                getAllProducts()
+            }
+        } catch (error) {
+            console.error('Error deleting product:', error)
+        }
+    }
+
     const handleAddProduct = async () => {
         setOpenModal({
             isShown: true,
@@ -90,7 +102,7 @@ const Productlist = () => {
                                         </td>
                                         <td className='py-4 px-6 text-center flex flex-col gap-1'>
                                             <button className='bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300'>Edit</button>
-                                            <button className='bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300'>Delete</button>
+                                            <button className='bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300' onClick={() => handleDeleteProduct(index._id)}>Delete</button>
                                         </td>
                                     </tr>
                                 )

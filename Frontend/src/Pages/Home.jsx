@@ -5,11 +5,13 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { NavLink } from 'react-router-dom';
 import ProductCard from '../Components/ProductCard/ProductCard';
 import axiosInstance from '../Components/utils/axiosInstance';
+import MythologicalBanner from '../assets/images/banner1.jpg'
 
 const Home = () => {
     const [selfhelp, setSelfhelp] = useState([])
     const [business, setBusiness] = useState([])
     const [manga, setManga] = useState([])
+    const [mythology, setMythology] = useState([])
     const [filepath, setFilepath] = useState("")
 
     const getData = async () => {
@@ -17,10 +19,12 @@ const Home = () => {
             const selfhelpResponse = await axiosInstance.get('/getallselfhelp')
             const businessResponse = await axiosInstance.get('/getbusiness')
             const mangaResponse = await axiosInstance.get('/getmanga')
+            const mythologyResponse = await axiosInstance.get('/mythologicbook')
             setManga(mangaResponse.data.data)
             setSelfhelp(selfhelpResponse.data.data)
             setBusiness(businessResponse.data.data)
             setFilepath(selfhelpResponse.data.filepath)
+            setMythology(mythologyResponse.data.data)
         } catch (error) {
             console.error(error)
         }
@@ -126,6 +130,25 @@ const Home = () => {
                                     )
                                 })
                             }
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div className='w-100vw h-[755px]' style={{ backgroundImage: `url(${MythologicalBanner})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}></div>
+                <div className='py-[12px]'>
+                    <div className='mx-[260px] mb-[25px] px-[50px]'>
+                        <h2 className='uppercase text-center text-[40px] font-bold mb-[30px]'>mythology</h2>
+                        <div className='px-[50px]'>
+                            <div className='pt-[16px] pb-[20px] grid grid-cols-4 gap-[100px]'>
+                                {
+                                    mythology && mythology.map((index) => {
+                                        return(
+                                            <ProductCard key={index._id} filepath={filepath} productId={index._id} productImage={index.thumbnail} productTitle={index.title} price={index.price} />
+                                        )
+                                    })
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>

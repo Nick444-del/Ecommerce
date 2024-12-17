@@ -51,9 +51,14 @@ const ProductDetails = () => {
                     <div className="w-full md:w-[50%] space-y-6">
                         <h2 className="text-3xl md:text-4xl font-semibold text-gray-800">{productData.title}</h2>
                         <h3 className="text-2xl text-green-600 font-bold">₹ <span className='text-black'>{productData.price}</span></h3>
-                        <button className="w-full md:w-auto px-6 py-3 bg-black text-white rounded-md hover:bg-white hover:text-black border transition-all">
-                            Add to Cart
-                        </button>
+                        <div className='flex flex-row gap-1'>
+                            <button className="w-full md:w-auto px-6 py-3 bg-black text-white rounded-md hover:bg-white hover:text-black border transition-all">
+                                Add to Cart
+                            </button>
+                            <button className="w-full md:w-auto px-6 py-3 bg-white text-black rounded-md hover:bg-black hover:text-white border transition-all">
+                                Buy Now
+                            </button>
+                        </div>
 
                         <div>
                             <h4 className="text-xl font-bold text-gray-700">Description:</h4>
