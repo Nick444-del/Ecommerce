@@ -7,7 +7,7 @@ const upload = multer({ storage: storage })
 
 export const getAllProduct = async (req, res) => {
     try {
-        const products = await productModel.find().populate('category').populate('review');
+        const products = await productModel.find().populate('category');
         return res.status(200).json({
             success: true,
             data: products,

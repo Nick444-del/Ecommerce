@@ -3,20 +3,19 @@ import mongoose from "mongoose";
 const schema = mongoose.Schema;
 
 const reviewModel = new schema({
-    product: {
+    productId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'product'
     },
-    users: {
+    usersId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'users'
     },
     rating: {
-        type: Array,
+        type: String,
         required: true,
-        default: [1, 2, 3, 4, 5]
     },
     review: {
         type: String,

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance from '../Components/utils/axiosInstance';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Modal from 'react-modal'
+import AddReview from '../Components/Modal/AddReview';
 
 const ProductDetails = () => {
     const [productData, setProductData] = useState({});
@@ -11,6 +13,12 @@ const ProductDetails = () => {
     const [error, setError] = useState(null);
     const { productId } = useParams();
     const navigate = useNavigate();
+    const [ openModal, setOpenModal ] = useState({
+        isShown: false,
+        type: 'add',
+        data: null,
+        productId: null
+    })
 
     const getProductDetails = async () => {
         try {
@@ -42,12 +50,13 @@ const ProductDetails = () => {
     }
 
     const givewReview = async (productId) => {
-        try {
-            const response = await axiosInstance.post(`/givereview/${productId}`)
-            console.log(response.data.data)
-        } catch (error) {
-            
-        }
+        console.log(productId)
+        setOpenModal({
+            isShown: true,
+            type: 'add',
+            data: null,
+            productId: productId
+        })
     }
 
     useEffect(() => {
@@ -100,6 +109,28 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </div>
+            <Modal
+                isOpen={openModal.isShown}
+                onRequestClose={() => { }}
+                style={{
+                    overlay: {
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    },
+                }}
+                contentLabel=''
+                className='w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-auto'
+            >
+                <AddReview 
+                    type={openModal.type}
+                    productId={openModal.productId}
+                    onClose={() => setOpenModal({ isShown: false, type: 'add', data: null, productId: null })}
+                />
+            </Modal>
         </div>
     );
 };

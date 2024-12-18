@@ -124,7 +124,6 @@ const ProductModal = ({ onClose, getAllProducts, type, productData }) => {
                             </option>
                         ))}
                     </select>
-
                 </div>
                 <div className='flex flex-col gap-2'>
                     <label className='text-sm font-medium'>Price</label>
