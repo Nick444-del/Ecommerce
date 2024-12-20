@@ -13,7 +13,7 @@ import Cart from './Pages/Cart';
 import ChangePassword from './Pages/ChangePassword';
 import Signup from './Pages/Signup';
 import ProfileDetails from './Pages/ProfileDetails';
-import Admin from './Pages/admin/Admin';
+import Favorite from './Pages/favorite';
 import CollectionProduct from './Pages/CollectionProduct';
 import axiosInstance from './Components/utils/axiosInstance';
 import Userlist from './Pages/admin/Pages/Userlist';
@@ -50,7 +50,7 @@ function App() {
       <Routes>
         {/* User routes */}
         <Route path='/bookwormdenn' element={<PublicRoute userInfo={userInfo} />} >
-          <Route path="/bookwormdenn" element={<Home />} />
+          <Route path="/bookwormdenn" element={<Home getUserInfo={getUserInfo} />} />
           <Route path="/bookwormdenn/about" element={<About />} />
           <Route path="/bookwormdenn/product" element={<Product />} />
           <Route path="/bookwormdenn/contact" element={<Contact />} />
@@ -60,16 +60,17 @@ function App() {
           <Route path='/bookwormdenn/productdetails/:productId' element={<ProductDetails />} />
           <Route path="/bookwormdenn/profiledetails" element={<ProfileDetails userInfo={userInfo} />} />
           <Route path='/bookwormdenn/profiledetails/changepassword' element={<ChangePassword />} />
+          <Route path='/bookwormdenn/favorite' element={<Favorite userInfo={userInfo} />} />
         </Route>
         {/* Admin routes */}
         <Route path="/bookwormdenn/admin" element={<AdminRoute />}>
-          <Route path='/bookwormdenn/admin/login' element={<AdminLogin />} />
           <Route path="/bookwormdenn/admin/userslist" element={<Userlist />} />
           <Route path="/bookwormdenn/admin/categorieslist" element={<Categorieslist />} />
           <Route path="/bookwormdenn/admin/productslist" element={<Productlist />} />
           <Route path='/bookwormdenn/admin/orderslist' element={<Orderlist />} />
         </Route>
 
+        <Route path='/bookwormdenn/adminlogin' element={<AdminLogin />} />
         <Route path="/bookwormdenn/login" element={<Login />} />
         <Route path="/bookwormdenn/signup" element={<Signup />} />
       </Routes>

@@ -3,10 +3,10 @@ import Appbar from '../Components/Appbar/Appbar'
 import Footer from '../Components/Footer/Footer'
 import { Outlet } from 'react-router-dom'
 
-const PublicRoute = ({ userInfo }) => {
+const PublicRoute = ({ userInfo, getUserInfo }) => {
     return (
         <>
-            <Appbar userInfo={userInfo}/>
+            <Appbar userInfo={userInfo} />
             <Outlet />
             <Footer />
         </>

@@ -23,7 +23,7 @@ const Orderlist = () => {
     return (
         <>
             {/* <AdminNavbar /> */}
-            <h1 className='text-[40px] font-bold text-center my-2'>Order List</h1>
+            <h1 className='text-3xl font-semibold text-gray-800'>Order List</h1>
         </>
     )
 }

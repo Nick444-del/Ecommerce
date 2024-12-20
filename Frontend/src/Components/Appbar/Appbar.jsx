@@ -5,6 +5,7 @@ import Searchbar from '../Searchbar/Searchbar'
 import logo1 from '../../assets/images/logi1.png'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Navigate, NavLink, useNavigate } from 'react-router-dom'
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const Appbar = ({ userInfo }) => {
     const [searchQuery, setSearchQuery] = useState('')
@@ -45,6 +46,7 @@ const Appbar = ({ userInfo }) => {
                     />
                 </div>
                 <div className='flex flex-row items-center justify-center gap-2'>
+                    <NavLink to='/bookwormdenn/favorite'><FavoriteIcon className='mx-[6px] text-red-600'/></NavLink>
                     <NavLink to="/bookwormdenn/cart"><ShoppingCartIcon className='mx-[10px] text-yellow-600' /></NavLink>
                     <ProfileIcon className='mx-[10px]' userInfo={userInfo} onLogout={onLogout} />
                     <div className="nav">

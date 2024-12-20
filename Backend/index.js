@@ -10,6 +10,7 @@ import addressRouter from './routers/address.router'
 import categoryRouter from './routers/category.router'
 import cartRouter from './routers/cart.router'
 import reviewRouter from './routers/review.router'
+import favoriteRouter from './routers/favorite.router'
 
 dotenv.config()
 
@@ -23,6 +24,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(
     cors({
         origin: "*",
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        allowedHeaders: 'Content-Type,Authorization',
     })
 )
 
@@ -42,3 +45,4 @@ app.use(addressRouter);
 app.use(categoryRouter);
 app.use(cartRouter);
 app.use(reviewRouter);
+app.use(favoriteRouter);

@@ -2,7 +2,7 @@ import reviewModel from "../models/review.model";
 
 export const getAllReviews = async (req, res) => {
     try {
-        const response = await reviewModel.find();
+        const response = await reviewModel.find().populate("usersId").populate("productId");
         return res.status(200).json({
             success: true,
             data: response,
@@ -19,7 +19,8 @@ export const getAllReviews = async (req, res) => {
 
 export const giveReview = async (req, res) => {
     try {
-        const userId = req.user._id; // Corrected property access (`req.user.user._id` -> `req.user._id`)
+        const usersId = req.user.user._id; // Corrected property access (`req.user.user._id` -> `req.user._id`)
+        console.log("Review User ID: "+usersId)
         const productId = req.params.productId;
         const { rating, review } = req.body;
 
@@ -31,7 +32,7 @@ export const giveReview = async (req, res) => {
         }
 
         const newReview = await reviewModel.create({
-            userId,
+            usersId,
             productId,
             rating,
             review
@@ -49,3 +50,21 @@ export const giveReview = async (req, res) => {
         });
     }
 };
+
+export const getProductReview = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+        const response = await reviewModel.find({ productId: productId }).populate('usersId').populate('productId');
+        return res.status(200).json({
+            success: true,
+            data: response,
+            error: false
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error.message
+        })
+    }
+}

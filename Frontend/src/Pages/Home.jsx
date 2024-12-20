@@ -7,7 +7,7 @@ import ProductCard from '../Components/ProductCard/ProductCard';
 import axiosInstance from '../Components/utils/axiosInstance';
 import MythologicalBanner from '../assets/images/banner1.jpg'
 
-const Home = () => {
+const Home = ({ getUserInfo }) => {
     const [selfhelp, setSelfhelp] = useState([])
     const [business, setBusiness] = useState([])
     const [manga, setManga] = useState([])
@@ -31,6 +31,7 @@ const Home = () => {
     }
 
     useEffect(() => {
+        getUserInfo()
         getData()
     }, [])
 

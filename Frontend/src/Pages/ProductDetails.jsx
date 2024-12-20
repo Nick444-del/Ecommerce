@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal'
 import AddReview from '../Components/Modal/AddReview';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const ProductDetails = () => {
     const [productData, setProductData] = useState({});
@@ -12,8 +13,9 @@ const ProductDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { productId } = useParams();
+    console.log(productId)
     const navigate = useNavigate();
-    const [ openModal, setOpenModal ] = useState({
+    const [openModal, setOpenModal] = useState({
         isShown: false,
         type: 'add',
         data: null,
@@ -25,6 +27,7 @@ const ProductDetails = () => {
             const response = await axiosInstance.get(`/getproductbyid/${productId}`);
             setProductData(response.data.data);
             setFilepath(response.data.filepath);
+            setLoading(false);
         } catch (error) {
             setError(error.message || 'Something went wrong!');
             console.error(error);
@@ -36,12 +39,35 @@ const ProductDetails = () => {
     const handleAddToCart = async (productId) => {
         try {
             const response = await axiosInstance.post(`/addproducttocart/${productId}`)
-            if(response.status === 200){
+            if (response.status === 200) {
                 setData(response.data.data)
                 console.log(data)
             }
             console.log(response.data.data)
             navigate('/bookwormdenn/cart')
+        } catch (error) {
+            if (error) {
+                console.log(error)
+            }
+        }
+    }
+
+    const getProductReview = async () => {
+        try {
+            const response = await axiosInstance.get(`/productreview/${productId}`)
+            console.log(response.data.data)
+        } catch (error) {
+
+        }
+    }
+
+    const handleAddToFavourites = async () => {
+        try {
+            const response = await axiosInstance.post(`/addfavorite/${productId}`)
+            if(response.status === 200){
+                alert("Added to favorites")
+                console.log(response.data.data)
+            }
         } catch (error) {
             if(error){
                 console.log(error)
@@ -49,7 +75,7 @@ const ProductDetails = () => {
         }
     }
 
-    const givewReview = async (productId) => {
+    const givewReview = async () => {
         console.log(productId)
         setOpenModal({
             isShown: true,
@@ -61,6 +87,7 @@ const ProductDetails = () => {
 
     useEffect(() => {
         getProductDetails();
+        getProductReview();
     }, [productId]);
 
     if (loading) {
@@ -88,12 +115,17 @@ const ProductDetails = () => {
                     <div className="w-full md:w-[50%] space-y-6">
                         <h2 className="text-3xl md:text-4xl font-semibold text-gray-800">{productData.title}</h2>
                         <h3 className="text-2xl text-green-600 font-bold">₹ <span className='text-black'>{productData.price}</span></h3>
-                        <div className='flex flex-row gap-1'>
-                            <button onClick={() => handleAddToCart(productData._id)} className="w-full md:w-auto px-6 py-3 bg-black text-white rounded-md hover:bg-white hover:text-black border transition-all">
-                                Add to Cart
-                            </button>
-                            <button className="w-full md:w-auto px-6 py-3 bg-white text-black rounded-md hover:bg-black hover:text-white border transition-all">
-                                Buy Now
+                        <div className='flex flex-row justify-between gap-1'>
+                            <div className='flex flex-row gap-1'>
+                                <button onClick={() => handleAddToCart(productData._id)} className="w-full md:w-auto px-6 py-3 bg-black text-white rounded-md hover:bg-white hover:text-black border transition-all">
+                                    Add to Cart
+                                </button>
+                                <button className="w-full md:w-auto px-6 py-3 bg-white text-black rounded-md hover:bg-black hover:text-white border transition-all">
+                                    Buy Now
+                                </button>
+                            </div>
+                            <button onClick={() => handleAddToFavourites(productData._id)} className='w-full md:w-auto px-6 py-3 bg-white text-black rounded-md hover:bg-black hover:text-white border transition-all'>
+                                <FavoriteBorderIcon className='text-red-500' />
                             </button>
                         </div>
                         <div>
@@ -125,7 +157,7 @@ const ProductDetails = () => {
                 contentLabel=''
                 className='w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-auto'
             >
-                <AddReview 
+                <AddReview
                     type={openModal.type}
                     productId={openModal.productId}
                     onClose={() => setOpenModal({ isShown: false, type: 'add', data: null, productId: null })}
