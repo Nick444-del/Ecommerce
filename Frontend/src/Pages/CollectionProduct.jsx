@@ -32,7 +32,7 @@ const CollectionProduct = () => {
 
     return (
         <>
-            <div className='lg:mx-[260px] lg:px-[50px] sm:mx-auto sm:px-auto'>
+            <div className='lg:mx-[100px] lg:px-[50px] sm:mx-auto sm:px-auto'>
                 <h1 className='my-[25px] text-[40px] capitalize font-bold'>{
                     category && category.map((index) => {
                         return (

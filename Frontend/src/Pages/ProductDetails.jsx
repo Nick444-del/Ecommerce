@@ -75,6 +75,17 @@ const ProductDetails = () => {
         }
     }
 
+    const removeFromFavourites = async () => {
+        try {
+            
+        } catch (error) {
+            
+        }
+    }
+
+    const checkProductInFavourites = async (productId) => {
+        console.log("Remove from Product ", productId)
+    }
     const givewReview = async () => {
         console.log(productId)
         setOpenModal({
@@ -86,6 +97,7 @@ const ProductDetails = () => {
     }
 
     useEffect(() => {
+        checkProductInFavourites(productId)
         getProductDetails();
         getProductReview();
     }, [productId]);

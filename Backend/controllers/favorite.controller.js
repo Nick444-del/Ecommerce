@@ -21,6 +21,19 @@ export const addFavorite = async (req, res) => {
     const userId = req.user.user._id;
     const productId = req.params.productId;
     try {
+        const existingProduct = await favoriteModel.findOne({
+            user: userId,
+            product: productId
+        })
+
+        if(existingProduct){
+            return res.status(400).json({
+                success: false,
+                data: null,
+                error: "Product already added to favorite"
+            })
+        }
+
         const response = await favoriteModel.create({
             user: userId,
             product: productId
@@ -61,3 +74,22 @@ export const getUserFavorite = async (req, res) => {
         });
     }
 };
+
+export const checkFavoriate = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+        const userId = req.user.user._id;
+        const response = await favoriteModel.findOne({
+            user: userId,
+            product: productId
+        })
+        return res.status(200).json({
+            success: true,
+            data: response,
+            error: false,
+            message: "Product is already favorited"
+        })
+    } catch (error) {
+        
+    }
+}

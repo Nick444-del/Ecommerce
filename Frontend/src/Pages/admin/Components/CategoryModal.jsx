@@ -2,46 +2,46 @@ import React, { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import axiosInstance from '../../../Components/utils/axiosInstance';
 
-const CategoryModal = ({ onClose, getAllCategories, type, categoryData }) => {
-    const [categoryName, setCategoryName] = useState(categoryData?.name || "");
-    const [categoryImage, setCategoryImage] = useState(null);
+const CategoryModal = ({ onClose, getAllCategories, type, filepath, categoryData }) => {
+    const [categoryName, setCategoryName] = useState(categoryData?.categoryName || "");
+    const [categoryImage, setCategoryImage] = useState( categoryData?.categoryImage ? filepath + '/' + categoryData.categoryImage : null );
+    const [categoryFile, setCategoryFile] = useState(null)
     const [error, setError] = useState(null);
-
+    console.log('categoryData', categoryData)
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             console.log("Selected file:", file); // Debugging log
-            setCategoryImage(file);
+            setCategoryFile(file)
+            setCategoryImage(URL.createObjectURL(file));
         } else {
             console.warn("No file selected."); // Debugging log
         }
     };
 
+
     const addCategory = async () => {
+        setCategoryName("")
+        setCategoryImage(null)
         if (!categoryName) {
             setError("Please enter category name");
             return;
         }
-
-        if (!categoryImage) {
+        if (!categoryFile) {
             setError("Please select category image");
             return;
         }
-
         const formData = new FormData();
         formData.append("categoryName", categoryName);
-        formData.append("categoryImage", categoryImage);
-
+        formData.append("categoryImage", categoryFile); // Use the actual file
         try {
             console.log("Submitting FormData:"); // Debugging log
             formData.forEach((value, key) => console.log(key, value)); // Log FormData contents
-
             const response = await axiosInstance.post('/createCategory', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-
             if (response.data && response.data.data) {
                 console.log("Category added successfully:", response.data.data); // Debugging log
                 getAllCategories();
@@ -49,36 +49,41 @@ const CategoryModal = ({ onClose, getAllCategories, type, categoryData }) => {
             }
         } catch (error) {
             console.error("Error adding category:", error); // Debugging log
-
             if (error.response?.data?.message) {
                 setError(error.response.data.message);
             } else {
                 setError("An unexpected error occurred. Please try again.");
             }
         }
-    };
+    };    
 
     const editCategory = async () => {
         const formData = new FormData();
         formData.append("categoryName", categoryName);
-        if (categoryImage) {
-            formData.append("categoryImage", categoryImage);
+        if (categoryFile) {
+            formData.append("categoryImage", categoryFile); // Use the actual file
         }
-
         try {
-            const response = await axiosInstance.put(`/updateCategory/${categoryData.id}`, formData);
-            if (response.data && response.data.data) {
+            console.log(categoryData._id);
+            const response = await axiosInstance.put(`/updateCategory/${categoryData._id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            if (response.data && response.data.success) {
+                console.log("Category updated successfully:", response.data);
                 getAllCategories();
                 onClose();
             }
         } catch (error) {
+            console.error("Error updating category:", error);
             if (error.response?.data?.message) {
                 setError(error.response.data.message);
             } else {
                 setError("An error occurred while updating the category.");
             }
         }
-    };
+    }
 
     const handleAddCategory = () => {
         if (!categoryName) {
@@ -96,7 +101,7 @@ const CategoryModal = ({ onClose, getAllCategories, type, categoryData }) => {
             addCategory()
         }
     }
-
+console.log(categoryImage)
     return (
         <>
             <div className="relative">
@@ -124,9 +129,15 @@ const CategoryModal = ({ onClose, getAllCategories, type, categoryData }) => {
                         onChange={handleFileChange}
                     />
                 </div>
+                <div>
+                    {
+                        categoryImage ? <img src={categoryImage} width={100} height={100} /> : null
+                    }
+                </div>
                 {error && <p className='text-sm text-red-600'>{error}</p>}
                 <button className='btn-primary font-medium my-1 p-3' onClick={handleAddCategory}>
-                    Submit
+                    {/* Submit */}
+                    {type === "edit" ? "Update" : "Submit"}
                 </button>
             </div>
         </>

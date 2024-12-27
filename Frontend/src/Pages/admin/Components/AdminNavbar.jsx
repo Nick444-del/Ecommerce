@@ -31,7 +31,7 @@ export default function AdminNavbar() {
                         <LeftDrawer />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        ADMIN DASHBOARD
+                        BOOKWORMDENN ADMIN DASHBOARD
                     </Typography>
                     <Button color="inherit" onClick={onLogout}>Logout</Button>
                 </Toolbar>

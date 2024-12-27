@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import axiosInstance from '../../../Components/utils/axiosInstance'
-import AdminNavbar from '../Components/AdminNavbar'
 
 const Userlist = () => {
     const [userData, setUserData] = useState()

@@ -4,7 +4,7 @@ import axiosInstance from '../utils/axiosInstance'
 import { useNavigation } from 'react-router-dom'
 
 
-const NewAddress = ({ isOpen, onClose }) => {
+const NewAddress = ({ isOpen, onClose, fetchAddresses }) => {
     const [fullname, setFullname] = useState("");
     const [mobile, setModbile] = useState("");
     const [address, setAddress] = useState("");
@@ -34,6 +34,7 @@ const NewAddress = ({ isOpen, onClose }) => {
                     onClose();
                 }
             }
+            fetchAddresses();
         } catch (error) {
             if (error.response && error.response.data && error.response.data.error) {
                 setError(error.response.data.error);
@@ -49,6 +50,7 @@ const NewAddress = ({ isOpen, onClose }) => {
         }
         setError("");
         addAddress()
+        fetchAddresses()
     }
 
     return (

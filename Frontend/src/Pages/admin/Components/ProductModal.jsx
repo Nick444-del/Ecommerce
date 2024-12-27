@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react'
 import axiosInstance from '../../../Components/utils/axiosInstance'
 import CloseIcon from '@mui/icons-material/Close';
 
-const ProductModal = ({ onClose, getAllProducts, type, productData }) => {
-    const [title, setTitle] = useState("")
-    const [category, setCategory] = useState("")
-    const [price, setPrice] = useState(0)
-    const [quantity, setQuantity] = useState(0)
-    const [descriptions, setDescriptions] = useState("")
-    const [thumbnail, setThumbnail] = useState(null)
-    const [author, setAuthor] = useState("")
+const ProductModal = ({ onClose, getAllProducts, type, productData, filePath }) => {
+    const [title, setTitle] = useState(productData?.title || "")
+    const [category, setCategory] = useState(productData?.category || "")
+    const [price, setPrice] = useState(productData?.price || 0)
+    const [quantity, setQuantity] = useState(productData?.quantity || 0)
+    const [descriptions, setDescriptions] = useState(productData?.descriptions || "")
+    const [thumbnail, setThumbnail] = useState(productData?.thumbnail ? filePath + '/' + productData.thumbnail : null)
+    const [author, setAuthor] = useState(productData?.author || "")
     const [error, setError] = useState(null)
     const [categoryData, setCategoryData] = useState([])
 
@@ -31,36 +31,8 @@ const ProductModal = ({ onClose, getAllProducts, type, productData }) => {
             console.warn("No file selected.");
         }
     }
-    const addProduct = async () => {
-        if (!title) {
-            setError("Please enter product title");
-            return;
-        }
-        if (!category) {
-            setError("Please enter product category");
-            return;
-        }
-        if (!price) {
-            setError("Please enter product price");
-            return;
-        }
-        if (!quantity) {
-            setError("Please enter product quantity");
-            return;
-        }
-        if (!descriptions) {
-            setError("Please enter product description");
-            return;
-        }
-        if (!thumbnail) {
-            setError("Please select product thumbnail");
-            return;
-        }
-        if (!author) {
-            setError("Please enter product author");
-            return;
-        }
-        setError("")
+
+    const addProductData = async () => {
         const formData = new FormData();
         formData.append("title", title);
         formData.append("category", category);
@@ -92,6 +64,45 @@ const ProductModal = ({ onClose, getAllProducts, type, productData }) => {
             } else {
                 setError("An unexpected error occurred. Please try again.");
             }
+        }
+    }
+
+    const editProductData = async () => { }
+
+    const addProduct = async () => {
+        if (!title) {
+            setError("Please enter product title");
+            return;
+        }
+        if (!category) {
+            setError("Please enter product category");
+            return;
+        }
+        if (!price) {
+            setError("Please enter product price");
+            return;
+        }
+        if (!quantity) {
+            setError("Please enter product quantity");
+            return;
+        }
+        if (!descriptions) {
+            setError("Please enter product description");
+            return;
+        }
+        if (!thumbnail) {
+            setError("Please select product thumbnail");
+            return;
+        }
+        if (!author) {
+            setError("Please enter product author");
+            return;
+        }
+        setError("")
+        if (type === "edit") {
+            editProductData()
+        } else {
+            addProductData()
         }
     }
 
@@ -137,9 +148,16 @@ const ProductModal = ({ onClose, getAllProducts, type, productData }) => {
                     <label className='text-sm font-medium'>Description</label>
                     <input className='text-2xl text-leather outline-none rounded' type="text" placeholder='Description' value={descriptions} onChange={(e) => setDescriptions(e.target.value)} />
                 </div>
-                <div className='flex flex-col gap-2'>
-                    <label className='text-sm font-medium'>Thumbnail</label>
-                    <input className='input-box' type="file" onChange={handleFileChange} />
+                <div className='flex gap-2'>
+                    <div>
+                        <label className='text-sm font-medium'>Thumbnail</label>
+                        <input className='input-box' type="file" onChange={handleFileChange} />
+                    </div>
+                    <div>
+                        {
+                            thumbnail ? <img src={thumbnail} width={100} height={100} alt="Thumbnail" /> : null
+                        }
+                    </div>
                 </div>
                 <div className='flex flex-col gap-2'>
                     <label className='text-sm font-medium'>Author</label>
@@ -149,7 +167,7 @@ const ProductModal = ({ onClose, getAllProducts, type, productData }) => {
                     {error && <p className='text-sm text-red-500'>{error}</p>}
                 </div>
                 <div className='flex flex-col gap-2'>
-                    <button className='btn-primary' onClick={addProduct}>Add Product</button>
+                    <button className='btn-primary' onClick={addProduct}>{type === "edit" ? "Update" : "ADD PRODUCT"}</button>
                 </div>
             </div>
         </div>

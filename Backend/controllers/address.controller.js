@@ -92,5 +92,4 @@ export const deleteAddress = async (req, res) => {
             error: error.message
         })
     }
-    next();
 }

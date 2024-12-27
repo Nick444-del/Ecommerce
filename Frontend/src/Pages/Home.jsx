@@ -104,10 +104,10 @@ const Home = ({ getUserInfo }) => {
                 </div>
             </section>
             <section className='self-help-section py-[36px]'>
-                <div className='mx-[260px] mb-[25px] px-[50px]'>
+                <div className='mx-[100px] mb-[25px] px-[50px]'>
                     <h1 className='mb-[30px] text-[40px] font-bold text-center'>Self-Help Collection</h1>
                     <div className='px-[50px]'>
-                        <div className='mt-[16px] mb-[20px] grid grid-cols-5 gap-[230px]'>
+                        <div className='mt-[16px] mb-[20px] grid grid-cols-[repeat(4,300px)] gap-4'>
                             {
                                 selfhelp.map((index) => {
                                     return(
@@ -120,10 +120,10 @@ const Home = ({ getUserInfo }) => {
                 </div>
             </section>
             <section className='Business-Startups py-[36px]'>
-                <div className='mx-[260px] mb-[25px] px-[50px]'>
+                <div className='mx-[100px] mb-[25px] px-[50px]'>
                     <h1 className='mb-[30px] text-[40px] font-bold text-center'>Business & Startups</h1>
                     <div className='px-[50px]'>
-                        <div className='mt-[16px] mb-[20px] grid grid-cols-5 gap-[230px]'>
+                        <div className='mt-[16px] mb-[20px] grid grid-cols-[repeat(4,300px)] gap-4'>
                             {
                                 business.map((index) => {
                                     return(
@@ -138,10 +138,10 @@ const Home = ({ getUserInfo }) => {
             <section>
                 <div className='w-100vw h-[755px]' style={{ backgroundImage: `url(${MythologicalBanner})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}></div>
                 <div className='py-[12px]'>
-                    <div className='mx-[260px] mb-[25px] px-[50px]'>
+                    <div className='mx-[100px] mb-[25px] px-[50px]'>
                         <h2 className='uppercase text-center text-[40px] font-bold mb-[30px]'>mythology</h2>
                         <div className='px-[50px]'>
-                            <div className='pt-[16px] pb-[20px] grid grid-cols-4 gap-[100px]'>
+                            <div className='pt-[16px] pb-[20px] grid grid-cols-[repeat(4,300px)] gap-4'>
                                 {
                                     mythology && mythology.map((index) => {
                                         return(
@@ -151,13 +151,6 @@ const Home = ({ getUserInfo }) => {
                                 }
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-            <section>
-                <div className='pt-[36px] pb-[12px]'>
-                    <div className='mx-[260px] px-[50px]'>
-                        
                     </div>
                 </div>
             </section>

@@ -24,7 +24,7 @@ const Product = () => {
 
     return (
         <>
-            <div className='lg:mx-[260px] lg:px-[50px] sm:mx-auto sm:px-auto title'>
+            <div className='lg:mx-[100px] lg:px-[50px] sm:mx-auto sm:px-auto title'>
                 <h1 className='my-[25px] text-[40px] md:text-center font-bold'>Product's</h1>
                 <div className='flex justify-between'>
                     <div className='flex gap-3'>

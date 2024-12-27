@@ -32,9 +32,9 @@ const Favorite = () => {
 
 
     return (
-        <div className='mx-[250px]'>
+        <div className='mx-[100px]'>
             <h1 className='text-[40px] my-[20px] font-bold'>Favorite</h1>
-            <div className='grid grid-cols-4 gap-4 my-3'>
+            <div className='grid grid-cols-4 my-3'>
                 {
                     productData.map((product) => (
                         <ProductCard key={product._id} filepath={filepath} productTitle={product.title} productId={product._id} productImage={product.thumbnail} price={product.price} product={product} />
