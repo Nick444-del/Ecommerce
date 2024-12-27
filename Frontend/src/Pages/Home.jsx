@@ -107,59 +107,85 @@ const Home = ({ getUserInfo }) => {
                     </div>
                 </div>
             </section>
-            <section className='newArrivals'>
-            </section>
-            <section className='self-help-section py-[36px]'>
-                <div className='mx-[100px] mb-[25px] px-[50px]'>
-                    <h1 className='mb-[30px] text-[40px] font-bold text-center'>Self-Help Collection</h1>
-                    <div className='px-[50px]'>
-                        <div className='mt-[16px] mb-[20px] grid grid-cols-[repeat(4,300px)] gap-4'>
-                            {
-                                selfhelp.map((index) => {
-                                    return(
-                                        <ProductCard key={index._id} filepath={filepath} productId={index._id} productImage={index.thumbnail} productTitle={index.title} price={index.price} />
-                                    )
-                                })
-                            }
+            <section className='self-help-section py-9 bg-gray-50'>
+                <div className='container mx-auto px-4'>
+                    <h1 className='mb-8 text-3xl md:text-4xl font-bold text-center text-gray-800'>Self-Help Collection</h1>
+                    <div className='flex justify-center'>
+                        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+                            {selfhelp.map((index) => (
+                                <ProductCard
+                                    key={index._id}
+                                    filepath={filepath}
+                                    productId={index._id}
+                                    productImage={index.thumbnail}
+                                    productTitle={index.title}
+                                    price={index.price}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>
             </section>
-            <section className='Business-Startups py-[36px]'>
-                <div className='mx-[100px] mb-[25px] px-[50px]'>
-                    <h1 className='mb-[30px] text-[40px] font-bold text-center'>Business & Startups</h1>
-                    <div className='px-[50px]'>
-                        <div className='mt-[16px] mb-[20px] grid grid-cols-[repeat(4,300px)] gap-4'>
-                            {
-                                business.map((index) => {
-                                    return(
-                                        <ProductCard key={index._id} filepath={filepath} productId={index._id} productImage={index.thumbnail} productTitle={index.title} price={index.price} />
-                                    )
-                                })
-                            }
+
+
+            <section className='Business-Startups py-9 bg-gray-50'>
+                <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
+                    {/* Section Title */}
+                    <h1 className='mb-8 text-3xl sm:text-4xl font-bold text-center text-gray-800'>
+                        Business & Startups
+                    </h1>
+
+                    {/* Product Grid */}
+                    <div className='flex justify-center'>
+                        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+                            {business.map((product) => (
+                                <ProductCard
+                                    key={product._id}
+                                    filepath={filepath}
+                                    productId={product._id}
+                                    productImage={product.thumbnail}
+                                    productTitle={product.title}
+                                    price={product.price}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>
             </section>
+
             <section>
-                <div className='w-100vw h-[755px]' style={{ backgroundImage: `url(${MythologicalBanner})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}></div>
-                <div className='py-[12px]'>
-                    <div className='mx-[100px] mb-[25px] px-[50px]'>
-                        <h2 className='uppercase text-center text-[40px] font-bold mb-[30px]'>mythology</h2>
-                        <div className='px-[50px]'>
-                            <div className='pt-[16px] pb-[20px] grid grid-cols-[repeat(4,300px)] gap-4'>
-                                {
-                                    mythology && mythology.map((index) => {
-                                        return(
-                                            <ProductCard key={index._id} filepath={filepath} productId={index._id} productImage={index.thumbnail} productTitle={index.title} price={index.price} />
-                                        )
-                                    })
-                                }
+                {/* Background Section */}
+                <div
+                    className='w-full h-[755px] bg-cover bg-center bg-no-repeat'
+                    style={{ backgroundImage: `url(${MythologicalBanner})` }}
+                ></div>
+
+                {/* Content Section */}
+                <div className='py-4'>
+                    <div className='container mx-auto px-4'>
+                        {/* Title */}
+                        <h2 className='uppercase text-center text-3xl md:text-4xl font-bold mb-8 text-gray-800'>Mythology</h2>
+
+                        {/* Card Grid */}
+                        <div className='flex justify-center'>
+                            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+                                {mythology && mythology.map((product) => (
+                                    <div key={product._id} className='flex justify-center'>
+                                        <ProductCard
+                                            filepath={filepath}
+                                            productId={product._id}
+                                            productImage={product.thumbnail}
+                                            productTitle={product.title}
+                                            price={product.price}
+                                        />
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
+
         </div>
     )
 }

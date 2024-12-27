@@ -6,13 +6,16 @@ import ProductCard from '../ProductCard/ProductCard';
 
 const responsive = {
     0: { items: 1 },
-    568: { items: 2 },
+    640: { items: 2 },
     1024: { items: 3 },
+    1280: { items: 4 },
 };
 
 export const NewArrivals = () => {
     const [products, setProducts] = useState([]);
     const [filepath, setFilepath] = useState('');
+
+    // Fetch New Arrivals
     const getNewArrivals = async () => {
         try {
             const response = await axiosInstance.get('/newarrivals');
@@ -29,7 +32,7 @@ export const NewArrivals = () => {
 
     // Map products to ProductCard components
     const items = products.map((product) => (
-        <div key={product._id} className="p-4">
+        <div key={product._id} className="p-4 flex justify-center">
             <ProductCard
                 filepath={filepath}
                 productId={product._id}
@@ -42,9 +45,9 @@ export const NewArrivals = () => {
 
     return (
         <section className="py-10 bg-gray-50">
-            <div className="container mx-auto text-center">
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">New Arrivals</h2>
-                <div className="relative">
+            <div className="container mx-auto px-4 text-center">
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8">New Arrivals</h2>
+                <div className="relative flex justify-center">
                     <AliceCarousel
                         mouseTracking
                         items={items}
@@ -54,6 +57,7 @@ export const NewArrivals = () => {
                         autoPlayInterval={3000}
                         infinite
                         disableDotsControls
+                        disableButtonsControls={false}
                     />
                 </div>
             </div>
