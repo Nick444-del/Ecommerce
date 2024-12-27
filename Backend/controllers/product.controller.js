@@ -195,7 +195,7 @@ export const deleteProductById = async (req, res) => {
                 error: 'Product not found'
             });
         }
-        if(deletedProduct.thumbnail) {
+        if (deletedProduct.thumbnail) {
             console.log(`./uploads/${deletedProduct.thumbnail}`)
             console.log('Deleting product with thumbnail:' + deletedProduct.thumbnail)
             fs.unlinkSync(`./uploads/${deletedProduct.thumbnail}`);
@@ -229,5 +229,29 @@ export const favoriteProduct = async (req, res) => {
             data: null,
             error: error.message
         })
+    }
+}
+
+export const newArrival = async (req, res) => {
+    try {
+        const fifteenDaysAgo = new Date();
+        fifteenDaysAgo.setDate(fifteenDaysAgo.getDate() - 15)
+        const newArrival = await productModel.find({
+            date: { $gte: fifteenDaysAgo }
+        }).sort({ date: -1 })
+
+        return res.status(200).json({
+            success: true,
+            message: "New arrival products fetched successfully",
+            data: newArrival,
+            filePath: "http://localhost:5000/uploads/"
+        })
+    } catch (error) {
+        console.error("Error fetching new arrival products:", error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch new arrival products.",
+            error: error.message
+        });
     }
 }

@@ -14,8 +14,8 @@ router.put("/addaddress/:userId", addAddress);
 router.put("/addAddressByReq", authenticateToken, addAddressByReq);
 router.delete("/deleteaddress/:addressId", deleteAddress);
 router.post("/adminlogin", authenticate, admin, adminlogin);
-router.get('/getalluserstoadmin', getAllUsers)
-router.delete("/deleteuserinadmin/:userId", deleteUser);
+router.get('/getalluserstoadmin', authenticate, admin, getAllUsers)
+router.delete("/deleteuserinadmin/:userId",  authenticate, admin, deleteUser);
 router.put("/changepassword", authenticateToken, changePassword)
 
 export default router;

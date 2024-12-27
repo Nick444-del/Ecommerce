@@ -3,6 +3,7 @@ import hero1 from '../assets/images/hero1.jpg'
 import categoryData from '../Components/category'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { NavLink } from 'react-router-dom';
+import { NewArrivals } from '../Components/Carousel/NewArrivals';
 import ProductCard from '../Components/ProductCard/ProductCard';
 import axiosInstance from '../Components/utils/axiosInstance';
 import MythologicalBanner from '../assets/images/banner1.jpg'
@@ -68,6 +69,9 @@ const Home = ({ getUserInfo }) => {
                     </div>
                 </div>
             </section>
+            <section>
+                <NewArrivals />
+            </section>
             <section className='section3 flex items-center justify-center pt-[16px] pb-[24px] px-[50px]'>
                 <div className='mb-[30px]'>
                     <div className='flex items-center justify-center'>
@@ -102,6 +106,8 @@ const Home = ({ getUserInfo }) => {
                         </button>
                     </div>
                 </div>
+            </section>
+            <section className='newArrivals'>
             </section>
             <section className='self-help-section py-[36px]'>
                 <div className='mx-[100px] mb-[25px] px-[50px]'>

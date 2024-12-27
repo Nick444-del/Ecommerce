@@ -3,20 +3,32 @@ import usersModel from "../models/users.model";
 
 export const getAllUsers = async (req, res) => {
     try {
-        const users = await usersModel.find().populate("address");
-        return res.status(200).json({
-            success: true,
-            data: users,
-            error: false
-        })
+        const adminId = req.user._id; // Extracting admin ID from authenticated user
+
+        if (adminId) {
+            const users = await usersModel.find().select('-password'); // Exclude sensitive data like password
+            return res.status(200).json({
+                success: true,
+                message: "Users fetched successfully",
+                data: users
+            });
+        } else {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized access",
+                data: null
+            });
+        }
     } catch (error) {
+        console.error('Error fetching users:', error);
         return res.status(500).json({
             success: false,
-            data: null,
-            error: error
-        })
+            message: "Failed to fetch users",
+            error: error.message
+        });
     }
-}
+};
+
 
 export const register = async (req, res) => {
     try {
