@@ -13,6 +13,7 @@ import Cart from './Pages/Cart';
 import ChangePassword from './Pages/ChangePassword';
 import Signup from './Pages/Signup';
 import ProfileDetails from './Pages/ProfileDetails';
+import OrderHistory from './Pages/OrderHistory';
 import Favorite from './Pages/favorite';
 import CollectionProduct from './Pages/CollectionProduct';
 import axiosInstance from './Components/utils/axiosInstance';
@@ -63,6 +64,7 @@ function App() {
           <Route path='/bookwormdenn/category/:categoryId' element={<CollectionProduct />} />
           <Route path='/bookwormdenn/productdetails/:productId' element={<ProductDetails />} />
           <Route path="/bookwormdenn/profiledetails" element={<ProfileDetails userInfo={userInfo} />} />
+          <Route path='/bookwormdenn/profiledetails/orderhistory' element={<OrderHistory />} />
           <Route path='/bookwormdenn/profiledetails/changepassword' element={<ChangePassword />} />
           <Route path='/bookwormdenn/favorite' element={<Favorite userInfo={userInfo} />} />
         </Route>

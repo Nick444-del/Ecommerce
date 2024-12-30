@@ -22,6 +22,20 @@ export const addProducttoCart = async (req, res) => {
                 error: "User not found"
             });
         }
+
+        const existingCartItem = await cartModel.findOne({ userId, productId })
+
+        if(existingCartItem){
+            existingCartItem.quantity += 1;
+            await existingCartItem.save();
+            return res.status(200).json({
+                success: true,
+                data: existingCartItem,
+                error: false,
+                message: "Product quantity has been updated"
+            })
+        }
+
         const response = await cartModel.create({
             userId: userId,
             productId: productId
@@ -29,7 +43,8 @@ export const addProducttoCart = async (req, res) => {
         return res.status(200).json({
             success: true,
             data: response,
-            error: false
+            error: false,
+            message: "Product added to cart successfully!"
         })
     } catch (error) {
         console.error("Error adding product to cart:", error);

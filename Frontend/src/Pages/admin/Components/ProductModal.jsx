@@ -67,7 +67,31 @@ const ProductModal = ({ onClose, getAllProducts, type, productData, filePath }) 
         }
     }
 
-    const editProductData = async () => { }
+    const editProductData = async () => {
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("category", category);
+        formData.append("price", price);
+        formData.append("quantity", quantity);
+        formData.append("descriptions", descriptions);
+        formData.append("thumbnail", thumbnail);
+        formData.append("author", author);
+
+        try {
+            const response = await axiosInstance.put(`/editproduct/${productData._id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+
+            if (response.data && response.data.data) {
+                getAllProducts();
+                onClose();
+            }
+        } catch (error) {
+            setError(error.response?.data?.message || "An unexpected error occurred.");
+        }
+    }
 
     const addProduct = async () => {
         if (!title) {

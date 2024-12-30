@@ -7,6 +7,8 @@ import { NewArrivals } from '../Components/Carousel/NewArrivals';
 import ProductCard from '../Components/ProductCard/ProductCard';
 import axiosInstance from '../Components/utils/axiosInstance';
 import MythologicalBanner from '../assets/images/banner1.jpg'
+import selfhelpBanner from '../assets/images/banner2.webp';
+import businessBanner from '../assets/images/banner3.webp';
 
 const Home = ({ getUserInfo }) => {
     const [selfhelp, setSelfhelp] = useState([])
@@ -108,6 +110,10 @@ const Home = ({ getUserInfo }) => {
                 </div>
             </section>
             <section className='self-help-section py-9 bg-gray-50'>
+                <div
+                    className='w-full h-[755px] bg-cover bg-center my-[30px] bg-no-repeat'
+                    style={{ backgroundImage: `url(${selfhelpBanner})` }}
+                ></div>
                 <div className='container mx-auto px-4'>
                     <h1 className='mb-8 text-3xl md:text-4xl font-bold text-center text-gray-800'>Self-Help Collection</h1>
                     <div className='flex justify-center'>
@@ -129,6 +135,10 @@ const Home = ({ getUserInfo }) => {
 
 
             <section className='Business-Startups py-9 bg-gray-50'>
+                <div
+                    className='w-full h-[755px] bg-cover bg-center my-[30px] bg-no-repeat'
+                    style={{ backgroundImage: `url(${businessBanner})` }}
+                ></div>
                 <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
                     {/* Section Title */}
                     <h1 className='mb-8 text-3xl sm:text-4xl font-bold text-center text-gray-800'>

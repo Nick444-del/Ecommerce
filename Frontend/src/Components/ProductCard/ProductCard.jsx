@@ -17,7 +17,7 @@ const ProductCard = ({ productId, productImage, productTitle, price, filepath })
             }
             console.log(response.data.data)
             // navigate('/bookwormdenn/cart')
-            toast('Added to Cart', {
+            toast(response.data.message, {
                 icon: '🛒'
             })
         } catch (error) {

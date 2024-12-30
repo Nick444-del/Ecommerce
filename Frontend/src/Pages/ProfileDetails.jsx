@@ -105,6 +105,11 @@ const ProfileDetails = ({ userInfo }) => {
                             Change Password
                         </button>
                     </NavLink>
+                    <NavLink to="/bookwormdenn/profiledetails/orderhistory">
+                        <button className='my-3 w-[150px] h-[45px] bg-black text-white hover:text-black hover:bg-white transition-colors rounded-md'>
+                            View Order History
+                        </button>
+                    </NavLink>
                 </div>
             </div>
 

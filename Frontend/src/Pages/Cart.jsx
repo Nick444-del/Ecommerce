@@ -3,6 +3,7 @@ import axiosInstance from '../Components/utils/axiosInstance'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
+import toast from 'react-hot-toast'
 
 const Cart = () => {
     const [cartData, setCartData] = useState([]);
@@ -43,6 +44,7 @@ const Cart = () => {
         console.log("Removed data from cart: " + resposne.data.data)
         if (resposne.data && resposne.data.data) {
             setCartData(resposne.data.data)
+            toast.success(resposne.data.message)
         }
         getAllData()
     }
@@ -81,17 +83,34 @@ const Cart = () => {
                                     <p className='text-gray-700'>{item.productId.descriptions.slice(0, 150)}...</p>
                                     <div className='mt-4 flex items-center'>
                                         <span className='text-lg font-semibold text-green-600'>₹{item.productId.price}</span>
-                                        <div className='ml-6'>
-                                            <button onClick={() => removeFromCart(item._id)} className='bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600'>
-                                                <DeleteIcon />
-                                            </button>
-                                        </div>
                                     </div>
                                     <div className='flex justify-between items-center mt-1'>
                                         <div className='mt-2 flex items-center'>
-                                            <span className='text-lg'>Quantity: {item.quantity}  <AddIcon className='text-lg cursor-pointer' onClick={() => IncreaseQuantity(item._id)} /><RemoveIcon className='text-lg cursor-pointer' onClick={() => DecreaseQuantity(item._id)} /></span>
+                                            <span className='text-lg'>Quantity: {item.quantity}  <span className='flex items-center justify-center'>
+                                                <button
+                                                    className='text-lg cursor-pointer px-2 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition'
+                                                    onClick={() => IncreaseQuantity(item._id)}
+                                                    aria-label="Increase Quantity"
+                                                >
+                                                    <AddIcon />
+                                                </button>
+
+                                                <button
+                                                    className='text-lg cursor-pointer px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition'
+                                                    onClick={() => DecreaseQuantity(item._id)}
+                                                    aria-label="Decrease Quantity"
+                                                >
+                                                    <RemoveIcon />
+                                                </button>
+                                            </span>
+                                            </span>
                                         </div>
                                     </div>
+                                </div>
+                                <div className='ml-6 flex items-start justify-start'>
+                                    <button onClick={() => removeFromCart(item._id)} className='bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600'>
+                                        <DeleteIcon />
+                                    </button>
                                 </div>
                             </div>
                         ))

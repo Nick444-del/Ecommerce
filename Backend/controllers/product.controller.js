@@ -255,3 +255,53 @@ export const newArrival = async (req, res) => {
         });
     }
 }
+
+export const editProduct = async (req, res) => {
+    const productId = req.params.productId;
+    const updateDataWithImage = upload.fields([{ name: 'thumbnail', maxCount: 1 }])
+    updateDataWithImage(req, res, async (err) => {
+        if (err) {
+            return res.status(500).json({
+                error: true,
+                success: false,
+                message: `File upload error: ${err.message}`
+            })
+        }
+
+        const find = await productModel.findById(productId)
+        if (!find) {
+            return res.status(404).json({
+                error: true,
+                success: false,
+                message: "Product not found"
+            })
+        }
+        try {
+            let thumbnail = find.thumbnail;
+            if(req.files["thumbnail"]){
+                thumbnail = req.files["thumbnail"][0].filename;
+            }
+            const { title, category, price, quantity, author, descriptions } = req.body;
+            await productModel.updateOne({ _id: productId }, {
+                title: title,
+                category: category,
+                price: price,
+                quantity: quantity,
+                descriptions: descriptions,
+                thumbnail: thumbnail,
+                author: author
+            })
+            return res.status(200).json({
+                error: false,
+                success: true,
+                message: "Product updated successfully"
+            })
+        } catch (error) {
+            return res.status(500).json({
+                error: true,
+                success: false,
+                message: error.message
+            })
+        }
+    })
+}

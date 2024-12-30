@@ -128,7 +128,7 @@ const Categorieslist = () => {
                         backgroundColor: "rgba(0,0,0,0.5)",
                     },
                 }}
-                className='w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-auto'
+                className='w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-20 p-5 overflow-auto'
             >
                 <CategoryModal
                     type={openModal.type}

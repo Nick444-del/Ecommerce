@@ -12,6 +12,7 @@ import cartRouter from './routers/cart.router'
 import reviewRouter from './routers/review.router'
 import favoriteRouter from './routers/favorite.router'
 import ContactRouter from './routers/contact.router'
+// import paymentRouter from './routers/payment.router'
 
 dotenv.config()
 
@@ -48,3 +49,4 @@ app.use(cartRouter);
 app.use(reviewRouter);
 app.use(favoriteRouter);
 app.use(ContactRouter);
+// app.use(paymentRouter);

@@ -10,7 +10,7 @@ const Dashboard = () => {
 
     const dataFetch = async () => {
         try {
-            const userresponse = await axiosInstance.get('/getallusers')
+            const userresponse = await axiosInstance.get('/getalluserstoadmin')
             const categoryresponse = await axiosInstance.get('/getallcategory')
             const productresponse = await axiosInstance.get('/getallproduct')
             setUser(userresponse.data.data)

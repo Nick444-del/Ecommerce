@@ -100,6 +100,14 @@ const ProductDetails = () => {
         })
     }
 
+    const buyNow = async (productId) => {
+        try {
+            console.log("Buy Now", productId)
+        } catch (error) {
+            
+        }
+    }
+
     useEffect(() => {
         checkProductInFavourites(productId)
         getProductDetails();
@@ -136,7 +144,7 @@ const ProductDetails = () => {
                                 <button onClick={() => handleAddToCart(productData._id)} className="w-full md:w-auto px-6 py-3 bg-black text-white rounded-md hover:bg-white hover:text-black border transition-all">
                                     Add to Cart
                                 </button>
-                                <button className="w-full md:w-auto px-6 py-3 bg-white text-black rounded-md hover:bg-black hover:text-white border transition-all">
+                                <button className="w-full md:w-auto px-6 py-3 bg-white text-black rounded-md hover:bg-black hover:text-white border transition-all" onClick={() => buyNow(productData._id)}>
                                     Buy Now
                                 </button>
                             </div>

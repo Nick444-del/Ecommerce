@@ -147,7 +147,7 @@ const Productlist = () => {
                     }
                 }}
                 contentLabel=''
-                className='w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-14 p-5 overflow-auto'
+                className='w-[40%] max-h-3/4 bg-white rounded-md mx-auto mt-20 p-5 overflow-auto'
             >
                 <ProductModal
                     type={openModal.type}
