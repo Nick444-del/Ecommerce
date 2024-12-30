@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import usersModel from "../models/users.model";
+import nodemailer from "nodemailer"
 
 export const getAllUsers = async (req, res) => {
     try {
@@ -420,3 +421,191 @@ export const changePassword = async (req, res) => {
         });
     }
 }
+
+export const forgetPassword = async (req, res) => {
+    try {
+        const { email } = req.body; // Destructure email from request body
+
+        // Validate email presence
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                data: null,
+                error: "Email is required"
+            });
+        }
+
+        // Find the user by email
+        const user = await usersModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                data: null,
+                error: "User not found"
+            });
+        }
+
+        // Check if OTP is already sent and not expired
+        if (user.otp?.otp && user.otp.sendTime > Date.now()) {
+            const waitTime = new Date(user.otp.sendTime).toLocaleString();
+            return res.status(429).json({
+                success: false,
+                data: null,
+                error: `Please wait until ${waitTime} before requesting a new OTP.`
+            });
+        }
+
+        // Generate a new OTP
+        const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit OTP
+        const otpExpiry = Date.now() + 5 * 60 * 1000; // OTP valid for 5 minutes
+
+        // Update OTP in the database
+        user.otp = {
+            otp: otp.toString(),
+            sendTime: otpExpiry,
+            token: "" // You can add a token here if required
+        };
+
+        // Save the updated user object to the database
+        const updatedUser = await user.save();
+
+        if (!updatedUser) {
+            throw new Error("Failed to update OTP in the database.");
+        }
+
+        console.log(`Generated OTP: ${otp}`); // For testing purposes
+
+        // Send OTP via email using nodemailer
+        const transporter = nodemailer.createTransport({
+            service: 'gmail', // Or your email service provider
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Password Reset OTP',
+            text: `Your OTP for password reset is: ${otp}. It is valid for 5 minutes.`
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "OTP sent successfully to your email."
+        });
+
+    } catch (error) {
+        console.error("Error in forgetPassword:", error);
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error.message
+        });
+    }
+};
+
+
+
+export const verifyOTP = async (req, res) => {
+    try {
+        const { otp } = req.body;
+
+        console.log("Received OTP:", otp);
+        if (!otp) {
+            return res.status(400).json({
+                success: false,
+                data: null,
+                error: "OTP is required"
+            });
+        }
+        const response = await usersModel.findOne({ "otp.otp": otp });
+        if (!response || !response?.otp?.otp || response.otp.otp !== otp) {
+            return res.status(400).json({
+                success: false,
+                data: null,
+                error: "Invalid OTP"
+            });
+        }
+        const currentTime = Date.now();
+        if (currentTime > response.otp.sendTime + 5 * 60 * 1000) { // 5-minute expiration window
+            return res.status(400).json({
+                success: false,
+                data: null,
+                error: "OTP expired"
+            });
+        }
+        response.otp = { otp: "", sendTime: 0, token: "" };
+        await response.save();
+        const token = jwt.sign(
+            { user: response._id }, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: '1h'
+        });
+        console.log(token);
+        return res.status(200).json({
+            success: true,
+            token,
+            message: 'OTP verified successfully'
+        });
+    } catch (error) {
+        console.error('Error verifying OTP:', error);
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: 'Internal server error'
+        });
+    }
+};
+
+
+export const resetPassword = async (req, res) => {
+    try {
+        const { password, confirmPassword } = req.body;
+
+        console.log(password, " ", confirmPassword);
+
+        // Validate inputs
+        if (!password || !confirmPassword) {
+            return res.status(400).json({ 
+                message: "Both password fields are required.", 
+                success: false 
+            });
+        }
+
+        if (password !== confirmPassword) {
+            return res.status(400).json({ 
+                message: "Passwords do not match.", 
+                success: false 
+            });
+        }
+        
+        const user = req.user;
+        console.log("User from token:", user);
+
+        // Assuming you're using a User model
+        const updatedUser = await usersModel.findByIdAndUpdate(
+            user._id, 
+            { password }, // Directly saving plaintext password (not recommended)
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({
+                message: "User not found.",
+                success: false
+            });
+        }
+
+        return res.status(200).json({
+            message: "Password reset successfully.",
+            success: true
+        });
+
+    } catch (error) {
+        console.error("Error resetting password:", error);
+        return res.status(500).json({
+            message: "Internal server error.",
+            success: false
+        });
+    }
+};

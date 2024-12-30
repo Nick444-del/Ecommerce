@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import PasswordInput from '../Components/Inputs/PasswordInput'
 import { validateEmail } from '../Components/utils/helper'
 import axiosInstance from '../Components/utils/axiosInstance'
+import toast from 'react-hot-toast'
 
 const Signup = () => {
     const [fullname, setFullName] = useState('')
@@ -40,11 +41,15 @@ const Signup = () => {
             }
             if (response.data && response.data.token) {
                 localStorage.setItem("token", response.data.token)
-                navigate('/login')
+                navigate('/bookwormdenn/login')
+                if(response.data.success){
+                    toast.success(response.data.message)
+                }
             }
         } catch (error) {
             if (error.response.status && error.response.data && error.response.data.message) {
                 setError(error.response.data.message)
+                toast.error(error.response.data.message)
             } else {
                 setError("An unexpected error occurred. Please try again later.")
             }
@@ -86,7 +91,7 @@ const Signup = () => {
                             Create Account
                         </button>
 
-                        <p className='text-sm text-center mt-4'>Already a member? <Link to="/login" className="font-medium text-leather underline">Login</Link></p>
+                        <p className='text-sm text-center mt-4'>Already a member? <Link to="/bookwormdenn/login" className="font-medium text-leather underline">Login</Link></p>
                     </form>
                 </div>
             </div>

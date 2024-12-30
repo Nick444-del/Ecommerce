@@ -21,7 +21,7 @@ const Productlist = () => {
 
     const getAllProducts = async () => {
         try {
-            const response = await axiosInstance.get('/getallproduct');
+            const response = await axiosInstance.get('/getallproductinadmin');
             console.log(response.data.data)
             console.log(response.data.filePath)
             setProduct(response.data.data)

@@ -19,6 +19,11 @@ const userSchema = new schema({
         type: String,
         required: true
     },
+    otp:{
+        otp: { type: String },
+        sendTime: { type: Number },
+        token: { type: String }
+    },
     isAdmin: {
         type: Boolean,
         default: false

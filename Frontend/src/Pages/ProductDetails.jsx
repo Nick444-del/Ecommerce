@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal'
 import AddReview from '../Components/Modal/AddReview';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import toast from 'react-hot-toast'
 
 const ProductDetails = () => {
     const [productData, setProductData] = useState({});
@@ -44,7 +45,10 @@ const ProductDetails = () => {
                 console.log(data)
             }
             console.log(response.data.data)
-            navigate('/bookwormdenn/cart')
+            // navigate('/bookwormdenn/cart')
+            toast('Added to Cart', {
+                icon: '🛒'
+            })
         } catch (error) {
             if (error) {
                 console.log(error)

@@ -5,7 +5,8 @@ import { authenticateToken, admin, authenticate } from "../utils/token.js";
 
 const router = express.Router();
 
-router.get("/getallproduct", authenticate, admin, getAllProduct);
+router.get("/getallproductinadmin", authenticate, admin, getAllProduct);
+router.get("/getallproduct", getAllProduct);
 router.post("/createproduct", authenticate, admin, createProduct);
 router.get("/getproductbycategory/:categoryId", getProductByCategory);
 router.get("/getallselfhelp", getSelfHelp);

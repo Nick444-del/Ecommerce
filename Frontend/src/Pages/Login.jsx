@@ -4,6 +4,7 @@ import PasswordInput from '../Components/Inputs/PasswordInput'
 import { validateEmail } from '../Components/utils/helper'
 import axiosInstance from '../Components/utils/axiosInstance'
 import logi1 from '../assets/images/logi1.png'
+import toast from 'react-hot-toast'
 
 
 const Login = () => {
@@ -40,13 +41,16 @@ const Login = () => {
                 console.log("Token saved in localStorage");
                 navigate("/bookwormdenn");
                 console.log("Navigating to dashboard");
+                toast.success("Login successful")
             }else{
                 console.log("Access token missing in response data");
+                toast.error("Access token missing in response data");
             }
         } catch (error) {
             console.error("Login error:", error);
             if (error.response && error.response.data && error.response.data.message) {
                 setError(error.response.data.message);
+                toast.error(error.response.data.message)
             } else {
                 setError("An unexpected error occurred. Please try again");
             }
@@ -72,9 +76,9 @@ const Login = () => {
                         <button type='submit' className=' btn-primary'>
                             Login
                         </button>
-                        <NavLink to="/forgotpassword"><p className='text-sm text-center mt-4'>Forgot Password?{" "}</p></NavLink>
+                        <NavLink to="/bookwormdenn/verifyemail"><p className='text-sm text-center mt-4'>Forgot Password?{" "}</p></NavLink>
                         <p className='text-sm text-center mt-4'>Not registered yet?{" "}
-                            <Link to='/signup' className="font-medium text-leather underline">
+                            <Link to='/bookwormdenn/signup' className="font-medium text-leather underline">
                                 Create an Account
                             </Link>
                         </p>

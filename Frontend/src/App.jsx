@@ -22,6 +22,10 @@ import './App.css';
 import Categorieslist from './Pages/admin/Pages/Categorieslist';
 import Productlist from './Pages/admin/Pages/Productlist';
 import Orderlist from './Pages/admin/Pages/Orderlist';
+import Dashboard from './Pages/admin/Pages/Dashboard';
+import ForgetPasswordEmail from './Pages/ForgetPasswordEmail';
+import VerifyOTP from './Pages/VerifyOTP';
+import NewPassword from './Pages/NewPassword';
 
 function App() {
   const [userInfo, setUserInfo] = useState(null);
@@ -64,6 +68,7 @@ function App() {
         </Route>
         {/* Admin routes */}
         <Route path="/bookwormdenn/admin" element={<AdminRoute />}>
+          <Route path='/bookwormdenn/admin/dashboard' element={<Dashboard />} />
           <Route path="/bookwormdenn/admin/userslist" element={<Userlist />} />
           <Route path="/bookwormdenn/admin/categorieslist" element={<Categorieslist />} />
           <Route path="/bookwormdenn/admin/productslist" element={<Productlist />} />
@@ -73,6 +78,9 @@ function App() {
         <Route path='/bookwormdenn/adminlogin' element={<AdminLogin />} />
         <Route path="/bookwormdenn/login" element={<Login />} />
         <Route path="/bookwormdenn/signup" element={<Signup />} />
+        <Route path='/bookwormdenn/verifyemail' element={<ForgetPasswordEmail />} />
+        <Route path='/bookwormdenn/verifyotp' element={<VerifyOTP />} />
+        <Route path='/bookwormdenn/newpassword' element={<NewPassword />} />
       </Routes>
 
     </>

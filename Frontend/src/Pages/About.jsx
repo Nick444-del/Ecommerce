@@ -3,7 +3,7 @@ import React from 'react'
 const About = () => {
     return (
         <>
-            <div className='mx-[396px] py-[28px]'>
+            <div className='lg:mx-[396px] lg:py-[28px] mx-[10px] py-[5px] '>
                 <h1 className='mb-[40px] text-[52px] font-bold'>About Us</h1>
                 <h2 className='text-[42px] font-medium'>Welcome to Book Worms Denn – Your Ultimate Literary Haven!</h2>
                 <p className='my-[16px]'>

@@ -1,11 +1,11 @@
 import express from "express";
 
-import { getAllUsers, register, login, updateUser, singleUser, addAddress, addAddressByReq, deleteAddress, adminlogin, deleteUser, changePassword } from "../controllers/users.controller.js";
+import { getAllUsers, register, login, updateUser, singleUser, addAddress, addAddressByReq, deleteAddress, adminlogin, deleteUser, changePassword, forgetPassword, verifyOTP, resetPassword } from "../controllers/users.controller.js";
 import { authenticateToken, admin, authenticate } from "../utils/token.js";
 
 const router = express.Router();
 
-router.get("/getallusers", getAllUsers);
+router.get("/getallusers", authenticate, admin, getAllUsers);
 router.post("/register", register);
 router.post("/login", login);
 router.put("/updateuser/:userId", updateUser);
@@ -17,5 +17,8 @@ router.post("/adminlogin", authenticate, admin, adminlogin);
 router.get('/getalluserstoadmin', authenticate, admin, getAllUsers)
 router.delete("/deleteuserinadmin/:userId",  authenticate, admin, deleteUser);
 router.put("/changepassword", authenticateToken, changePassword)
+router.post("/forgetpassword", forgetPassword)
+router.post("/verifyotp", verifyOTP)
+router.put("/resetpassword", authenticate, resetPassword)
 
 export default router;

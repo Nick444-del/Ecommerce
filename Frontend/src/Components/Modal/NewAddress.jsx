@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { IoMdClose } from 'react-icons/io'
 import axiosInstance from '../utils/axiosInstance'
 import { useNavigation } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
 
 
 const NewAddress = ({ isOpen, onClose, fetchAddresses }) => {
@@ -34,6 +35,7 @@ const NewAddress = ({ isOpen, onClose, fetchAddresses }) => {
                     onClose();
                 }
             }
+            toast.success("Address created successfully")
             fetchAddresses();
         } catch (error) {
             if (error.response && error.response.data && error.response.data.error) {

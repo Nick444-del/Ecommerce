@@ -12,8 +12,15 @@ import CategoryIcon from '@mui/icons-material/Category';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import { NavLink } from 'react-router-dom';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const navigation = [
+    {
+        icon: <DashboardIcon />,
+        url: '/bookwormdenn/admin/dashboard',
+        title: 'Dashboard',
+        iconcolor: 'text-blue'
+    },
     {
         icon: <UserIcon />,
         url: '/bookwormdenn/admin/userslist',

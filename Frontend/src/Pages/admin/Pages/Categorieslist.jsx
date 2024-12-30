@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 import axiosInstance from '../../../Components/utils/axiosInstance'
 import CategoryModal from '../Components/CategoryModal'
+import toast from 'react-hot-toast'
 
 const Categorieslist = () => {
     const [openModal, setOpenModal] = useState({
@@ -59,8 +60,8 @@ const Categorieslist = () => {
             const response = await axiosInstance.delete(`/deletecategory/${deleteModal.categoryId}`)
             if (response.data && response.data.success) {
                 console.log("Category deleted successfully:", response.data.message)
-                alert(response.data.message)
                 getAllCategories()
+                toast.success(response.data.message)
             } else {
                 console.error("Failed to delete category:", response.data.message || "Unknown error")
             }

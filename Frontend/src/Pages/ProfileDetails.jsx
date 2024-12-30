@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { NavLink } from 'react-router-dom';
 import NewAddress from '../Components/Modal/NewAddress';
 import axiosInstance from '../Components/utils/axiosInstance';
+import toast from 'react-hot-toast'
 
 const ProfileDetails = ({ userInfo }) => {
     const [openAddModal, setOpenAddModal] = useState({
@@ -31,10 +32,6 @@ const ProfileDetails = ({ userInfo }) => {
         setLoading(false);
     };
 
-    useEffect(() => {
-        fetchAddresses();
-    }, [userInfo]);
-
     const updateUserAddressArray = async (addressId) => {
         try {
             const response = await axiosInstance.delete(`/deleteaddress/${addressId}`)
@@ -42,6 +39,7 @@ const ProfileDetails = ({ userInfo }) => {
                 console.log("Address deleted: ", response.data);
                 setAddresses(prevAddresses => prevAddresses.filter(address => address._id !== addressId));
             }
+            fetchAddresses()
         } catch (error) {
             console.log("Error updateing user address array: " + error.message);
         }
@@ -63,6 +61,10 @@ const ProfileDetails = ({ userInfo }) => {
         updateUserAddressArray(addressId)
         deleteUserAddress(addressId)
     };
+
+    useEffect(() => {
+        fetchAddresses();
+    }, [userInfo]); // Trigger only when userInfo changes
 
     useEffect(() => {
         // You can use this useEffect for any additional side effects when addresses are updated

@@ -46,6 +46,7 @@ const CategoryModal = ({ onClose, getAllCategories, type, filepath, categoryData
                 console.log("Category added successfully:", response.data.data); // Debugging log
                 getAllCategories();
                 onClose();
+                toast.success(response.data.message)
             }
         } catch (error) {
             console.error("Error adding category:", error); // Debugging log

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast'
 
 const ProductCard = ({ productId, productImage, productTitle, price, filepath }) => {
     const [data, setData] = useState([])
@@ -15,7 +16,10 @@ const ProductCard = ({ productId, productImage, productTitle, price, filepath })
                 console.log(data)
             }
             console.log(response.data.data)
-            navigate('/bookwormdenn/cart')
+            // navigate('/bookwormdenn/cart')
+            toast('Added to Cart', {
+                icon: '🛒'
+            })
         } catch (error) {
             if(error){
                 console.log(error)

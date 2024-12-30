@@ -3,9 +3,9 @@ import React from 'react'
 const Contact = () => {
     return (
         <>
-            <div className='title mx-[400px] py-[36px]'>
+            <div className='title lg:mx-[400px] lg:py-[36px] mx-[10px] py-[5px]'>
                 <h1 className='text-[52px] font-bold mb-[40px]'>Contact</h1>
-                <form action="" className='mx-[40px] py-[36px]'>
+                <form action="" className='lg:mx-[40px] lg:py-[36px] mx-[10px] py-auto'>
                     <div className='flex gap-[20px]'>
                         <input className='mb-[20px] p-[15px] m-[1px] border-[2px] border-black w-full h-[45px]' type="text" name="" id="" placeholder='Name' />
                         <input className='mb-[20px] p-[15px] m-[1px] border-[2px] border-black w-full h-[45px]' type="text" name="" id="" placeholder="Email *" />

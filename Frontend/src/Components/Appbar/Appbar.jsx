@@ -6,6 +6,7 @@ import logo1 from '../../assets/images/logi1.png'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Navigate, NavLink, useNavigate } from 'react-router-dom'
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import toast from 'react-hot-toast'
 
 const Appbar = ({ userInfo }) => {
     const [searchQuery, setSearchQuery] = useState('')
@@ -16,6 +17,7 @@ const Appbar = ({ userInfo }) => {
         localStorage.clear()
         localStorage.removeItem("token")
         navigate('/bookwormdenn/login')
+        toast.success("Logout Successfully!")
     }
     const handleSearch = () => {
         if (searchQuery) {

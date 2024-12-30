@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import PasswordInput from '../Components/Inputs/PasswordInput'
-import logi1 from '../assets/images/logi1.png'
+import { FaExchangeAlt } from "react-icons/fa";
 import axiosInstance from '../Components/utils/axiosInstance'
+import toast from 'react-hot-toast'
 
 const ChangePassword = () => {
     const [oldPassword, setOldPassword] = useState("")
@@ -33,6 +34,7 @@ const ChangePassword = () => {
                 setOldPassword('');
                 setNewPassword('');
                 navigate("/bookwormdenn")
+                toast.success("Password changed successfully!")
             }
         } catch (error) {
             console.error("Error changing password:", error.response ? error.response.data : error.message);
@@ -41,12 +43,12 @@ const ChangePassword = () => {
     }
 
     return (
-        <div className='flex items-center justify-center mt-18 mb-28'>
-            <div className='w-96 h-[340px] border rounded px-7 py-10'>
+        <div className='flex items-center justify-center mt-28 mb-28'>
+            <div className='w-96 h-[100%] border rounded px-7 py-10'>
                 <form onSubmit={handleChangePassword}>
-                    <div className='flex flex-row items-center justify-between'>
+                    <div className='flex flex-col items-center justify-between'>
+                        <FaExchangeAlt className='w-12 h-12 m-5'/>
                         <h4 className='text-2xl mb-7'>Change Password</h4>
-                        <NavLink to="/bookwormdenn"><img src={logi1} className='w-12 h-12 m-5' alt="" /></NavLink>
                     </div>
                     <PasswordInput value={oldPassword} placeholder={"Old Password"} onChange={(e) => setOldPassword(e.target.value)} />
                     <PasswordInput value={newPassword} placeholder={"New Password"} onChange={(e) => setNewPassword(e.target.value)} />

@@ -2,7 +2,7 @@
 
 Original website link [Bookworm denn](https://bookwormsdenn.com/)
 
-## Techonologies used[](https://)
+## Techonologies used
 
 ### Frontend
 
@@ -11,6 +11,7 @@ Original website link [Bookworm denn](https://bookwormsdenn.com/)
 * MUI
 * Vite
 * Axios
+* React Alice Carousel
 
 ### Backend
 
