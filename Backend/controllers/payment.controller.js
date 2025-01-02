@@ -2,6 +2,7 @@ import instance from '../utils/razorpayClient';
 import usersModel from '../models/users.model';
 import productModel from '../models/product.model';
 import cartModel from '../models/cart.model';
+import crypto from 'crypto';
 
 export const createPayment = async (req, res) => {
     try {
@@ -83,7 +84,9 @@ export const checkout = async (req, res) => {
 
 export const paymentVerification = async (req, res) => {
     try {
-        
+        let body=req.body.response.razorpay_order_id + "|" + req.body.response.razorpay_payment_id;
+
+        // const expectedSignature = crypto.createHmac('sha256', )
     } catch (error) {
         
     }

@@ -30,7 +30,6 @@ export const getAllUsers = async (req, res) => {
     }
 };
 
-
 export const register = async (req, res) => {
     try {
         const { fullname, email, mobile, address, password } = req.body;
@@ -269,7 +268,6 @@ export const addAddressByReq = async (req, res) => {
     }
 };
 
-
 export const deleteAddress = async (req, res) => {
     try {
         const addressId = req.params.addressId;  // The address ID to delete
@@ -506,8 +504,6 @@ export const forgetPassword = async (req, res) => {
     }
 };
 
-
-
 export const verifyOTP = async (req, res) => {
     try {
         const { otp } = req.body;
@@ -557,7 +553,6 @@ export const verifyOTP = async (req, res) => {
         });
     }
 };
-
 
 export const resetPassword = async (req, res) => {
     try {
@@ -609,3 +604,29 @@ export const resetPassword = async (req, res) => {
         });
     }
 };
+
+export const getUserByToken = async (req, res) => {
+    try {
+        const userId = req.user.user._id;
+        const user = await usersModel.findById(userId);
+        if(!user){
+            return res.status(404).json({
+                success: false,
+                data: null,
+                error: "User not found"
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            data: user,
+            error: null,
+            message: "User fetched successfully"
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error.message
+        })
+    }
+}

@@ -86,6 +86,7 @@ const ProfileDetails = ({ userInfo }) => {
                 <div className="mt-3">
                     <p><strong>Name:</strong> {fullname || 'N/A'}</p>
                     <p><strong>Email:</strong> {email || 'N/A'}</p>
+                    <p><strong>Mobile:</strong> {userInfo.mobile || 'N/A'}</p>
                 </div>
                 <div className='flex justify-start gap-2'>
                     <button

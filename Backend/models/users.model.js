@@ -11,6 +11,10 @@ const userSchema = new schema({
         type: String,
         required: true
     },
+    mobile: {
+        type: Number,
+        required: true
+    },
     address: [{
         type: schema.Types.ObjectId,
         ref: 'address'

@@ -175,3 +175,29 @@ export const removefromCart = async (req, res) => {
         });
     }
 };
+
+export const clearCart = async (req, res) => {
+    try {
+        const user = req.user.user._id;
+        if(!user){
+            return res.status(400).json({
+                success: false,
+                data: null,
+                error: "User not found"
+            })
+        }
+        const response = await cartModel.deleteMany({ userId: user });
+        return res.status(200).json({
+            success: true,
+            data: response,
+            error: false,
+            message: "Cart cleared successfully!"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error.message
+        })
+    }
+}

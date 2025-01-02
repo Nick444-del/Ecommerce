@@ -9,6 +9,7 @@ const Signup = () => {
     const [fullname, setFullName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [mobile, setMobile] = useState('')
     const [error, setError] = useState(null)
     const navigate = useNavigate()
     const handleSignUp = async (e) => {
@@ -31,9 +32,10 @@ const Signup = () => {
             const response = await axiosInstance.post("/register", {
                 fullname: fullname,
                 email: email,
+                mobile: mobile,
                 password: password
             })
-            console.log("Sign-up response: "+ response)
+            console.log("Sign-up response: " + response)
             localStorage.setItem("register", JSON.stringify(response.data))
             if (response.data && response.data.error) {
                 setError(response.data.message)
@@ -42,7 +44,7 @@ const Signup = () => {
             if (response.data && response.data.token) {
                 localStorage.setItem("token", response.data.token)
                 navigate('/bookwormdenn/login')
-                if(response.data.success){
+                if (response.data.success) {
                     toast.success(response.data.message)
                 }
             }
@@ -81,6 +83,16 @@ const Signup = () => {
                             className='input-box my-3'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                        />
+
+                        <input
+                            type="text"
+                            name="mobile"
+                            id="mobile"
+                            placeholder='Mobile Number'
+                            className='input-box my-3'
+                            value={mobile}
+                            onChange={(e) => setMobile(e.target.value)}
                         />
 
                         <PasswordInput value={password} onChange={(e) => setPassword(e.target.value)} />

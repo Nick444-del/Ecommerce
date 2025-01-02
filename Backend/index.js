@@ -13,6 +13,7 @@ import reviewRouter from './routers/review.router'
 import favoriteRouter from './routers/favorite.router'
 import ContactRouter from './routers/contact.router'
 import paymentRouter from './routers/payment.router'
+import orderRouter from './routers/order.router'
 
 dotenv.config()
 
@@ -50,3 +51,4 @@ app.use(reviewRouter);
 app.use(favoriteRouter);
 app.use(ContactRouter);
 app.use(paymentRouter);
+app.use(orderRouter)

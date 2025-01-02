@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getAllProduct, createProduct, getProductByCategory, getSelfHelp, getBusinessStartup, getProductById, getMangaById, deleteProductById, getMythologyById, favoriteProduct, newArrival, editProduct } from "../controllers/product.controller";
+import { getAllProduct, createProduct, getProductByCategory, getSelfHelp, getBusinessStartup, getProductById, getMangaById, deleteProductById, getMythologyById, favoriteProduct, newArrival, editProduct, updateProductQuantity } from "../controllers/product.controller";
 import { authenticateToken, admin, authenticate } from "../utils/token.js";
 
 const router = express.Router();
@@ -18,5 +18,6 @@ router.delete("/deleteproductbyid/:productId", authenticate, admin, deleteProduc
 router.get("/mythologicbook", getMythologyById);
 router.get("/favoriteproduct/:productId", favoriteProduct)
 router.get("/newarrivals", newArrival)
+router.put("/updatestock/:productId", updateProductQuantity)
 
 export default router

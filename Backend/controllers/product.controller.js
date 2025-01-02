@@ -305,3 +305,18 @@ export const editProduct = async (req, res) => {
         }
     })
 }
+
+export const updateProductQuantity = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+        const { quantity } = req.body;
+        const updatedProduct = await productModel.findByIdAndUpdate(productId, { quantity }, { new: true });
+        if (!updatedProduct) {
+            return res.status(404).json({ success: false, message: 'Product not found.' });
+        }
+        return res.status(200).json({ success: true, message: 'Product quantity updated successfully.', product: updatedProduct });
+    } catch (error) {
+        console.error('Error updating product quantities:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+};
