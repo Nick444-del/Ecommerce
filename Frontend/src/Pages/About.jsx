@@ -1,6 +1,7 @@
 import React from 'react'
 
 const About = () => {
+
     return (
         <>
             <div className='lg:mx-[396px] lg:py-[28px] mx-[10px] py-[5px] '>

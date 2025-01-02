@@ -32,15 +32,15 @@ const CollectionProduct = () => {
 
     return (
         <>
-            <div className='lg:mx-[100px] lg:px-[50px] sm:mx-auto sm:px-auto'>
-                <h1 className='my-[25px] text-[40px] capitalize font-bold'>{
+            <div className='lg:mx-auto lg:px-auto sm:mx-auto sm:px-auto'>
+                <h1 className='my-[25px] mx-[15px] text-[40px] capitalize font-bold'>{
                     category && category.map((index) => {
                         return (
                             index.categoryName
                         )
                     })
                 }</h1>
-                <div className='flex justify-between sm:flex-col lg:flex-row'>
+                <div className='mx-[15px] flex justify-between sm:flex-col lg:flex-row'>
                     <div className='flex gap-3'>
                         <span>Filter</span>
                         <span>Availability</span>
@@ -53,7 +53,7 @@ const CollectionProduct = () => {
                     </div>
                 </div>
                 <div className="px-4 sm:px-6 lg:px-10 xl:px-14 my-12">
-                    <div className='grid lg:grid-cols-4 lg:gap-[140px] md:gap-[100px] sm:gap-[50px] items-center justify-center md:grid-cols-3 sm:grid-cols-2 my-[50px]'>
+                    <div className='grid lg:grid-cols-4 gap-[100px] items-center justify-center md:grid-cols-3 sm:grid-cols-2 my-[50px]'>
                         {
                             products.map((product) => {
                                 return (

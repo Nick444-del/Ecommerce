@@ -31,7 +31,6 @@ const routes = [
         label: "Orders",
         icon: <MdOutlineShoppingBag  size={22} />
     }
-
 ]
 
 export default routes

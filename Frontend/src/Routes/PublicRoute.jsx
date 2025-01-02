@@ -7,7 +7,7 @@ const PublicRoute = ({ userInfo, getUserInfo }) => {
     return (
         <>
             <Appbar userInfo={userInfo} />
-            <Outlet />
+            <Outlet getUserInfo={getUserInfo} />
             <Footer />
         </>
     )

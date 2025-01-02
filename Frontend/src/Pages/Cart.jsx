@@ -4,6 +4,8 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import toast from 'react-hot-toast'
+import logi1 from '../assets/images/logi1.png'
+
 
 const Cart = () => {
     const [cartData, setCartData] = useState([]);
@@ -47,6 +49,48 @@ const Cart = () => {
             toast.success(resposne.data.message)
         }
         getAllData()
+    }
+
+    const handleCheckout = async () => {
+        try {
+            const respose = await axiosInstance.post('/checkout')
+            console.log(respose.data.order)
+
+            const { order } = respose.data
+            // console.log(window)
+            const options = {
+                key: "rzp_test_cAtTQ8y0oFdwwk", // Enter the Key ID generated from the Dashboard
+                amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                currency: order.currency,
+                name: "Bookwormsdenn", //your business name
+                description: "Purchase of books",
+                image: logi1,
+                order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                callback_url: "https://eneqd3r9zrjok.x.pipedream.net/",
+                prefill: { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+                    name: cartData.userId.fullname, //your customer's name
+                    email: cartData.userId.email,
+                    // contact: "9000090000" //Provide the customer's phone number for better conversion rates 
+                },
+                handler:function (response){
+                    console.log(response)
+                    toast.success("Payment successful")
+                },
+                notes: {
+                    address: "Dahisar, Mumbai-68, Maharashtra"
+                },
+                theme: {
+                    color: "#000000"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            document.getElementById('rzp-button1').onclick = function (e) {
+                rzp1.open();
+                e.preventDefault();
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const getAddress = async () => {
@@ -131,7 +175,7 @@ const Cart = () => {
                         <span>Total:</span>
                         <span>₹{(parseFloat(calculateTotal()) + 50).toFixed(2)}</span>
                     </div>
-                    <button className="w-full mt-4 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
+                    <button id='rzp-button1' className="w-full mt-4 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600" onClick={handleCheckout}>
                         Proceed to Checkout
                     </button>
                 </div>
