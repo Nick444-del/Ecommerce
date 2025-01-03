@@ -30,7 +30,7 @@ const ProductCard = ({ productId, productImage, productTitle, price, filepath })
     // console.log(filepath);
     return (
         <div className="w-[100%] my-2 h-[445px] max-w-sm bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
-            <div className='w-[290px] h-[290px]'>
+            <div className='w-[100%] h-[290px]'>
                 <NavLink to={`/bookwormdenn/productdetails/${productId}`}>
                     <img
                         src={filepath + productImage}

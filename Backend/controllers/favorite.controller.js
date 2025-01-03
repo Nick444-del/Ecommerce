@@ -93,3 +93,29 @@ export const checkFavoriate = async (req, res) => {
         
     }
 }
+
+export const removeFavorite = async (req, res) => {
+    try {
+        const productId = req.params.productId;
+        const userId = req.user.user._id || req.user._id ;
+        console.log(productId)
+        console.log(userId)
+        const response = await favoriteModel.findOneAndDelete({
+            user: userId,
+            product: productId
+        })
+        return res.status(200).json({
+            success: true,
+            data: response,
+            error: false,
+            message: "Product removed from favorite successfully"
+        })
+    } catch (error) {
+        console.log("Error in deleting favorite: ", error.message);
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error.message
+        })
+    }
+}

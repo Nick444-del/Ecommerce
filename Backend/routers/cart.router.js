@@ -1,7 +1,6 @@
 import express from 'express';
 import { addProducttoCart, getAllCart, getCartById, increaseCart, decreaseCart, removefromCart, clearCart } from '../controllers/cart.controller'
-import validateAddToCart from '../utils/quantity';
-import authenticate, { authenticateToken } from '../utils/token';
+import { authenticateToken } from '../utils/token';
 
 const router = express.Router();
 

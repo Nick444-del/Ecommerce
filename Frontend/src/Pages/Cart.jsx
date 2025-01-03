@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import toast from 'react-hot-toast'
 import logi1 from '../assets/images/logi1.png'
 import { postPayment } from '../Components/utils/postpayment';
+import { paymentMail } from '../Components/utils/paymentmail';
 
 
 const Cart = () => {
@@ -62,10 +63,9 @@ const Cart = () => {
 
             const user = getUser.data.data
             console.log(user)
-
+            console.log(user.mobile)
             const { order } = respose.data
             console.log(order)
-            // console.log(window)
             const options = {
                 key: "rzp_test_cAtTQ8y0oFdwwk", // Enter the Key ID generated from the Dashboard
                 amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -79,12 +79,14 @@ const Cart = () => {
                     email: user.email,
                     contact: user.mobile //Provide the customer's phone number for better conversion rates 
                 },
-                // callback_url: "https://eneqd3r9zrjok.x.pipedream.net/",
                 handler:function (response){
                     console.log(response)
                     postPayment(cartData)
+                    paymentMail(response)
+                    toast.success("Payment successfully done", {
+                        icon: "👍"
+                    })
                     getAllData()
-                    toast.success("Payment successful")
                 },
                 notes: {
                     address: "Dahisar, Mumbai-68, Maharashtra"
@@ -94,10 +96,6 @@ const Cart = () => {
                 }
             };
             const razor = new window.Razorpay(options);
-            // document.getElementById('rzp-button1').onclick = function (e) {
-            //     razor.open();
-            //     e.preventDefault();
-            // }
             razor.open();
         } catch (error) {
             console.log(error)

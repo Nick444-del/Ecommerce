@@ -423,7 +423,6 @@ export const changePassword = async (req, res) => {
 export const forgetPassword = async (req, res) => {
     try {
         const { email } = req.body; // Destructure email from request body
-
         // Validate email presence
         if (!email) {
             return res.status(400).json({
@@ -432,7 +431,6 @@ export const forgetPassword = async (req, res) => {
                 error: "Email is required"
             });
         }
-
         // Find the user by email
         const user = await usersModel.findOne({ email });
         if (!user) {
@@ -442,7 +440,6 @@ export const forgetPassword = async (req, res) => {
                 error: "User not found"
             });
         }
-
         // Check if OTP is already sent and not expired
         if (user.otp?.otp && user.otp.sendTime > Date.now()) {
             const waitTime = new Date(user.otp.sendTime).toLocaleString();

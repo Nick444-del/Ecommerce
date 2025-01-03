@@ -22,7 +22,7 @@ const Sidebar = ({ children }) => {
                 {/* Top Section */}
                 <div className="flex justify-between items-center p-4">
                     {isOpen && (
-                        <img src={logi1} alt="Logo" className="w-36" />
+                        <img src={logi1} alt="Logo" className="w-24" />
                     )}
                     <button
                         onClick={toggleSidebar}
