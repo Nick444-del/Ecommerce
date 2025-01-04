@@ -5,22 +5,35 @@ import ProductCard from '../Components/ProductCard/ProductCard'
 const Product = () => {
     const [products, setProducts] = useState([])
     const [filepath, setFilepath] = useState("")
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(1)
+    const [loading, setLoading] = useState(false)
 
-    const getAllProducts = async () => {
+
+    const getAllProducts = async (page = 1) => {
+        setLoading(true)
         try {
-            const response = await axiosInstance('/getallproduct')
+            const response = await axiosInstance(`/getallproduct?page=${page}`)
             setFilepath(response.data.filePath)
             console.log(response.data)
             setProducts(response.data.data)
+            setTotalPages(response.data.totalPages)
+            setCurrentPage(response.data.currentPage)
+            setLoading(false)
         } catch (error) {
             console.error('Error fetching products:', error)
         }
     }
 
     useEffect(() => {
-        getAllProducts()
-    }, [])
+        getAllProducts(currentPage)
+    }, [currentPage])
 
+    const handlePageChange = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
 
     return (
         <>
@@ -47,6 +60,27 @@ const Product = () => {
                         })
                     }
                 </div>
+            </div>
+            <div className='mt-4 flex justify-center'>
+                <nav className='flex items-center'>
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className='px-4 py-2 border rounded-l-lg bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50'
+                    >
+                        Prev
+                    </button>
+                    <span className='px-4 py-2 text-lg text-gray-700'>
+                        Page {currentPage} of {totalPages}
+                    </span>
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className='px-4 py-2 border rounded-r-lg bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50'
+                    >
+                        Next
+                    </button>
+                </nav>
             </div>
         </>
     )

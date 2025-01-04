@@ -1,77 +1,71 @@
-import React, { useState, useEffect } from 'react'
-import axiosInstance from '../../../Components/utils/axiosInstance'
-import { Card, CardContent, Typography } from '@mui/material'
+import React, { useState, useEffect } from 'react';
+import axiosInstance from '../../../Components/utils/axiosInstance';
+import { Card, CardContent, Typography, Grid, Box } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
+import CategoryIcon from '@mui/icons-material/Category';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 const Dashboard = () => {
-    const [user, setUser] = useState([])
-    const [product, setProduct] = useState([])
-    const [caregory, setCategory] = useState([])
+    const [user, setUser] = useState([]);
+    const [product, setProduct] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [order, setOrder] = useState([]);
 
     const dataFetch = async () => {
         try {
-            const userresponse = await axiosInstance.get('/getalluserstoadmin')
-            const categoryresponse = await axiosInstance.get('/getallcategory')
-            const productresponse = await axiosInstance.get('/getallproduct')
-            setUser(userresponse.data.data)
-            setProduct(productresponse.data.data)
-            setCategory(categoryresponse.data.data)
+            const [userRes, productRes, categoryRes, orderRes] = await Promise.all([
+                axiosInstance.get('/getalluserstoadmin'),
+                axiosInstance.get('/getallproduct'),
+                axiosInstance.get('/getallcategory'),
+                axiosInstance.get('/getallorder'),
+            ]);
+            setUser(userRes.data.data);
+            setProduct(productRes.data.data);
+            setCategory(categoryRes.data.data);
+            setOrder(orderRes.data.data);
         } catch (error) {
-            console.error('Error fetching users:', error)
+            console.error('Error fetching data:', error);
         }
-    }
+    };
 
     useEffect(() => {
-        dataFetch()
-    }, [])
+        dataFetch();
+    }, []);
+
+    const stats = [
+        { title: 'Users', count: user.length, icon: <PersonIcon sx={{ fontSize: 50, color: 'primary.main' }} /> },
+        { title: 'Products', count: product.length, icon: <InventoryIcon sx={{ fontSize: 50, color: 'primary.main' }} /> },
+        { title: 'Categories', count: category.length, icon: <CategoryIcon sx={{ fontSize: 50, color: 'primary.main' }} /> },
+        { title: 'Orders', count: order.length, icon: <ShoppingCartCheckoutIcon sx={{ fontSize: 50, color: 'primary.main' }} /> },
+    ];
 
     return (
-        <div>
-            <h1 className='text-3xl font-semibold text-gray-800 m-2'>Dashboard</h1>
-            <div className="card-container grid lg:grid-cols-5 grid-cols-1">
-                <Card className="user-card" sx={{ maxWidth: 345, margin: 2, padding: 2 }}>
-                    <CardContent>
-                        <div className="card-header" style={{ display: 'flex', alignItems: 'center' }}>
-                            <PersonIcon sx={{ fontSize: 40, color: 'primary.main' }} />
-                            <Typography variant="h5" component="div" sx={{ marginLeft: 2 }}>
-                                Users
-                            </Typography>
-                        </div>
-                        <Typography variant="h6" sx={{ marginTop: 2 }}>
-                            {user.length} Users
-                        </Typography>
-                    </CardContent>
-                </Card>
-                <Card className="user-card" sx={{ maxWidth: 345, margin: 2, padding: 2 }}>
-                    <CardContent>
-                        <div className="card-header" style={{ display: 'flex', alignItems: 'center' }}>
-                            <PersonIcon sx={{ fontSize: 40, color: 'primary.main' }} />
-                            {/* <AiFillProduct sx={{ fontSize: 40, color: 'primary.main' }} /> */}
-                            <Typography variant="h5" component="div" sx={{ marginLeft: 2 }}>
-                                Product
-                            </Typography>
-                        </div>
-                        <Typography variant="h6" sx={{ marginTop: 2 }}>
-                            {product.length} Users
-                        </Typography>
-                    </CardContent>
-                </Card>
-                <Card className="user-card" sx={{ maxWidth: 345, margin: 2, padding: 2 }}>
-                    <CardContent>
-                        <div className="card-header" style={{ display: 'flex', alignItems: 'center' }}>
-                            <PersonIcon sx={{ fontSize: 40, color: 'primary.main' }} />
-                            <Typography variant="h5" component="div" sx={{ marginLeft: 2 }}>
-                                Category
-                            </Typography>
-                        </div>
-                        <Typography variant="h6" sx={{ marginTop: 2 }}>
-                            {caregory.length} Users
-                        </Typography>
-                    </CardContent>
-                </Card>
-            </div>
-        </div>
-    )
-}
+        <Box sx={{ padding: 4 }}>
+            <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                Admin Dashboard
+            </Typography>
+            <Grid container spacing={3}>
+                {stats.map((stat, index) => (
+                    <Grid item xs={12} sm={6} md={3} key={index}>
+                        <Card sx={{ textAlign: 'center', padding: 2, boxShadow: 3 }}>
+                            <CardContent>
+                                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 2 }}>
+                                    {stat.icon}
+                                </Box>
+                                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                                    {stat.title}
+                                </Typography>
+                                <Typography variant="h4" sx={{ mt: 1, fontWeight: 'medium', color: 'text.secondary' }}>
+                                    {stat.count}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
+    );
+};
 
 export default Dashboard;

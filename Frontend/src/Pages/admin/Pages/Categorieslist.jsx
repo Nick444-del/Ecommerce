@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
+import { Typography } from '@mui/material'
 import axiosInstance from '../../../Components/utils/axiosInstance'
 import CategoryModal from '../Components/CategoryModal'
 import toast from 'react-hot-toast'
@@ -80,7 +81,9 @@ const Categorieslist = () => {
         <>
             {/* Page Header */}
             <div className='flex justify-between items-center p-6'>
-                <h1 className='text-3xl font-semibold text-gray-800'>Categories List</h1>
+                <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                    Category
+                </Typography>
                 <button className='bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300' onClick={handleAddCategory}>
                     Add Category
                 </button>

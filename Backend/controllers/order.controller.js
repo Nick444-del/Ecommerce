@@ -95,3 +95,20 @@ export const getAllOrders = async (req, res) => {
         });
     }
 };
+
+export const getAllOrder = async (req, res) => {
+    try {
+        const response = await orderModel.find();
+        return res.status(200).json({
+            success: true,
+            data: response,
+            error: false
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: null,
+            error: error.message
+        })
+    }
+}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
+import { Typography } from '@mui/material'
 import axiosInstance from '../../../Components/utils/axiosInstance'
 import ProductModal from '../Components/ProductModal'
 import EditIcon from '@mui/icons-material/Edit';
@@ -17,14 +18,18 @@ const Productlist = () => {
     })
     const [product, setProduct] = useState([])
     const [filePath, setFilePath] = useState("")
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [editProduct, setEditProduct] = useState(null)
 
-    const getAllProducts = async () => {
+    const getAllProducts = async (page = 1) => {
         try {
-            const response = await axiosInstance.get('/getallproductinadmin');
+            const response = await axiosInstance.get(`/getallproductinadmin?page=${page}`);
             console.log(response.data.data)
             console.log(response.data.filePath)
             setProduct(response.data.data)
+            setTotalPages(response.data.totalPages)
+            setCurrentPage(response.data.currentPage)
             setFilePath(response.data.filePath)
         } catch (error) {
             console.error('Error fetching products:', error);
@@ -53,6 +58,12 @@ const Productlist = () => {
         })
     }
 
+    const handlePageChange = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
     const confirmDelete = (productId) => {
         setDeleteModal({
             isShown: true,
@@ -72,14 +83,16 @@ const Productlist = () => {
     }
 
     useEffect(() => {
-        getAllProducts()
-    }, [])
+        getAllProducts(currentPage)
+    }, [currentPage])
 
     return (
         <>
             {/* <AdminNavbar /> */}
             <div className='flex justify-between items-center p-6'>
-                <h1 className='text-3xl font-semibold text-gray-800'>Product List</h1>
+                <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                    Products
+                </Typography>
                 <button className='bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300' onClick={() => handleAddProduct()}>Add Product</button>
             </div>
             <div className='overflow-x-auto px-6'>
@@ -137,6 +150,29 @@ const Productlist = () => {
                     </tbody>
                 </table>
             </div>
+
+            <div className='mt-4 flex justify-center'>
+                <nav className='flex items-center'>
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className='px-4 py-2 border rounded-l-lg bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50'
+                    >
+                        Prev
+                    </button>
+                    <span className='px-4 py-2 text-lg text-gray-700'>
+                        Page {currentPage} of {totalPages}
+                    </span>
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className='px-4 py-2 border rounded-r-lg bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50'
+                    >
+                        Next
+                    </button>
+                </nav>
+            </div>
+
             {/* Add/Edit Product Modal */}
             <Modal
                 isOpen={openModal.isShown}

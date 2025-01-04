@@ -7,12 +7,23 @@ const upload = multer({ storage: storage })
 
 export const getAllProduct = async (req, res) => {
     try {
-        const products = await productModel.find().populate('category');
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
+        const skip = (page - 1) * limit
+
+        const products = await productModel.find().populate('category').skip(skip).limit(limit);
+
+        const totalDocuments = await productModel.countDocuments()
+
         return res.status(200).json({
             success: true,
             data: products,
             error: false,
-            filePath: "http://localhost:5000/uploads/"
+            currentPage: page,
+            totalPages: Math.ceil(totalDocuments / limit),
+            totalProducts: totalDocuments,
+            filePath: "http://localhost:5000/uploads/",
         })
     } catch (error) {
         return res.status(500).json({
