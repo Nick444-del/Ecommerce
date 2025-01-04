@@ -5,7 +5,7 @@ import { useNavigation } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 
 
-const NewAddress = ({ isOpen, onClose, fetchAddresses }) => {
+const NewAddress = ({ isOpen, onClose, fetchAddresses, addressFetch }) => {
     const [fullname, setFullname] = useState("");
     const [mobile, setModbile] = useState("");
     const [address, setAddress] = useState("");
@@ -37,6 +37,7 @@ const NewAddress = ({ isOpen, onClose, fetchAddresses }) => {
             }
             toast.success("Address created successfully")
             fetchAddresses();
+            addressFetch();
         } catch (error) {
             if (error.response && error.response.data && error.response.data.error) {
                 setError(error.response.data.error);
