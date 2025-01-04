@@ -52,6 +52,19 @@ const ProductDetails = () => {
         }
     };
 
+    const handleBuyNow = async (productId) => {
+        try {
+            const response = await axiosInstance.post(`/addproducttocart/${productId}`);
+            if (response.status === 200) {
+                setData(response.data.data);
+                toast('Added to Cart', { icon: '🛒' });
+            }
+            navigate('/bookwormdenn/buynow')
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     // Check if product is in favorites
     const checkProductInFavourites = async () => {
         try {
@@ -105,6 +118,8 @@ const ProductDetails = () => {
         });
     };
 
+
+
     useEffect(() => {
         checkProductInFavourites();
         getProductDetails();
@@ -139,6 +154,9 @@ const ProductDetails = () => {
                             <div className='flex flex-row gap-1'>
                                 <button onClick={() => handleAddToCart(productData._id)} className="w-full md:w-auto px-6 py-3 bg-black text-white rounded-md hover:bg-white hover:text-black border transition-all">
                                     Add to Cart
+                                </button>
+                                <button className="w-full md:w-auto px-6 py-3 bg-white text-black rounded-md hover:bg-black hover:text-white border transition-all" onClick={() => handleBuyNow(productData._id)}>
+                                    Buy Now
                                 </button>
                             </div>
                             {/* Dynamic Favorite Button */}

@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import Contact from '../models/contact.model.js';
+import addressModal from '../models/address.model.js'
 
 export const sendContactEmail = async (req, res) => {
     const { name, email, phone, comment } = req.body;
@@ -46,9 +47,8 @@ export const sendContactEmail = async (req, res) => {
 
 export const postPaymentSuccessMail = async (req, res) => {
     try {
-        const email = req.user.user.email
-
-        const { response } = req.body
+        const email = req.user.user.email;
+        const { paymentData, addressData } = req.body;
 
         if (!email) {
             return res.status(400).json({
@@ -58,11 +58,30 @@ export const postPaymentSuccessMail = async (req, res) => {
             });
         }
 
-        if (!response || !response.razorpay_payment_id || !response.razorpay_order_id) {
+        if (!paymentData || !paymentData.razorpay_payment_id || !paymentData.razorpay_order_id) {
             return res.status(400).json({
                 success: false,
                 data: null,
-                error: "Invalid payment response data",
+                error: "Invalid payment data",
+            });
+        }
+
+        if (!addressData) {
+            return res.status(400).json({
+                success: false,
+                data: null,
+                error: "Address data is required",
+            });
+        }
+
+        // Fetch address details from the database (assuming you have an Address model)
+        const address = await addressModal.findById(addressData);
+
+        if (!address) {
+            return res.status(404).json({
+                success: false,
+                data: null,
+                error: "Address not found"
             });
         }
 
@@ -80,10 +99,17 @@ export const postPaymentSuccessMail = async (req, res) => {
                 <p>Dear User,</p>
                 <p>We are pleased to inform you that your payment was successful. Below are the details of your transaction:</p>
                 <ul>
-                    <li><strong>Payment ID:</strong> ${response.razorpay_payment_id}</li>
-                    <li><strong>Order ID:</strong> ${response.razorpay_order_id}</li>
-                    <li><strong>Signature:</strong> ${response.razorpay_signature}</li>
+                    <li><strong>Payment ID:</strong> ${paymentData.razorpay_payment_id}</li>
+                    <li><strong>Order ID:</strong> ${paymentData.razorpay_order_id}</li>
+                    <li><strong>Signature:</strong> ${paymentData.razorpay_signature}</li>
                 </ul>
+                <h3>Shipping Address:</h3>
+                <p>
+                    ${address.fullname},<br>
+                    ${address.address}, ${address.city}, ${address.state}<br>
+                    ${address.pincode}
+                </p>
+                <p>Phone no: ${address.mobile}</p>
                 <p>Thank you for your purchase!</p>
                 <p>If you have any questions, feel free to contact our support team.</p>
                 <br>
@@ -96,19 +122,19 @@ export const postPaymentSuccessMail = async (req, res) => {
             to: email,
             subject: `Payment Success`,
             html: emailBody
-        })
+        });
 
         return res.status(200).json({
             success: true,
             error: false,
             message: "Email sent successfully"
-        })
+        });
     } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
         return res.status(500).json({
             success: false,
             data: null,
             error: error.message
-        })
+        });
     }
-}
+};

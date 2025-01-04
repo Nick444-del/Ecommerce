@@ -4,12 +4,14 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import toast from 'react-hot-toast'
-import logi1 from '../assets/images/logi1.png'
-import { postPayment } from '../Components/utils/postpayment';
-import { paymentMail } from '../Components/utils/paymentmail';
+import { useNavigate } from 'react-router-dom';
+// import logi1 from '../assets/images/logi1.png'
+// import { postPayment } from '../Components/utils/postpayment';
+// import { paymentMail } from '../Components/utils/paymentmail';
 
 
 const Cart = () => {
+    const navigate = useNavigate()
     const [cartData, setCartData] = useState([]);
     const [filePath, setFilePath] = useState("");
 
@@ -55,48 +57,49 @@ const Cart = () => {
 
     const handleCheckout = async () => {
         try {
-            const respose = await axiosInstance.post('/checkout')
-            console.log(respose.data.order)
+            // const respose = await axiosInstance.post('/checkout')
+            // console.log(respose.data.order)
 
-            const getUser = await axiosInstance.get('/getuserbytoken')
-            console.log(getUser)
+            // const getUser = await axiosInstance.get('/getuserbytoken')
+            // console.log(getUser)
 
-            const user = getUser.data.data
-            console.log(user)
-            console.log(user.mobile)
-            const { order } = respose.data
-            console.log(order)
-            const options = {
-                key: "rzp_test_cAtTQ8y0oFdwwk", // Enter the Key ID generated from the Dashboard
-                amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-                currency: order.currency,
-                name: "Bookwormsdenn", //your business name
-                description: "Purchase of books",
-                image: logi1,
-                order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                prefill: { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
-                    name: user.fullname, //your customer's name
-                    email: user.email,
-                    contact: user.mobile //Provide the customer's phone number for better conversion rates 
-                },
-                handler:function (response){
-                    console.log(response)
-                    postPayment(cartData)
-                    paymentMail(response)
-                    toast.success("Payment successfully done", {
-                        icon: "👍"
-                    })
-                    getAllData()
-                },
-                notes: {
-                    address: "Dahisar, Mumbai-68, Maharashtra"
-                },
-                theme: {
-                    color: "#000000"
-                }
-            };
-            const razor = new window.Razorpay(options);
-            razor.open();
+            // const user = getUser.data.data
+            // console.log(user)
+            // console.log(user.mobile)
+            // const { order } = respose.data
+            // console.log(order)
+            // const options = {
+            //     key: "rzp_test_cAtTQ8y0oFdwwk", // Enter the Key ID generated from the Dashboard
+            //     amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            //     currency: order.currency,
+            //     name: "Bookwormsdenn", //your business name
+            //     description: "Purchase of books",
+            //     image: logi1,
+            //     order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            //     prefill: { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+            //         name: user.fullname, //your customer's name
+            //         email: user.email,
+            //         contact: user.mobile //Provide the customer's phone number for better conversion rates 
+            //     },
+            //     handler:function (response){
+            //         console.log(response)
+            //         postPayment(cartData)
+            //         paymentMail(response)
+            //         toast.success("Payment successfully done", {
+            //             icon: "👍"
+            //         })
+            //         getAllData()
+            //     },
+            //     notes: {
+            //         address: "Dahisar, Mumbai-68, Maharashtra"
+            //     },
+            //     theme: {
+            //         color: "#000000"
+            //     }
+            // };
+            // const razor = new window.Razorpay(options);
+            // razor.open();
+            navigate("/bookwormdenn/buynow")
         } catch (error) {
             console.log(error)
         }
