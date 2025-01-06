@@ -47,6 +47,7 @@ const VerifyOTP = () => {
         if(response.data.success){
             console.log('OTP verified successfully');
             toast.success('OTP verified successfully')
+            localStorage.setItem("token", response.data.token)
             navigate('/bookwormdenn/newpassword')
         }
     };

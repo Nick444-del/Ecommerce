@@ -483,7 +483,28 @@ export const forgetPassword = async (req, res) => {
             from: process.env.EMAIL_USER,
             to: email,
             subject: 'Password Reset OTP',
-            text: `Your OTP for password reset is: ${otp}. It is valid for 5 minutes.`
+            html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; background-color: #f9fafc;">
+            <h2 style="text-align: center; color: #4a90e2;">Password Reset Request</h2>
+            <p>Hello <strong>${user.fullname || 'User'}</strong>,</p>
+            <p>We received a request to reset your password. Use the OTP below to reset it. This OTP is valid for <strong>5 minutes</strong>.</p>
+            <div style="text-align: center; margin: 20px 0;">
+                <span style="
+                    display: inline-block; 
+                    font-size: 24px; 
+                    font-weight: bold; 
+                    color: #ffffff; 
+                    background-color: #4a90e2; 
+                    padding: 10px 20px; 
+                    border-radius: 4px;">
+                    ${otp}
+                </span>
+            </div>
+            <p>If you did not request this, please ignore this email or contact our support if you have concerns.</p>
+            <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;" />
+            <p style="font-size: 12px; text-align: center; color: #888;">This is an automated email. Please do not reply to this message.</p>
+            <p style="font-size: 12px; text-align: center; color: #888;">&copy; ${new Date().getFullYear()} YourCompanyName. All Rights Reserved.</p>
+        </div>`
         });
 
         return res.status(200).json({
@@ -559,26 +580,36 @@ export const resetPassword = async (req, res) => {
 
         // Validate inputs
         if (!password || !confirmPassword) {
-            return res.status(400).json({ 
-                message: "Both password fields are required.", 
-                success: false 
+            return res.status(400).json({
+                message: "Both password fields are required.",
+                success: false
             });
         }
 
         if (password !== confirmPassword) {
-            return res.status(400).json({ 
-                message: "Passwords do not match.", 
-                success: false 
+            return res.status(400).json({
+                message: "Passwords do not match.",
+                success: false
             });
         }
-        
+
+        // Ensure user information exists in the request
         const user = req.user;
+        console.log(req.user)
         console.log("User from token:", user);
 
-        // Assuming you're using a User model
+        if (!user) {
+            return res.status(401).json({
+                message: "Unauthorized or invalid user.",
+                success: false
+            });
+        }
+
+        // Update the password
         const updatedUser = await usersModel.findByIdAndUpdate(
-            user._id, 
-            { password }, // Directly saving plaintext password (not recommended)
+            user, // Directly use user._id
+            { password }, // Directly saving plaintext password (Not recommended in production)
+            { new: true } // Ensure updated document is returned
         );
 
         if (!updatedUser) {
@@ -602,11 +633,12 @@ export const resetPassword = async (req, res) => {
     }
 };
 
+
 export const getUserByToken = async (req, res) => {
     try {
         const userId = req.user.user._id;
         const user = await usersModel.findById(userId);
-        if(!user){
+        if (!user) {
             return res.status(404).json({
                 success: false,
                 data: null,
