@@ -58,7 +58,6 @@ const OrderHistory = () => {
                                         hour12: true, // AM/PM format
                                     })}
                                 </td>
-
                             </tr>
                         ))}
                     </tbody>

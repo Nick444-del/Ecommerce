@@ -1,6 +1,8 @@
+import nodemailer from "nodemailer";
 import jwt from 'jsonwebtoken';
 import usersModel from "../models/users.model";
-import nodemailer from "nodemailer"
+import orderModel from "../models/order.model";
+import addressModel from "../models/address.model";
 
 export const getAllUsers = async (req, res) => {
     try {
@@ -52,6 +54,29 @@ export const register = async (req, res) => {
             userData
         }, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: "30m"
+        })
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        })
+        const emailTemplate = `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+            <h2 style="color: #4CAF50;">Welcome to Our Platform, ${fullname}!</h2>
+            <p>Thank you for registering with us. We're excited to have you on board.</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p>If you didn't register on our platform, please ignore this email.</p>
+            <hr>
+            <p style="font-size: 0.9em;">Best Regards,<br>Your Company Team</p>
+        </div>
+    `;
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "Registration Successful - Verify Your Email",
+            html: emailTemplate
         })
         return res.status(201).json({
             data: userData,
@@ -361,20 +386,38 @@ export const adminlogin = async (req, res) => {
 export const deleteUser = async (req, res) => {
     try {
         const userId = req.params.userId;
-        const response = await usersModel.deleteOne({ _id: userId })
+
+        // Delete the user
+        const response = await usersModel.deleteOne({ _id: userId });
+        if (response.deletedCount === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        // Delete all orders associated with the user
+        await orderModel.deleteMany({ userId: userId });
+        console.log("All orders associated with the user deleted successfully");
+
+        // Delete all addresses associated with the user
+        await addressModel.deleteMany({ _id: address });
+        console.log("All addresses associated with the user deleted successfully");
+
         return res.status(200).json({
             success: true,
-            data: response,
-            error: false
-        })
+            message: "User, Orders, and Addresses deleted successfully",
+            data: response
+        });
     } catch (error) {
+        console.error("Error deleting user, orders, or addresses:", error);
         return res.status(500).json({
             success: false,
-            data: null,
-            error: error
-        })
+            error: error.message,
+        });
     }
-}
+};
+
 
 export const changePassword = async (req, res) => {
     try {
