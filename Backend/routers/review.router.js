@@ -1,6 +1,6 @@
 import express from 'express';
-import { getAllReviews, giveReview, getProductReview } from '../controllers/review.controller'
-import { authenticateToken } from '../utils/token';
+import { getAllReviews, giveReview, getProductReview } from '../controllers/review.controller.js'
+import { authenticateToken } from '../utils/token.js';
 
 const router = express.Router();
 

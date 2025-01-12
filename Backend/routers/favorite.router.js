@@ -1,6 +1,6 @@
 import express from 'express';
-import { getAllFav, addFavorite, getUserFavorite, checkFavoriate, removeFavorite } from '../controllers/favorite.controller';
-import { authenticateToken } from '../utils/token';
+import { getAllFav, addFavorite, getUserFavorite, checkFavoriate, removeFavorite } from '../controllers/favorite.controller.js';
+import { authenticateToken } from '../utils/token.js';
 
 const router = express.Router();
 

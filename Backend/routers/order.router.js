@@ -1,6 +1,6 @@
 import express from 'express';
-import { addOrder, getOrderByToken, getAllOrders, getAllOrder } from'../controllers/order.controller'
-import { authenticateToken } from '../utils/token';
+import { addOrder, getOrderByToken, getAllOrders, getAllOrder } from'../controllers/order.controller.js'
+import { authenticateToken } from '../utils/token.js';
 
 const router = express.Router();
 

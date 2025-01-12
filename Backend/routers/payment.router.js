@@ -1,6 +1,6 @@
 import express from 'express';
-import { createPayment, checkout } from '../controllers/payment.controller';
-import { authenticateToken } from '../utils/token';
+import { createPayment, checkout } from '../controllers/payment.controller.js';
+import { authenticateToken } from '../utils/token.js';
 
 const router = express.Router();
 

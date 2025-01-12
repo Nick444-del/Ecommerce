@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getAllProduct, createProduct, getProductByCategory, getSelfHelp, getBusinessStartup, getProductById, getMangaById, deleteProductById, getMythologyById, favoriteProduct, newArrival, editProduct, updateProductQuantity } from "../controllers/product.controller";
+import { getAllProduct, createProduct, getProductByCategory, getSelfHelp, getBusinessStartup, getProductById, getMangaById, deleteProductById, getMythologyById, favoriteProduct, newArrival, editProduct, updateProductQuantity } from "../controllers/product.controller.js";
 import { authenticateToken, admin, authenticate } from "../utils/token.js";
 
 const router = express.Router();
