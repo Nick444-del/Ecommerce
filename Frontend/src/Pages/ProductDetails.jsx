@@ -7,6 +7,7 @@ import AddReview from '../Components/Modal/AddReview';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import toast from 'react-hot-toast';
+import ProductReviews from '../Components/ProductReview/ProductReview';
 
 const ProductDetails = () => {
     const [productData, setProductData] = useState({});
@@ -14,7 +15,7 @@ const ProductDetails = () => {
     const [filepath, setFilepath] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [isFavorite, setIsFavorite] = useState(false); // Track favorite status
+    const [isFavorite, setIsFavorite] = useState(true); // Track favorite status
     const { productId } = useParams();
     const navigate = useNavigate();
     const [openModal, setOpenModal] = useState({
@@ -178,11 +179,14 @@ const ProductDetails = () => {
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className='flex justify-between items-center mt-4'>
                     <h2 className="text-3xl md:text-4xl font-semibold text-gray-800 mt-10">Review & Rating</h2>
                     <div>
                         <button onClick={() => givewReview(productData._id)} className='w-full md:w-auto px-6 py-3 bg-black text-white rounded-md hover:bg-white hover:text-black border transition-all'>Give Review</button>
                     </div>
+                </div>
+                <div>
+                    <ProductReviews productId={productData._id} />
                 </div>
             </div>
             <Modal

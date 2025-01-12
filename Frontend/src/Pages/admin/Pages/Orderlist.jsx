@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdminNavbar from '../Components/AdminNavbar';
+import { Typography } from '@mui/material';
 import axiosInstance from '../../../Components/utils/axiosInstance';
 
 const Orderlist = () => {
@@ -39,7 +39,11 @@ const Orderlist = () => {
     return (
         <>
             {/* <AdminNavbar /> */}
-            <h1 className='text-3xl font-semibold text-gray-800 mb-4'>Order List</h1>
+            <div className='flex justify-between items-center p-6'>
+                <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                    Order List
+                </Typography>
+            </div>
 
             {loading ? (
                 <div className="text-center py-4">Loading...</div>

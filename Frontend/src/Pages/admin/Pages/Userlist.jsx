@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axiosInstance from '../../../Components/utils/axiosInstance'
+import { Typography } from '@mui/material'
 import Modal from 'react-modal'
 import toast from 'react-hot-toast'
 
@@ -32,7 +33,7 @@ const Userlist = () => {
             }
         } catch (error) {
             console.log(error)
-        }finally{
+        } finally {
             setDeleteModal({ isShown: false, userId: null })
         }
     }
@@ -46,7 +47,11 @@ const Userlist = () => {
         <>
             {/* <AdminNavbar /> */}
             <div>
-                <h1 className='text-[40px] text-center my-[1px] font-medium'>User List</h1>
+                <div className='flex justify-between items-center p-6'>
+                    <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                        User List
+                    </Typography>
+                </div>
                 <div className='overflow-x-auto px-6'>
                     <table className="min-w-full table-auto border-collapse bg-white shadow-lg">
                         <thead>

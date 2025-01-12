@@ -20,6 +20,8 @@ const AddReview = ({ onClose, productId }) => {
             }
         } catch (error) {
             console.log(error)
+        }finally{
+            onClose()
         }
     }
     return (

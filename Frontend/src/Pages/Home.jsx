@@ -42,35 +42,36 @@ const Home = ({ getUserInfo }) => {
     return (
         <div>
             <section>
-                <img src={hero1} alt="" className='w-full h-auto object-cover' />
+                {/* <img src={hero1} alt="" className='w-full h-auto object-cover' /> */}
+                <div className='className=w-full h-[90vh] object-cover' style={{ backgroundImage: `url(${hero1})` }} ></div>
             </section>
-            <section className='offers py-[35px]'>
-                <div className='flex justify-center sm:mx-auto items-center'>
-                    {/* mx-[260px] px-[50px]  */}
-                    <div className='w-[900px] h-[235px]'>
-                        <div className='bg-gray-200 rounded-lg p-6 lg:p-8'>
-                            <h3 className='text-lg lg:text-xl text-[#242833] font-bold uppercase mb-4'>offers!</h3>
-                            <ul className='flex items-start align-top list-none flex-col gap-2 font-bold'>
-                                <li>
-                                    * 10% OFF ABOVE Rs 600/-
-                                </li>
-                                <li>
-                                    * 12%OFF ABOVE Rs 1200/-
-                                </li>
-                                <li>
-                                    * 12%OFF ABOVE Rs 1200/-
-                                </li>
-                                <li>
-                                    * 18%OFF ABOVE Rs 2500/-
-                                </li>
-                                <li>
-                                    * 18%OFF ABOVE Rs 2500/-
-                                </li>
-                            </ul>
-                        </div>
+            <section className="offers py-10 bg-white text-gray-900">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-8">
+                        <h3 className="text-2xl lg:text-3xl font-bold uppercase tracking-wide text-gray-800">Exclusive Offers</h3>
+                        <p className="mt-2 text-lg text-gray-600">Discover the best deals tailored for you!</p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {[
+                            { discount: "10% OFF", amount: "Above Rs 600/-", icon: "⭑" },
+                            { discount: "12% OFF", amount: "Above Rs 1200/-", icon: "✦" },
+                            { discount: "15% OFF", amount: "Above Rs 1800/-", icon: "✪" },
+                            { discount: "18% OFF", amount: "Above Rs 2500/-", icon: "✹" },
+                        ].map((offer, index) => (
+                            <div
+                                key={index}
+                                className="flex flex-col items-center p-6 bg-gray-100 rounded-lg shadow-md text-black hover:scale-105 transform transition-transform duration-300"
+                            >
+                                <div className="text-5xl text-black">{offer.icon}</div>
+                                <h4 className="mt-4 text-xl font-bold">{offer.discount}</h4>
+                                <p className="mt-2 text-sm text-gray-600">{offer.amount}</p>
+                                <div className="mt-4 h-[2px] w-full bg-gray-300"></div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
+
             <section>
                 <NewArrivals />
             </section>

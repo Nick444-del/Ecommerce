@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 import { Typography } from '@mui/material'
+import { IoMdAddCircleOutline } from "react-icons/io";
 import axiosInstance from '../../../Components/utils/axiosInstance'
 import CategoryModal from '../Components/CategoryModal'
 import toast from 'react-hot-toast'
@@ -85,7 +86,7 @@ const Categorieslist = () => {
                     Category
                 </Typography>
                 <button className='bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300' onClick={handleAddCategory}>
-                    Add Category
+                    <IoMdAddCircleOutline className='w-6 h-6' />
                 </button>
             </div>
 

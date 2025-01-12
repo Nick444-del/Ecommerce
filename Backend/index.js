@@ -4,16 +4,16 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import userRouter from './routers/users.router'
-import productRouter from './routers/products.router'
-import addressRouter from './routers/address.router'
-import categoryRouter from './routers/category.router'
-import cartRouter from './routers/cart.router'
-import reviewRouter from './routers/review.router'
-import favoriteRouter from './routers/favorite.router'
-import ContactRouter from './routers/contact.router'
-import paymentRouter from './routers/payment.router'
-import orderRouter from './routers/order.router'
+import userRouter from './routers/users.router.js'
+import productRouter from './routers/products.router.js'
+import addressRouter from './routers/address.router.js'
+import categoryRouter from './routers/category.router.js'
+import cartRouter from './routers/cart.router.js'
+import reviewRouter from './routers/review.router.js'
+import favoriteRouter from './routers/favorite.router.js'
+import ContactRouter from './routers/contact.router.js'
+import paymentRouter from './routers/payment.router.js'
+import orderRouter from './routers/order.router.js'
 
 dotenv.config()
 

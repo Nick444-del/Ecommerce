@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import axiosInstance from '../Components/utils/axiosInstance';
 import NewAddress from '../Components/Modal/NewAddress';
 import toast from 'react-hot-toast';
-import logi1 from '../assets/images/logi1.png'
+import logi1 from '../assets/images/logi1.png';
 import { postPayment } from '../Components/utils/postpayment';
 import { paymentMail } from '../Components/utils/paymentmail';
 import { useNavigate } from 'react-router-dom';
@@ -242,7 +242,7 @@ const BuyNow = () => {
                 <NewAddress
                     type={openAddModal.type}
                     data={openAddModal.data}
-                    addressFetch={addressFetch}
+                    addressFetch={addressFetch} // Pass the addressFetch function as a prop to trigger address update
                     onClose={() => setOpenAddModal({ isShown: false })}
                 />
             </Modal>

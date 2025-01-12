@@ -54,11 +54,12 @@ export const giveReview = async (req, res) => {
 export const getProductReview = async (req, res) => {
     try {
         const productId = req.params.productId;
-        const response = await reviewModel.find({ productId: productId }).populate('usersId').populate('productId');
+        const response = await reviewModel.find({ productId }).populate('usersId', 'fullname');
         return res.status(200).json({
             success: true,
             data: response,
-            error: false
+            error: false,
+            message: 'Product reviews fetched successfully.'
         })
     } catch (error) {
         return res.status(500).json({

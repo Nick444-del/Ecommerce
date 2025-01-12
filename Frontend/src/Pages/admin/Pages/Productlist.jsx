@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 import { Typography } from '@mui/material'
+import { IoMdAddCircleOutline } from "react-icons/io";
 import axiosInstance from '../../../Components/utils/axiosInstance'
 import ProductModal from '../Components/ProductModal'
 import EditIcon from '@mui/icons-material/Edit';
@@ -93,7 +94,7 @@ const Productlist = () => {
                 <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
                     Products
                 </Typography>
-                <button className='bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300' onClick={() => handleAddProduct()}>Add Product</button>
+                <button className='bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300' onClick={() => handleAddProduct()}><IoMdAddCircleOutline className='w-6 h-6' /></button>
             </div>
             <div className='overflow-x-auto px-6'>
                 <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-lg">
