@@ -1,8 +1,5 @@
-import instance from '../utils/razorpayClient';
-import usersModel from '../models/users.model';
-import productModel from '../models/product.model';
-import cartModel from '../models/cart.model';
-import crypto from 'crypto';
+import instance from '../utils/razorpayClient.js';
+import cartModel from '../models/cart.model.js';
 
 export const createPayment = async (req, res) => {
     try {

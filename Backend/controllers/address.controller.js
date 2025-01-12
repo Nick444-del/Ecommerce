@@ -1,5 +1,4 @@
-import addressModel from "../models/address.model";
-import usersModel from "../models/users.model";
+import addressModel from "../models/address.model.js";
 
 export const getAllAddress = async (req, res) => {
     try {

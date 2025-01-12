@@ -1,6 +1,6 @@
 import multer from "multer";
-import categoryModel from "../models/category.model";
-import storage from "../utils/image"
+import categoryModel from "../models/category.model.js";
+import storage from "../utils/image.js"
 import fs from "fs";
 
 const upload = multer({ storage: storage });

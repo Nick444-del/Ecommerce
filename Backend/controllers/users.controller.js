@@ -1,8 +1,8 @@
 import nodemailer from "nodemailer";
 import jwt from 'jsonwebtoken';
-import usersModel from "../models/users.model";
-import orderModel from "../models/order.model";
-import addressModel from "../models/address.model";
+import usersModel from "../models/users.model.js";
+import orderModel from "../models/order.model.js";
+import addressModel from "../models/address.model.js";
 
 export const getAllUsers = async (req, res) => {
     try {
