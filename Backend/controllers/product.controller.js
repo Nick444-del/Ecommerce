@@ -331,3 +331,34 @@ export const updateProductQuantity = async (req, res) => {
         return res.status(500).json({ success: false, message: 'Internal server error.' });
     }
 };
+
+export const searchProduct = async (req, res) => {
+    try {
+        const { query } = req.query;
+        if(!query){
+            return res.status(400).json({ message: "Search query is required" });
+        }
+
+        const product = await productModel.find({
+            $or: [
+                { title: { $regex: query, $options: "i" } },
+                { description: { $regex: query, $options: "i" } },
+                { author: { $regex: query, $options: "i" } }
+            ]
+        })
+
+        if(product.length === 0){
+            return res.status(404).json({ message: "No products found" });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Products fetched successfully",
+            data: product,
+            filePath: "http://localhost:5000/uploads/"
+        })
+    } catch (error) {
+        console.error("Error searching products:", error);
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}

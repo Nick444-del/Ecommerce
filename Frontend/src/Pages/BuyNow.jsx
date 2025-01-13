@@ -66,12 +66,32 @@ const BuyNow = () => {
 
     const handleSelectAddress = (addressId) => {
         setSelectedAddress(addressId);
-        toast.success('Address selected!');
+        toast.success('Address selected!', {
+            style: {
+                borderRadius: "10px",
+                background: "#000",
+                color: "#fff"
+            },
+            iconTheme: {
+                primary: '#fff',
+                secondary: '#000',
+            }
+        });
     };
 
     const handleBuyNow = async () => {
         if (!selectedAddress) {
-            toast.error('Please select an address before proceeding.');
+            toast.error('Please select an address before proceeding.', {
+                style: {
+                    borderRadius: "10px",
+                    background: "#000",
+                    color: "#fff"
+                },
+                iconTheme: {
+                    primary: '#fff',
+                    secondary: '#000',
+                }
+            });
             return;
         }
 
@@ -110,7 +130,16 @@ const BuyNow = () => {
                     console.log(mailData)
                     paymentMail(mailData)
                     toast.success("Payment successfully done", {
-                        icon: "👍"
+                        icon: "👍",
+                        style: {
+                            borderRadius: "10px",
+                            background: "#000",
+                            color: "#fff"
+                        },
+                        iconTheme: {
+                            primary: '#fff',
+                            secondary: '#000',
+                        }
                     })
                     fetchData()
                     navigate("/bookwormdenn")

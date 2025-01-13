@@ -116,7 +116,7 @@ const Productlist = () => {
                             product && product.map((index, i) => {
                                 return (
                                     <tr key={index._id} className='border-b hover:bg-gray-50'>
-                                        <td className="py-4 px-6 text-center">{i + 1}</td>
+                                        <td className="py-4 px-6 text-center">{(currentPage - 1) * 10 + i + 1}</td>
                                         <td className='py-4 px-6 text-center'>
                                             {index.title}
                                         </td>

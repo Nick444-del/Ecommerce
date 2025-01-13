@@ -4,7 +4,7 @@ import RightDrawer from './RightDrawer'
 import Searchbar from '../Searchbar/Searchbar'
 import logo1 from '../../assets/images/logi1.png'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Navigate, NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import toast from 'react-hot-toast'
 
@@ -17,7 +17,17 @@ const Appbar = ({ userInfo }) => {
         localStorage.clear()
         localStorage.removeItem("token")
         navigate('/bookwormdenn/login')
-        toast.success("Logout Successfully!")
+        toast.success("Logout Successfully!", {
+            style: {
+                borderRadius: "10px",
+                background: "#000",
+                color: "#fff",
+            },
+            iconTheme: {
+                primary: '#fff',
+                secondary: '#000',
+            }
+        })
     }
     const handleSearch = () => {
         if (searchQuery) {

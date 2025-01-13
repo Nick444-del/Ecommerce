@@ -18,8 +18,18 @@ const ProductCard = ({ productId, productImage, productTitle, price, filepath })
             console.log(response.data.data)
             // navigate('/bookwormdenn/cart')
             toast(response.data.message, {
-                icon: '🛒'
-            })
+                icon: '🛒',
+                style: {
+                    borderRadius: "10px",
+                    background: "#000",
+                    color: "#fff"
+                },
+                iconTheme: {
+                    primary: '#fff',
+                    secondary: '#000',
+                }
+            },
+            )
         } catch (error) {
             if (error) {
                 console.log(error)

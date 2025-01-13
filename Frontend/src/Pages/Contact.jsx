@@ -15,7 +15,17 @@ const Contact = () => {
 
         // Validation
         if (!name || !email || !comment) {
-            toast.error('Name, Email, and Comment are required fields.');
+            toast.error('Name, Email, and Comment are required fields.', {
+                style: {
+                    borderRadius: "10px",
+                    background: "#000",
+                    color: "#fff"
+                },
+                iconTheme: {
+                    primary: '#fff',
+                    secondary: '#000',
+                }
+            });
             setIsLoading(false);
             return;
         }
@@ -28,7 +38,17 @@ const Contact = () => {
                 comment,
             });
             console.log(response);
-            toast.success('Message sent successfully!');
+            toast.success('Message sent successfully!', {
+                style: {
+                    borderRadius: "10px",
+                    background: "#000",
+                    color: "#fff"
+                },
+                iconTheme: {
+                    primary: '#fff',
+                    secondary: '#000',
+                }
+            });
             // Clear form fields after successful submission
             setName('');
             setEmail('');
@@ -36,7 +56,18 @@ const Contact = () => {
             setComment('');
         } catch (error) {
             console.error('Error:', error.message || error.response.data.message);
-            toast.error('Failed to send message. Please try again later.');
+            toast.error('Failed to send message. Please try again later.', {
+                style: {
+                    borderRadius: "10px",
+                    background: "#000",
+                    color: "#fff"
+                },
+                iconTheme: {
+                    primary: '#fff',
+                    secondary: '#000',
+                }
+            }
+            );
         } finally {
             setIsLoading(false); // End loading state
         }
@@ -86,8 +117,8 @@ const Contact = () => {
                     type='submit'
                     disabled={isLoading}
                     className={`w-[120px] h-[45px] ${isLoading
-                            ? 'bg-gray-500 cursor-not-allowed'
-                            : 'bg-black hover:bg-white hover:text-black transition-colors'
+                        ? 'bg-gray-500 cursor-not-allowed'
+                        : 'bg-black hover:bg-white hover:text-black transition-colors'
                         } text-white`}
                 >
                     {isLoading ? 'Sending...' : 'Send'}

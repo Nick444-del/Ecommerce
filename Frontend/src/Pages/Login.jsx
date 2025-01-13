@@ -35,14 +35,24 @@ const Login = () => {
             const response = await axiosInstance.post("/login", { email, password });
             console.log("Login response: ", response);
             localStorage.setItem("User", JSON.stringify(response.user));
-            if(response.data && response.data.token){
+            if (response.data && response.data.token) {
                 console.log("Access token received:", response.data.token);
                 localStorage.setItem("token", response.data.token);
                 console.log("Token saved in localStorage");
                 navigate("/bookwormdenn");
                 console.log("Navigating to dashboard");
-                toast.success("Login successful")
-            }else{
+                toast.success("Login successfully!", {
+                    style: {
+                        borderRadius: "10px",
+                        background: "#000",
+                        color: "#fff"
+                    },
+                    iconTheme: {
+                        primary: '#fff',
+                        secondary: '#000',
+                    }
+                })
+            } else {
                 console.log("Access token missing in response data");
                 toast.error("Access token missing in response data");
             }

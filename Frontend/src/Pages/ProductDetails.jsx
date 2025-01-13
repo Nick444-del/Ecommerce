@@ -46,7 +46,18 @@ const ProductDetails = () => {
             const response = await axiosInstance.post(`/addproducttocart/${productId}`);
             if (response.status === 200) {
                 setData(response.data.data);
-                toast('Added to Cart', { icon: '🛒' });
+                toast('Added to Cart', {
+                    icon: '🛒',
+                    style: {
+                        borderRadius: "10px",
+                        background: "#000",
+                        color: "#fff"
+                    },
+                    iconTheme: {
+                        primary: '#fff',
+                        secondary: '#000',
+                    }
+                });
             }
         } catch (error) {
             console.log(error);
@@ -58,7 +69,18 @@ const ProductDetails = () => {
             const response = await axiosInstance.post(`/addproducttocart/${productId}`);
             if (response.status === 200) {
                 setData(response.data.data);
-                toast('Added to Cart', { icon: '🛒' });
+                toast('Added to Cart', {
+                    icon: '🛒',
+                    style: {
+                        borderRadius: "10px",
+                        background: "#000",
+                        color: "#fff"
+                    },
+                    iconTheme: {
+                        primary: '#fff',
+                        secondary: '#000',
+                    }
+                });
             }
             navigate('/bookwormdenn/buynow')
         } catch (error) {
