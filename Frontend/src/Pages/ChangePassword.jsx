@@ -34,11 +34,32 @@ const ChangePassword = () => {
                 setOldPassword('');
                 setNewPassword('');
                 navigate("/bookwormdenn")
-                toast.success("Password changed successfully!")
+                toast.success(response.data.message || "Password changed successfully!", {
+                    style: {
+                        borderRadius: "10px",
+                        background: "#000",
+                        color: "#fff"
+                    },
+                    iconTheme: {
+                        primary: '#fff',
+                        secondary: '#000',
+                    }
+                })
             }
         } catch (error) {
             console.error("Error changing password:", error.response ? error.response.data : error.message);
             setError(error.response?.data?.message || 'An error occurred. Please try again.');
+            toast.error(error.response?.data?.message || 'An error occurred. Please try again.', {
+                style: {
+                    borderRadius: "10px",
+                    background: "#000",
+                    color: "#fff"
+                },
+                iconTheme: {
+                    primary: '#fff',
+                    secondary: '#000',
+                }
+            });
         }
     }
 

@@ -444,6 +444,14 @@ export const changePassword = async (req, res) => {
             })
         }
 
+        if(user.password === newPassword){
+            return res.status(400).json({
+                success: false,
+                data: null,
+                message: "New password cannot be the same as the old password"
+            })
+        }
+
         user.password = newPassword
         await user.save();
 
@@ -461,7 +469,7 @@ export const changePassword = async (req, res) => {
             error: error.message
         });
     }
-}
+};
 
 export const forgetPassword = async (req, res) => {
     try {
