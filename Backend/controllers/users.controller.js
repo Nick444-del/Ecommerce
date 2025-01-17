@@ -418,7 +418,6 @@ export const deleteUser = async (req, res) => {
     }
 };
 
-
 export const changePassword = async (req, res) => {
     try {
         const { oldPassword, newPassword } = req.body;
@@ -683,7 +682,6 @@ export const resetPassword = async (req, res) => {
         });
     }
 };
-
 
 export const getUserByToken = async (req, res) => {
     try {
