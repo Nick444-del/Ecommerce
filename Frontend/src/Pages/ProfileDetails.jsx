@@ -50,6 +50,7 @@ const ProfileDetails = ({ userInfo }) => {
             const response = await axiosInstance.delete(`/deleteaddress/${addressId}`);
             if (response.data && response.data.data) {
                 console.log("Address deleted: ", response.data);
+                fetchAddresses()
             }
         } catch (error) {
             console.log("Error deleting address from address collection: " + error.message);
@@ -58,8 +59,8 @@ const ProfileDetails = ({ userInfo }) => {
 
     const handleDeleteAddress = async (addressId) => {
         console.log("Delete Address from Address id: " + addressId)
-        updateUserAddressArray(addressId)
         deleteUserAddress(addressId)
+        updateUserAddressArray(addressId)
     };
 
     useEffect(() => {
