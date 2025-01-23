@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import usersModel from "../models/users.model.js";
 import orderModel from "../models/order.model.js";
 import addressModel from "../models/address.model.js";
@@ -35,33 +36,45 @@ export const getAllUsers = async (req, res) => {
 export const register = async (req, res) => {
     try {
         const { fullname, email, mobile, address, password } = req.body;
-        const existUser = await usersModel.findOne({
-            email: email
-        })
+
+        // Check if the user already exists
+        const existUser = await usersModel.findOne({ email });
         if (existUser) {
             return res.status(400).json({
                 message: "User already registered",
                 success: false
-            })
+            });
         }
+
+        // Hash the password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Create the user
         const userData = await usersModel.create({
-            fullname: fullname,
-            email: email,
-            mobile: mobile,
-            password: password
-        })
-        const token = jwt.sign({
-            userData
-        }, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: "30m"
-        })
+            fullname,
+            email,
+            mobile,
+            password: hashedPassword
+        });
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { userData },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: "30m" }
+        );
+
+        // Set up email transporter
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
             },
-        })
+        });
+
+        // Email template
         const emailTemplate = `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
             <h2 style="color: #4CAF50;">Welcome to Our Platform, ${fullname}!</h2>
@@ -71,75 +84,85 @@ export const register = async (req, res) => {
             <hr>
             <p style="font-size: 0.9em;">Best Regards,<br>Your Company Team</p>
         </div>
-    `;
+        `;
+        
+        // Send email
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
             subject: "Registration Successful - Verify Your Email",
             html: emailTemplate
-        })
+        });
+
         return res.status(201).json({
             data: userData,
             token,
             message: "User created successfully",
             success: true
-        })
+        });
     } catch (error) {
         return res.status(500).json({
             message: error.message,
             success: false
-        })
+        });
     }
-}
+};
 
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
+
+        // Validate input
         if (!email) {
             return res.status(400).json({
                 message: "Email is required",
                 success: false
-            })
+            });
         }
         if (!password) {
             return res.status(400).json({
                 message: "Password is required",
                 success: false
-            })
+            });
         }
-        const userInfo = await usersModel.findOne({
-            email: email
-        })
+
+        // Check if the user exists
+        const userInfo = await usersModel.findOne({ email });
         if (!userInfo) {
             return res.status(400).json({
                 message: "User does not exist",
                 success: false
-            })
-        }
-        if (userInfo.email == email && userInfo.password == password) {
-            const user = { user: userInfo };
-            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: "36000m"
             });
-            return res.status(200).json({
-                error: false,
-                message: "Login Successfully",
-                email,
-                token
-            })
-        } else {
+        }
+
+        // Compare passwords
+        const isPasswordValid = await bcrypt.compare(password, userInfo.password);
+        if (!isPasswordValid) {
             return res.status(400).json({
                 message: "Invalid username or password",
                 success: false
-            })
+            });
         }
+
+        // Generate JWT token
+        const user = { user: userInfo };
+        const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: "36000m"
+        });
+
+        return res.status(200).json({
+            error: false,
+            message: "Login Successfully",
+            email,
+            token
+        });
     } catch (error) {
         return res.status(500).json({
-            message: err.message,
+            message: error.message,
             success: false
         });
     }
-}
+};
 
 export const updateUser = async (req, res) => {
     try {
@@ -335,6 +358,7 @@ export const adminlogin = async (req, res) => {
     try {
         const { email, password } = req.body;
         console.log("Admin login", email, password);
+        
         if (!email) {
             return res.status(400).json({
                 success: false,
@@ -347,6 +371,7 @@ export const adminlogin = async (req, res) => {
                 message: "Password is required"
             });
         }
+        
         const user = await usersModel.findOne({ email });
         if (!user) {
             return res.status(404).json({
@@ -354,12 +379,22 @@ export const adminlogin = async (req, res) => {
                 message: "User not found"
             });
         }
-        if (user.password !== password) {
+        
+        if (user.isAdmin) {
+            console.log("User is admin");
+        } else {
+            console.log("User is not admin");
+        }
+        
+        // Compare provided password with hashed password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
             return res.status(401).json({
                 success: false,
                 message: "Invalid password"
             });
         }
+        
         if (user.isAdmin) {
             const token = jwt.sign({ user: user }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "36000m" });
             return res.status(200).json({
@@ -382,6 +417,7 @@ export const adminlogin = async (req, res) => {
         });
     }
 };
+
 
 export const deleteUser = async (req, res) => {
     try {
@@ -431,27 +467,32 @@ export const changePassword = async (req, res) => {
                 success: false,
                 data: null,
                 error: "User not found"
-            })
+            });
         }
 
         // Check if the old password is correct
-        if (user.password !== oldPassword) {
+        const isOldPasswordValid = await bcrypt.compare(oldPassword, user.password);
+        if (!isOldPasswordValid) {
             return res.status(400).json({
                 success: false,
                 data: null,
                 error: "Old password is incorrect"
-            })
+            });
         }
 
-        if(user.password === newPassword){
+        // Ensure the new password is different from the old password
+        const isNewPasswordSame = await bcrypt.compare(newPassword, user.password);
+        if (isNewPasswordSame) {
             return res.status(400).json({
                 success: false,
                 data: null,
                 message: "New password cannot be the same as the old password"
-            })
+            });
         }
 
-        user.password = newPassword
+        // Hash the new password and save
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10); // 10 is the salt rounds
+        user.password = hashedNewPassword;
         await user.save();
 
         return res.status(200).json({
@@ -459,9 +500,9 @@ export const changePassword = async (req, res) => {
             data: user,
             error: false,
             message: "Password changed successfully"
-        })
+        });
     } catch (error) {
-        console.error('Error changing password:', error.message);  // Log the error
+        console.error('Error changing password:', error.message); // Log the error
         return res.status(500).json({
             success: false,
             data: null,
@@ -645,7 +686,7 @@ export const resetPassword = async (req, res) => {
 
         // Ensure user information exists in the request
         const user = req.user;
-        console.log(req.user)
+        console.log("Reset password from line no 689 ",req.user);
         console.log("User from token:", user);
 
         if (!user) {
@@ -655,10 +696,13 @@ export const resetPassword = async (req, res) => {
             });
         }
 
-        // Update the password
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
+
+        // Update the password in the database
         const updatedUser = await usersModel.findByIdAndUpdate(
-            user, // Directly use user._id
-            { password }, // Directly saving plaintext password (Not recommended in production)
+            user, // Use user._id directly
+            { password: hashedPassword }, // Save the hashed password
             { new: true } // Ensure updated document is returned
         );
 
@@ -669,11 +713,32 @@ export const resetPassword = async (req, res) => {
             });
         }
 
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            }
+        })
+
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: user.email,
+            subject: 'Password Changed Successfully',
+            html: `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                <h2 style="color: #4CAF50;">Password Changed Successfully</h2>
+                <p>Hi ${user.fullname},</p>
+                <p>Your password has been successfully changed.</p>
+                <p>Best regards,<br><strong>Bookwormdenn Team</strong></p>
+            </div>
+            `
+        })
+
         return res.status(200).json({
             message: "Password reset successfully.",
             success: true
         });
-
     } catch (error) {
         console.error("Error resetting password:", error);
         return res.status(500).json({
@@ -682,6 +747,7 @@ export const resetPassword = async (req, res) => {
         });
     }
 };
+
 
 export const getUserByToken = async (req, res) => {
     try {

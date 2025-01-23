@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import PasswordInput from '../Components/Inputs/PasswordInput'
 import { GrUpdate } from "react-icons/gr";
 import axiosInstance from '../Components/utils/axiosInstance';
@@ -7,6 +8,8 @@ const NewPassword = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+
+    const navigate = useNavigate()
 
     const handleChangePassword = async (e) => {
         e.preventDefault();
@@ -27,7 +30,7 @@ const NewPassword = () => {
         }
 
         setError("");
-        console.log("Password changed"+ password, confirmPassword);
+        console.log("Password changed" + password, confirmPassword);
         try {
             const response = await axiosInstance.put('/resetpassword', {
                 // body: JSON.stringify({ password, confirmPassword })
@@ -36,10 +39,21 @@ const NewPassword = () => {
 
             if (response.data.success) {
                 console.log("Password changed successfully");
-                setSuccessMessage('Password changed successfully!');
+                toast.success("Password changed successfully", {
+                    style: {
+                        borderRadius: "10px",
+                        background: "#000",
+                        color: "#fff"
+                    },
+                    iconTheme: {
+                        primary: '#fff',
+                        secondary: '#000',
+                    }
+                })
+                // setSuccessMessage('Password changed successfully!');
                 setPassword('');
                 setConfirmPassword('');
-                navigate('/bookwormdenn')
+                navigate('/bookwormdenn/login')
                 toast.success("Password changed successfully!")
             }
         } catch (error) {

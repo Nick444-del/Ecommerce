@@ -14,37 +14,51 @@ const AdminLogin = () => {
 
     const handlelogin = async (e) => {
         e.preventDefault();
-
+    
+        // Validate email format
         if (!validateEmail(email)) {
             setError("Please enter a valid email address");
             return;
         }
-
+    
+        // Validate password presence
         if (!password) {
             setError("Please enter your password");
             return;
         }
-
+    
+        // Clear any previous errors
         setError("");
-
+    
         try {
+            // Send login request to the backend
             const response = await axiosInstance.post("/adminlogin", { email, password });
+    
+            // Check if response contains a token
             if (response.data && response.data.token) {
-                localStorage.setItem("User", JSON.stringify(response.data.user));
+                // Store user and token in local storage
+                localStorage.setItem("User", JSON.stringify(response.data.data));
                 localStorage.setItem("token", response.data.token);
+    
+                // Redirect to the admin dashboard
                 navigate('/bookwormdenn/admin/dashboard');
             } else {
+                // Handle missing token in response
                 setError("Access token missing in response data");
             }
         } catch (error) {
             console.error("Login error:", error);
+    
+            // Handle API errors
             if (error.response && error.response.data && error.response.data.message) {
                 setError(error.response.data.message);
             } else {
-                setError("An unexpected error occurred. Please try again");
+                // Handle unexpected errors
+                setError("An unexpected error occurred. Please try again.");
             }
         }
     };
+    
 
     return (
         <div className='flex items-center justify-center mt-28' style={{ height: "100%", backgroundImage: "url('/assets/images/loginbg.jpg')" }}>
