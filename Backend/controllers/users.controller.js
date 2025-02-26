@@ -748,7 +748,6 @@ export const resetPassword = async (req, res) => {
     }
 };
 
-
 export const getUserByToken = async (req, res) => {
     try {
         const userId = req.user.user._id;
