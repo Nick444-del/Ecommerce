@@ -6,30 +6,38 @@ import { ListItem, IconButton } from '@mui/material';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import UserIcon from '@mui/icons-material/Person';
 import MenuIcon from '@mui/icons-material/Menu';
+import { NavLink } from 'react-router-dom';
 import CategoryIcon from '@mui/icons-material/Category';
 import InventoryIcon from '@mui/icons-material/Inventory';
-import { NavLink } from 'react-router-dom';
+import UserIcon from '@mui/icons-material/Person';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+// import routes from '../routes';
 
 const navigation = [
     {
         icon: <UserIcon />,
-        url: '/bookwormdenn/admin/dashboard/userslist',
+        url: '/bookwormdenn/admin/userslist',
         title: 'Users List',
         iconcolor: 'text-blue'
     },
     {
         icon: <CategoryIcon />,
-        url: '/bookwormdenn/admin/dashboard/categorieslist',
+        url: '/bookwormdenn/admin/categorieslist',
         title: 'Categories List',
         iconcolor: 'text-red'
     },
     {
         icon: <InventoryIcon />,
-        url: '/bookwormdenn/admin/dashboard/productslist',
+        url: '/bookwormdenn/admin/productslist',
         title: 'Products List',
         iconcolor: 'text-brown'
+    },
+    {
+        icon: <ShoppingCartCheckoutIcon />,
+        url: '/bookwormdenn/admin/orderslist',
+        title: 'Orders List',
+        iconcolor: 'text-green'
     }
 ]
 
@@ -68,6 +76,17 @@ export default function LeftDrawer() {
                             </ListItemButton>
                         </ListItem>
                     ))
+
+                    // routes.map((index) => (
+                    //     <ListItem key={index.title} disablePadding>
+                    //         <ListItemButton component={NavLink} to={index.urL}>
+                    //             <ListItemIcon className={index.iconcolor}>
+                    //                 {index.icon}
+                    //             </ListItemIcon>
+                    //             <ListItemText primary={index.title} />
+                    //         </ListItemButton>
+                    //     </ListItem>
+                    // ))
                 }
             </List>
         </Box>

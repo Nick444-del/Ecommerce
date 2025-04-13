@@ -20,7 +20,7 @@ export const getAllUsers = async (req, res) => {
 
 export const register = async (req, res) => {
     try {
-        const { fullname, email, mobile, address, password } = req.body;
+        const { fullname, email, mobile, password } = req.body;
         const existUser = await usersModel.findOne({
             email: email
         })

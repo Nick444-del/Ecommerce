@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
 import Modal from 'react-modal'
-import Dashboard from '../Components/Dashboard'
 import axiosInstance from '../../../Components/utils/axiosInstance'
 import ProductModal from '../Components/ProductModal'
+import AdminNavbar from '../Components/AdminNavbar'
 
 const Productlist = () => {
     const [openModal, setOpenModal] = useState({
@@ -36,7 +38,6 @@ const Productlist = () => {
             console.error('Error deleting product:', error)
         }
     }
-
     const handleAddProduct = async () => {
         setOpenModal({
             isShown: true,
@@ -45,13 +46,14 @@ const Productlist = () => {
         })
     }
 
+
     useEffect(() => {
         getAllProducts()
     }, [])
 
     return (
         <>
-            <Dashboard />
+            <AdminNavbar/>
             <div className='flex justify-between items-center p-6'>
                 <h1 className='text-3xl font-semibold text-gray-800'>Product List</h1>
                 <button className='bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300' onClick={() => handleAddProduct()}>Add Product</button>
@@ -101,8 +103,12 @@ const Productlist = () => {
                                             {index.author}
                                         </td>
                                         <td className='py-4 px-6 text-center flex flex-col gap-1'>
-                                            <button className='bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300'>Edit</button>
-                                            <button className='bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300' onClick={() => handleDeleteProduct(index._id)}>Delete</button>
+                                            <button className='bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300'>
+                                                <EditIcon />
+                                            </button>
+                                            <button className='bg-red-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700 transition duration-300' onClick={() => handleDeleteProduct(index._id)}>
+                                                <DeleteForeverIcon />
+                                            </button>
                                         </td>
                                     </tr>
                                 )

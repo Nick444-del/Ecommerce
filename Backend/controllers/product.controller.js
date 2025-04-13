@@ -2,6 +2,7 @@ import multer from "multer";
 import storage from "../utils/image";
 import productModel from "../models/product.model";
 import fs from "fs"
+import ProductModal from "../../Frontend/src/Pages/admin/Components/ProductModal";
 
 const upload = multer({ storage: storage })
 
@@ -213,3 +214,22 @@ export const deleteProductById = async (req, res) => {
         })
     }
 }
+
+// export const viewProductData = async (req, res) => {
+//     try {
+//         const productId = req.params.productId;
+//         const response = await productModel.findById({ _id: productId })
+//         return res.status(200).json({
+//             success: true,
+//             data: response,
+//             filepath: "http://localhost:5000/uploads",
+//             error: false
+//         })
+//     } catch (error) {
+//         return res.status(500).json({
+//             success: false,
+//             data: null,
+//             error: error.message
+//         })
+//     }
+// }

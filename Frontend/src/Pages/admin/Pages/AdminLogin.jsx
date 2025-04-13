@@ -32,7 +32,8 @@ const AdminLogin = () => {
             if (response.data && response.data.token) {
                 localStorage.setItem("User", JSON.stringify(response.data.user));
                 localStorage.setItem("token", response.data.token);
-                navigate("/bookwormdenn/admin/dashboard");
+                // navigate("/bookwormdenn/admin/dashboard");
+                navigate("/bookwormdenn/admin/userslist")
             } else {
                 setError("Access token missing in response data");
             }
@@ -52,7 +53,7 @@ const AdminLogin = () => {
                 <form onSubmit={handlelogin}>
                     <div className='flex flex-row items-center justify-between'>
                         <h4 className='text-2xl mb-7'>Admin Login</h4>
-                        <NavLink to="/"><img src={logi1} className='w-12 h-12 m-5' alt="" /></NavLink>
+                        <NavLink to="/bookwormdenn"><img src={logi1} className='w-12 h-12 m-5' alt="" /></NavLink>
                     </div>
 
                     <input 

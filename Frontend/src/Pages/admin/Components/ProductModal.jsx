@@ -115,7 +115,7 @@ const ProductModal = ({ onClose, getAllProducts, type, productData }) => {
                     <select
                         className='input-box'
                         value={category}
-                        onChange={(e) => setCategory(e.target.value)} // Set category by value (category _id)
+                        onChange={(e) => setCategory(e.target.value)}
                     >
                         <option value="">Select Category</option>
                         {categoryData.map((category) => (

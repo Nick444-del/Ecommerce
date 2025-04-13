@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Dashboard from '../Components/Dashboard'
+
 import axiosInstance from '../../../Components/utils/axiosInstance'
+import AdminNavbar from '../Components/AdminNavbar'
 
 const Userlist = () => {
     const [userData, setUserData] = useState()
@@ -36,7 +37,7 @@ const Userlist = () => {
 
     return (
         <>
-            <Dashboard />
+            <AdminNavbar/>
             <div>
                 <h1 className='text-[40px] text-center my-[1px] font-medium'>User List</h1>
                 <div className='overflow-x-auto px-6'>

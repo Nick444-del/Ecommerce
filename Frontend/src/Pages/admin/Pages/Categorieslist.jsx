@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
-import Dashboard from '../Components/Dashboard'
 import axiosInstance from '../../../Components/utils/axiosInstance'
 import CategoryModal from '../Components/CategoryModal'
+import AdminNavbar from '../Components/AdminNavbar'
 
 const Categorieslist = () => {
     const [openModal, setOpenModal] = useState({
@@ -65,7 +65,7 @@ const Categorieslist = () => {
 
     return (
         <>
-            <Dashboard />
+            <AdminNavbar/>
             <div className='flex justify-between items-center p-6'>
                 <h1 className='text-3xl font-semibold text-gray-800'>Categories List</h1>
                 <button className='bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300' onClick={() => handleAddCategory()}>Add Category</button>

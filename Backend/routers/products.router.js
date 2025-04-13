@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getAllProduct, createProduct, getProductByCategory, getSelfHelp, getBusinessStartup, getProductById, getMangaById, deleteProductById, getMythologyById } from "../controllers/product.controller";
+import { getAllProduct, createProduct, getProductByCategory, getSelfHelp, getBusinessStartup, getProductById, getMangaById, deleteProductById, getMythologyById, viewProductData } from "../controllers/product.controller";
 
 const router = express.Router();
 
@@ -13,5 +13,6 @@ router.get("/getproductbyid/:productId", getProductById)
 router.get("/getmanga", getMangaById)
 router.delete("/deleteproductbyid/:productId", deleteProductById)
 router.get("/mythologicbook", getMythologyById);
+router.get("/viewproductdata/:productId", viewProductData);
 
 export default router

@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import Appbar from './Components/Appbar/Appbar';
+import { Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home';
 import About from './Pages/About';
 import Product from './Pages/Product';
 import Contact from './Pages/Contact';
 import Collection from './Pages/Collection';
 import ProductDetails from './Pages/ProductDetails';
-import Footer from './Components/Footer/Footer';
 import Login from './Pages/Login';
 import Cart from './Pages/Cart';
 import ChangePassword from './Pages/ChangePassword';
@@ -21,9 +19,11 @@ import AdminLogin from './Pages/admin/Pages/AdminLogin';
 import './App.css';
 import Categorieslist from './Pages/admin/Pages/Categorieslist';
 import Productlist from './Pages/admin/Pages/Productlist';
+import PublicRoute from './Routes/PublicRoute';
+import AdminRoute from './Routes/AdminRoute';
+import Orderlist from './Pages/admin/Pages/Orderlist';
 
 function App() {
-  const location = useLocation();
   const [userInfo, setUserInfo] = useState(null);
 
   const getUserInfo = async () => {
@@ -40,39 +40,40 @@ function App() {
     }
   }
 
-  const hideAppbarFooter = location.pathname === '/bookwormdenn/login' || location.pathname === '/bookwormdenn/signup' || location.pathname === '/bookwormdenn/admin' || location.pathname === '/bookwormdenn/admin/dashboard/userslist' || location.pathname === '/bookwormdenn/admin/dashboard/categorieslist' || location.pathname === '/bookwormdenn/admin/dashboard/productslist' || location.pathname === '/bookwormdenn/admin/dashboard';
-
   useEffect(() => {
     getUserInfo();
   }, []);
 
   return (
     <>
-      {!hideAppbarFooter && <Appbar userInfo={userInfo} />} {/* Show Appbar if not on Login or Signup page */}
 
       <Routes>
         {/* User routes */}
-        <Route path="/bookwormdenn" element={<Home />} />
-        <Route path="/bookwormdenn/about" element={<About />} />
-        <Route path="/bookwormdenn/product" element={<Product />} />
-        <Route path="/bookwormdenn/contact" element={<Contact />} />
-        <Route path="/bookwormdenn/collection" element={<Collection />} />
-        <Route path="/bookwormdenn/login" element={<Login />} />
-        <Route path="/bookwormdenn/cart" element={<Cart />} />
-        <Route path="/bookwormdenn/signup" element={<Signup />} />
-        <Route path='/bookwormdenn/category/:categoryId' element={<CollectionProduct />} />
-        <Route path='/bookwormdenn/productdetails/:productId' element={<ProductDetails />} />
-        <Route path="/bookwormdenn/profiledetails" element={<ProfileDetails userInfo={userInfo} />} />
-        <Route path='/bookwormdenn/profiledetails/changepassword' element={<ChangePassword />} />
-        {/* Admin routes */}
-        <Route path="/bookwormdenn/admin/dashboard" element={<Admin />} />
-        <Route path='/bookwormdenn/admin' element={<AdminLogin />}/>
-        <Route path="/bookwormdenn/admin/dashboard/userslist" element={<Userlist />} />
-        <Route  path="/bookwormdenn/admin/dashboard/categorieslist" element={<Categorieslist />} />
-        <Route  path="/bookwormdenn/admin/dashboard/productslist" element={<Productlist />} />
-      </Routes>
+        <Route path='/bookwormdenn' element={<PublicRoute userInfo={userInfo} />} >
+          <Route path="/bookwormdenn" element={<Home />} />
+          <Route path="/bookwormdenn/about" element={<About />} />
+          <Route path="/bookwormdenn/product" element={<Product />} />
+          <Route path="/bookwormdenn/contact" element={<Contact />} />
+          <Route path="/bookwormdenn/collection" element={<Collection />} />
+          <Route path="/bookwormdenn/cart" element={<Cart />} />
+          <Route path='/bookwormdenn/category/:categoryId' element={<CollectionProduct />} />
+          <Route path='/bookwormdenn/productdetails/:productId' element={<ProductDetails />} />
+          <Route path="/bookwormdenn/profiledetails" element={<ProfileDetails userInfo={userInfo} />} />
+          <Route path='/bookwormdenn/profiledetails/changepassword' element={<ChangePassword />} />
+        </Route>
 
-      {!hideAppbarFooter && <Footer />} {/* Show Footer if not on Login or Signup page */}
+        {/* Admin routes */}
+        <Route path="/bookwormdenn/admin" element={<AdminRoute />}>
+          <Route path='/bookwormdenn/admin/login' element={<AdminLogin />} />
+          <Route path="/bookwormdenn/admin/userslist" element={<Userlist />} />
+          <Route path="/bookwormdenn/admin/categorieslist" element={<Categorieslist />} />
+          <Route path="/bookwormdenn/admin/productslist" element={<Productlist />} />
+          <Route path='/bookwormdenn/admin/orderslist' element={<Orderlist />} />
+        </Route>
+
+        <Route path="/bookwormdenn/login" element={<Login />} />
+        <Route path="/bookwormdenn/signup" element={<Signup />} />
+      </Routes >
     </>
   );
 }
