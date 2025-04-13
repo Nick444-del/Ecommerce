@@ -16,7 +16,7 @@ const Dashboard = () => {
         try {
             const [userRes, productRes, categoryRes, orderRes] = await Promise.all([
                 axiosInstance.get('/getalluserstoadmin'),
-                axiosInstance.get('/getallproduct'),
+                axiosInstance.get('/totalproducts'),
                 axiosInstance.get('/getallcategory'),
                 axiosInstance.get('/getallorder'),
             ]);

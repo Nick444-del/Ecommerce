@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getAllProduct, createProduct, getProductByCategory, getSelfHelp, getBusinessStartup, getProductById, getMangaById, deleteProductById, getMythologyById, favoriteProduct, newArrival, editProduct, updateProductQuantity, searchProduct } from "../controllers/product.controller.js";
+import { getAllProduct, createProduct, getProductByCategory, getSelfHelp, getBusinessStartup, getProductById, getMangaById, deleteProductById, getMythologyById, favoriteProduct, newArrival, editProduct, updateProductQuantity, searchProduct, totalProducts } from "../controllers/product.controller.js";
 import { authenticateToken, admin, authenticate } from "../utils/token.js";
 
 const router = express.Router();
@@ -20,5 +20,6 @@ router.get("/favoriteproduct/:productId", favoriteProduct)
 router.get("/newarrivals", newArrival)
 router.put("/updatestock/:productId", updateProductQuantity)
 router.get("/searchproducts/search?query={query}", searchProduct)
+router.get("/totalproducts", totalProducts)
 
 export default router

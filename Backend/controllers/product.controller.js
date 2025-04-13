@@ -362,3 +362,20 @@ export const searchProduct = async (req, res) => {
         res.status(500).json({ message: "Internal server error", error: error.message });
     }
 }
+
+export const totalProducts = async (req, res) => {
+    try {
+        const totalProducts = await productModel.find()
+        return res.status(200).json({
+            success: true,
+            message: "Total products fetched successfully",
+            data: totalProducts
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Failed to fetch total products",
+            error: error.message
+        })
+    }
+}
